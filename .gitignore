@@ -1,5 +1,8 @@
-# Compiled class file
-*.class
+# Compiled class file directory
+target
+
+# IDE specific folders and files
+.vscode
 
 # Log file
 *.log
