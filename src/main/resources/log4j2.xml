@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <Console name="rootConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{MM-dd-yyyy, HH:mm:ss.SS} [%t/%-5level]: %msg%n" />
+        </Console>
+
+        <Console name="traceConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{MM-dd-yyyy, HH:mm:ss.SS} [%t/%-5level]: %msg%n" />
+        </Console>
+        
+        <Console name="debugConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{MM-dd-yyyy, HH:mm:ss.SS} [%t/%-5level]: %msg%n" />
+        </Console>
+        
+        <Console name="infoConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{MM-dd-yyyy, HH:mm:ss.SS} [%t/%-5level]: %msg%n" />
+        </Console>
+        
+        <Console name="warnConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{MM-dd-yyyy, HH:mm:ss.SS} [%t/%-5level]: %msg%n" />
+        </Console>
+        
+        <Console name="errorConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{MM-dd-yyyy, HH:mm:ss.SS} [%t/%-5level]: %msg%n" />
+        </Console>
+        
+        <Console name="fatalConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{MM-dd-yyyy, HH:mm:ss.SS} [%t/%-5level]: %msg%n" />
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level>
+            <AppenderRef ref="rootConsole" />
+        </Root>
+    </Loggers>
+</Configuration>

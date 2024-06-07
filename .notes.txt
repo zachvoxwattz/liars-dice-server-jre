@@ -1,0 +1,5 @@
+# Ideas:
+
+
+# TODOs:
+- Optimize the src/main/resources/log4j2.xml
