@@ -2,7 +2,7 @@
 <Configuration debug="true" status="INFO">
     <Appenders>
         <Console name="normalConsole" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SS} [%t/%-5level]: %msg%n" />
+            <PatternLayout pattern="[%d{HH:mm:ss}] [%-1c|%level]: %msg%n" />
         </Console>
     </Appenders>
 
@@ -10,5 +10,13 @@
         <Root level="trace">
             <AppenderRef ref="normalConsole"/>
         </Root>
+
+        <Logger name="io.netty" additivity="false" level="warn">
+            <AppenderRef ref="normalConsole"/>
+        </Logger>
+
+        <!-- <Logger name="PortChecker" additivity="false" level="trace">
+            <AppenderRef ref="normalConsole"/>
+        </Logger> -->
     </Loggers>
 </Configuration>

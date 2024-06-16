@@ -1,38 +1,67 @@
 package com.zachvoxwattz.core;
 
-import java.net.ServerSocket;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.zachvoxwattz.listeners.ConnectHandler;
+import com.zachvoxwattz.listeners.DisconnectHandler;
 
 /**
  * The main game server.
  */
 public class GameServer extends SocketIOServer {
+    /**
+     * Server logger.
+     */
+    private static Logger gsLogger = LogManager.getLogger("GameServer");
+    
+    /**
+     * Server debug mode value.
+     */
+    private boolean debugMode;
 
     /**
      * Constructor initializing the Socket.IO server.
      * @param configuration Object containing some crucial
      * properties for the server to boot and run.
      */
-    public GameServer(Configuration serverConfig) {
+    public GameServer(Configuration serverConfig, boolean debugMode) {
         super(serverConfig);
+        this.debugMode = debugMode;
+        this.attachListeners();
     }
 
     /**
-     * Checks the availability of the given port. 
-     * This is a pre-initialization check to make
-     * sure the server can start normally.
-     * @param port The value to be checked.
-     * @return {@code true} if the port is available. Otherwise, {@code false}.
+     * Binds various event listeners to the server.
      */
-    public static boolean portCheck(int port) {
-        try {
-            new ServerSocket(port).close();
-            return true;
-        }
-        catch (Exception e) {
-            return false;
-        }
+    private void attachListeners() {
+        this.addConnectListener(new ConnectHandler(this));
+        this.addDisconnectListener(new DisconnectHandler(this));
+    }
+
+    /**
+     * Terminates and stops execution of the game server.
+     * <p>
+     * All I/Os should be handled with care before shutting down!
+     */
+    public void terminate() {
+
+    }
+
+    /**
+     * Logger object of the GameServer.
+     * @return {@code Logger} object.
+     */
+    public Logger getLogger() {
+        return gsLogger;
+    }
+
+    /**
+     * Debug mode of the GameServer.
+     */
+    public boolean getDebugMode() {
+        return this.debugMode;
     }
 }
