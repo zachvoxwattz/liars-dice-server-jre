@@ -45,7 +45,7 @@ body {
 }
 
 #connection-section-input-port {
-    width: 5vw;
+    width: 5.5vw;
 }
 
 #connection-section-status-value {
@@ -76,54 +76,45 @@ body {
     border-color: #f14c4c;
 }
 
-/*
-.datagram-info {
-    width: 85vw;
+.data-section {
+    width: 89vw;
+    height: 35vh;
+    border-radius: 8px;
     margin: 3.5vh auto 0 auto;
-    padding: 1.75vh 2vw 1.75vh 2vw;
     display: flex;
     justify-content: space-between;
 }
 
-.datagram-info-send {
+.data-section-send, .data-section-recv {
     display: block;
-    width: 70%;
-    margin: 0 2.5vw 0 0;
+    width: 39.5vw;
     padding: 1.75vh 2vw 1.75vh 2vw;
     background-color: #2B3137;
     border-radius: 8px;
 }
 
-.datagram-info-recv {
-    display: block;
-    width: 50%;
-    margin: 0 0 0 2.5vw;
-    padding: 1.75vh 2vw 1.75vh 2vw;
+.data-section-send-netcode, .data-section-recv-event {
     display: flex;
-    background-color: #2B3137;
-    border-radius: 8px;
+    justify-content: space-between;
 }
 
-.datagram-info-netcode {
+.data-section-label-input-box {
     display: flex;
+    justify-content: space-between;
+    width: 85%;
 }
 
-.datagram-info-send-body {
-    display: flex;
-    margin: 2.5vh 0 0 0
-}
-
-.datagram-info-label {
+.data-section-label {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 1.25vw;
+    font-size: 1.2vw;
     color: white;
-    width: 8.5vw;
+    width: 8vw;
 }
 
-.datagram-info-input {
+.data-section-input {
     padding: 0vh 0.5vw 0vh 0.5vw;
     font-family: 'SF Mono', monospace;
-    font-size: 1.25vw;
+    font-size: 1.125vw;
     text-align: left;
     color: white;
     background-color: #24292D;
@@ -133,15 +124,11 @@ body {
     border-color: #4b4b4b;
 }
 
-#datagram-info-input-body {
-    padding: 0.5vh 0.5vw 0.5vh 0.5vw;
-    width: 50vw;
-    max-width: 50vw;
-    resize: none;
-    font-size: 1.5em;
+#data-section-send-input-netcode, #data-section-recv-input-event {
+    width: calc(100% - 9vw)
 }
 
-#datagram-info-button-send {
+.data-section-button {
     font-family: 'SF Mono', monospace;
     font-size: 1.25vw;
     color: white;
@@ -150,17 +137,61 @@ body {
     border-width: 0.2vw;
     border-radius: 8px;
     border-style: solid;
-    margin: 0 0 0 2.5vw;
     padding: 0 0.5vw 0 0.5vw;
 }
-*/
 
-.console-section-area {
-    padding: 0.5vh 0.5vw 0.5vh 0.5vw;
-    width: 84vw;
-    max-width: 100%;
+.data-section-send-body {
+    display: flex;
+    margin: 1.75vh 0 0 0;
+}
+
+#data-section-send-input-body {
+    font-size: 1vw;
+    padding: 0.25vh 0.5vw 0.25vh 0.5vw;
+    width: calc(100% - 9vw);
+    resize: none;
+}
+
+.data-section-recv-body {
+    display: flex;
+    margin: 1.75vh 0 0 0;
+}
+
+#data-section-recv-event-list {
+    padding: 0.25vh 0.5vw 0.25vh 0.5vw;
+    width: calc(100% - 9vw);
+    background-color: #24292D;
+    border-width: 0.15vw;
+    border-style: solid;
+    border-radius: 4px;
+    border-color: #4b4b4b;
+    height: calc(25vh - 1vh);
+    max-height: calc(25vh - 1vh);
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+#data-section-recv-event-list::-webkit-scrollbar {
+    display: none;
+}
+
+.data-section-recv-event-entry {
+    display: block;
+    border-width: 0;
+    background-color: transparent;
+    color: white;
+    font-family: 'sf mono', monospace;
+    font-size: 1.125vw;
+    text-align: left;
+}
+
+.console-section-component {
+    width: calc(100% - 1vw);
+    max-width: calc(100% - 1vw);
     height: 32.5vh;
     max-height: 32.5vh;
+    margin: 0 auto 0 auto;
+    padding: 0.5vh 0.375vw 0.5vh 0.375vw;
     resize: none;
     background-color: #212224;
     border-color: #4b4b4b;
@@ -169,6 +200,11 @@ body {
     font-family: 'SF Mono', monospace;
     font-size: 1.05vw;
     color: white;
+    scrollbar-width: none;
+}
+
+.console-section-component::-webkit-scrollbar {
+    display: none;
 }
 
 .console-section-button-clear-box {
@@ -176,7 +212,7 @@ body {
     justify-content: space-between;
 }
 
-#console-section-clear-button {
+#console-section-button-clear {
     font-family: 'SF Mono', monospace;
     font-size: 1.25vw;
     color: black;

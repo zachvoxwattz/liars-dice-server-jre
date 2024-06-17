@@ -21,38 +21,49 @@
             </div>
         </div>
 
-        <!-- <div class="datagram-info">
-            <div class="datagram-info-send">
-                <div class="datagram-info-netcode">
-                    <p class="datagram-info-label">Net Code:</p>
-                    <input class="datagram-info-input" required>
-                    <button id="datagram-info-button-send">Send</button>
+        <div class="data-section">
+            <div class="data-section-send">
+                <div class="data-section-send-netcode">
+                    <div class="data-section-label-input-box">
+                        <p class="data-section-label">Net Code:</p>
+                        <input class="data-section-input" id="data-section-send-input-netcode" required>    
+                    </div>
+                    <button class="data-section-button">Send</button>
                 </div>
-                <div class="datagram-info-send-body">
-                    <p class="datagram-info-label">Body Content:</p>
-                    <textarea class="datagram-info-input" id="datagram-info-input-body"  rows="8"></textarea>
+
+                <div class="data-section-send-body">
+                    <p class="data-section-label">Body Content:</p>
+                    <textarea class="data-section-input" id="data-section-send-input-body"  rows="10"></textarea>
                 </div>
             </div>
 
-            <div class="datagram-info-recv">                
-                <div class="datagram-info-netcode">
-                    <p class="datagram-info-label">Net Code:</p>
-                    <button id="datagram-info-button-recv">Listen</button>
+            <div class="data-section-recv">
+                <div class="data-section-recv-event">
+                    <div class="data-section-label-input-box">
+                        <p class="data-section-label">Event:</p>
+                        <input class="data-section-input" id="data-section-recv-input-event">
+                    </div>
+                    <button class="data-section-button" onclick="createNewEventEntry()">Listen</button>
                 </div>
-                <div class="datagram-info-body">
-                    <p class="datagram-info-label">Attached Events:</p>
+
+                <div class="data-section-recv-body">
+                    <p class="data-section-label">Binded List:</p>
+                    <div id="data-section-recv-event-list"></div>
                 </div>
             </div>
-        </div> -->
+        </div>
 
         <div class="console-section">
             <div class="console-section-button-clear-box">
-                <button id="console-section-clear-button" onclick="clearConsole()">🔥</button>
-                <button id="console-section-clear-button" onclick="clearConsole()">🔥</button>
+                <button id="console-section-button-clear" onclick="clearConsole()">🔥</button>
+                <button id="console-section-button-clear" onclick="clearConsole()">🔥</button>
             </div>
-            <textarea class="console-section-area" id="console-component" readonly placeholder="Nothing at the moment...">Lorem ipsum dolor sit amet connectaur si acculela</textarea>
+            <textarea class="console-section-component" id="console-component" readonly placeholder="Nothing at the moment..."></textarea>
         </div>
     </body>
+
+    <!--Executes the Socket.IO source script-->
+    <script src="./scripts/socket.io.min.js"></script>
 
     <!--Retrieves all of the elements in the DOM-->
     <script src="./scripts/components.js"></script>
@@ -61,5 +72,5 @@
     <script src="./scripts/functions.js"></script>
 
     <!--Executes the main script-->
-    <script src="./scripts/main.js"></script>
+    <script src="./scripts/client.js"></script>
 </html>

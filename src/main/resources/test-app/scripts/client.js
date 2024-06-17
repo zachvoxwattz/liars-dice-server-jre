@@ -1,0 +1,2 @@
+var recvEventInputValue = ''
+var registeredEvents = []

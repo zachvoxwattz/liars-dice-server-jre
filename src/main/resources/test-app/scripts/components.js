@@ -1,9 +1,21 @@
-/* Component variables */
-let connectionStatusValue = document.getElementById('connection-section-status-value')
-let connectionButtonConnect = document.getElementById('connection-section-button-connect')
-let connectionButtonDisconnect = document.getElementById('connection-section-button-disconnect')
-// let datagramButtonSend = document.getElementById('datagram-info-button-send')
-let outputConsole = document.getElementById('console-component')
+// Buttons
+const connectButton = document.getElementById('connection-section-button-connect')
+const disconnectButton = document.getElementById('connection-section-button-disconnect')
+const sendButton = document.getElementById('datagram-info-button-send')
+
+// Output console
+const outputConsole = document.getElementById('console-component')
+
+/* Misc. components */
+const connectionStatusValue = document.getElementById('connection-section-status-value')
+const eventList = document.getElementById('data-section-recv-event-list')
+
+const recvEventInput = document.getElementById('data-section-recv-input-event')
+
+// Binds events to crucial components.
+recvEventInput.addEventListener('input', (event) => {
+    recvEventInputValue = event.target.value.trim()
+})
 
 /* Constants */
 const connectionButtonColors = {

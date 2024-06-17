@@ -1,10 +1,3 @@
-setTimeout(() => {
-    setConnectionButtonConnectDisabled(true)
-    setConnectionStatusState('active')
-}, 5000);
-
-
-setTimeout(() => {
-    setConnectionButtonConnectDisabled(false)
-    setConnectionStatusState('pending')
-}, 10000)
+createNewEventEntry('game-dua-change')
+createNewEventEntry('lobby-mark-ready')
+createNewEventEntry('player-mark-store')
