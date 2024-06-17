@@ -11,21 +11,25 @@ body {
     background-color: #24292D;
 }
 
-.connection-info, .datagram-info, .console-info {
-    width: 65vw;
+.connection-section, .console-section {
+    width: 85vw;
     margin: 3.5vh auto 0 auto;
-    padding: 2.5vh 2vw 2.5vh 2vw;
+    padding: 1.75vh 2vw 1.75vh 2vw;
     display: flex;
     background-color: #2B3137;
     border-radius: 8px;
 }
 
-#connection-info-id {
+.console-section {
+    display: block;
+}
+
+#connection-section-id {
     justify-content: space-between;
 }
 
-.input-connection {
-    font-family: monospace;
+.connection-section-input {
+    font-family: 'SF Mono', monospace;
     font-size: 1.5vw;
     text-align: center;
     color: white;
@@ -36,37 +40,25 @@ body {
     border-color: #4b4b4b;
 }
 
-#input-connection-ip {
-    width: 12.5vw;
+#connection-section-input-ip {
+    width: 15vw;
 }
 
-#input-connection-port {
+#connection-section-input-port {
     width: 5vw;
 }
 
-.connection-info-status-box {
-    display: flex;
-}
-
-.connection-info-status-label {
-    margin: 0 0.375vw 0 0;
-    font-size: 1.5vw;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: white;
-    text-decoration: underline;
-}
-
-#connection-info-status-value {
+#connection-section-status-value {
     margin: 0 0 0 0.375vw;
     font-weight: bold;
     font-size: 1.5vw;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: gray;
+    color: #808080;
 }
 
-.connection-info-button {
-    width: 7.5vw;
-    font-family: monospace;
+.connection-section-button {
+    width: 10vw;
+    font-family: 'SF Mono', monospace;
     font-size: 1.5vw;
     color: white;
     border-radius: 4px;
@@ -74,25 +66,49 @@ body {
     border-style: solid;
 }
 
-#connection-info-button-connect {
-    background-color: green;
-    border-color: rgb(97, 230, 97);
+#connection-section-button-connect {
+    background-color: #008000;
+    border-color: #61e661;
 }
 
-#connection-info-button-disconnect {
-    background-color: darkred;
-    border-color: rgb(241, 76, 76);
+#connection-section-button-disconnect {
+    background-color: #8b0000;
+    border-color: #f14c4c;
 }
 
+/*
 .datagram-info {
+    width: 85vw;
+    margin: 3.5vh auto 0 auto;
+    padding: 1.75vh 2vw 1.75vh 2vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.datagram-info-send {
     display: block;
+    width: 70%;
+    margin: 0 2.5vw 0 0;
+    padding: 1.75vh 2vw 1.75vh 2vw;
+    background-color: #2B3137;
+    border-radius: 8px;
+}
+
+.datagram-info-recv {
+    display: block;
+    width: 50%;
+    margin: 0 0 0 2.5vw;
+    padding: 1.75vh 2vw 1.75vh 2vw;
+    display: flex;
+    background-color: #2B3137;
+    border-radius: 8px;
 }
 
 .datagram-info-netcode {
     display: flex;
 }
 
-.datagram-info-body {
+.datagram-info-send-body {
     display: flex;
     margin: 2.5vh 0 0 0
 }
@@ -106,7 +122,7 @@ body {
 
 .datagram-info-input {
     padding: 0vh 0.5vw 0vh 0.5vw;
-    font-family: monospace;
+    font-family: 'SF Mono', monospace;
     font-size: 1.25vw;
     text-align: left;
     color: white;
@@ -125,22 +141,23 @@ body {
     font-size: 1.5em;
 }
 
-.datagram-info-button-send {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+#datagram-info-button-send {
+    font-family: 'SF Mono', monospace;
     font-size: 1.25vw;
     color: white;
-    background-color: rgb(255, 102, 0);
+    background-color: #ff6600;
     border-color: rgb(255, 146, 74);
     border-width: 0.2vw;
     border-radius: 8px;
     border-style: solid;
-    margin: 2.5vh 0 0 0;
-    padding: 0.25vh 0.5vw 0.25vh 0.5vw;
+    margin: 0 0 0 2.5vw;
+    padding: 0 0.5vw 0 0.5vw;
 }
+*/
 
-.console-info-area {
+.console-section-area {
     padding: 0.5vh 0.5vw 0.5vh 0.5vw;
-    width: 100%;
+    width: 84vw;
     max-width: 100%;
     height: 32.5vh;
     max-height: 32.5vh;
@@ -149,7 +166,25 @@ body {
     border-color: #4b4b4b;
     border-radius: 8px;
     border-width: 0.2vw;
-    font-family: monospace;
+    font-family: 'SF Mono', monospace;
     font-size: 1.05vw;
     color: white;
+}
+
+.console-section-button-clear-box {
+    display: flex;
+    justify-content: space-between;
+}
+
+#console-section-clear-button {
+    font-family: 'SF Mono', monospace;
+    font-size: 1.25vw;
+    color: black;
+    background-color: white;
+    border-color: #4b4b4b;
+    border-width: 0.2vw;
+    border-radius: 8px;
+    border-style: solid;
+    margin: 0 0 1vh 0;
+    padding: 0 0.5vw 0 0.5vw;
 }

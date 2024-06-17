@@ -7,42 +7,58 @@
     </head>
 
     <body>
-        <div class="connection-info" id="connection-info-id">
-            <div class="connection-info-input-box">
-                <input class="input-connection" id="input-connection-ip" placeholder="Target IP" maxlength="15">
-                <input class="input-connection" id="input-connection-port" placeholder="Port" maxlength="5">
+        <div class="connection-section" id="connection-section-id">
+            <div class="connection-section-input-box">
+                <input class="connection-section-input" id="connection-section-input-ip" placeholder="Target IP" maxlength="15">
+                <input class="connection-section-input" id="connection-section-input-port" placeholder="Port" maxlength="5">
             </div>
 
-            <div class="connection-info-status-box">
-                <p class="connection-info-status-label">STATE:</p>
-                <h3 id="connection-info-status-value">IDLE</h3>
-            </div>
+            <h3 id="connection-section-status-value">IDLE</h3>
             
-            <div class="connection-info-button-box">
-                <button class="connection-info-button" id="connection-info-button-connect">Conn.</button>
-                <button class="connection-info-button" id="connection-info-button-disconnect">Disc.</button>
+            <div class="connection-section-button-box">
+                <button class="connection-section-button" id="connection-section-button-connect">Connect</button>
+                <button class="connection-section-button" id="connection-section-button-disconnect">Disconnect</button>
             </div>
         </div>
 
-        <div class="datagram-info">
-            <div class="datagram-info-netcode">
-                <p class="datagram-info-label">Net Code:</p>
-                <input class="datagram-info-input" required>
+        <!-- <div class="datagram-info">
+            <div class="datagram-info-send">
+                <div class="datagram-info-netcode">
+                    <p class="datagram-info-label">Net Code:</p>
+                    <input class="datagram-info-input" required>
+                    <button id="datagram-info-button-send">Send</button>
+                </div>
+                <div class="datagram-info-send-body">
+                    <p class="datagram-info-label">Body Content:</p>
+                    <textarea class="datagram-info-input" id="datagram-info-input-body"  rows="8"></textarea>
+                </div>
             </div>
-            <div class="datagram-info-body">
-                <p class="datagram-info-label">Body Content:</p>
-                <textarea class="datagram-info-input" id="datagram-info-input-body"  rows="10"></textarea>
-            </div>
-            <button class="datagram-info-button-send">Send to Server</button>
-        </div>
 
-        <div class="console-info">
-            <textarea class="console-info-area" id="console-component" readonly>System.exit() returned code 1...</textarea>
+            <div class="datagram-info-recv">                
+                <div class="datagram-info-netcode">
+                    <p class="datagram-info-label">Net Code:</p>
+                    <button id="datagram-info-button-recv">Listen</button>
+                </div>
+                <div class="datagram-info-body">
+                    <p class="datagram-info-label">Attached Events:</p>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="console-section">
+            <div class="console-section-button-clear-box">
+                <button id="console-section-clear-button" onclick="clearConsole()">🔥</button>
+                <button id="console-section-clear-button" onclick="clearConsole()">🔥</button>
+            </div>
+            <textarea class="console-section-area" id="console-component" readonly placeholder="Nothing at the moment...">Lorem ipsum dolor sit amet connectaur si acculela</textarea>
         </div>
     </body>
 
     <!--Retrieves all of the elements in the DOM-->
     <script src="./scripts/components.js"></script>
+    
+    <!--Declares various functions to be used-->
+    <script src="./scripts/functions.js"></script>
 
     <!--Executes the main script-->
     <script src="./scripts/main.js"></script>

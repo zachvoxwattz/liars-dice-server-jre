@@ -1,6 +1,10 @@
-let console = document.getElementById('console-component')
+setTimeout(() => {
+    setConnectionButtonConnectDisabled(true)
+    setConnectionStatusState('active')
+}, 5000);
 
-setInterval(() => {
-    console.textContent += "\nHaha"
-    console.scrollTop = console.scrollHeight;
-}, 1000)
+
+setTimeout(() => {
+    setConnectionButtonConnectDisabled(false)
+    setConnectionStatusState('pending')
+}, 10000)
