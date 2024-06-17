@@ -2,9 +2,48 @@
 <html>
     <head>
         <title>Liar's Dice Tester</title>
+        <link rel="icon" type="image/x-icon" href="./favicon.png">
+        <link rel="stylesheet" href="./styles.css">
     </head>
 
     <body>
+        <div class="connection-info" id="connection-info-id">
+            <div class="connection-info-input-box">
+                <input class="input-connection" id="input-connection-ip" placeholder="Target IP" maxlength="15">
+                <input class="input-connection" id="input-connection-port" placeholder="Port" maxlength="5">
+            </div>
 
+            <div class="connection-info-status-box">
+                <p class="connection-info-status-label">STATE:</p>
+                <h3 id="connection-info-status-value">IDLE</h3>
+            </div>
+            
+            <div class="connection-info-button-box">
+                <button class="connection-info-button" id="connection-info-button-connect">Conn.</button>
+                <button class="connection-info-button" id="connection-info-button-disconnect">Disc.</button>
+            </div>
+        </div>
+
+        <div class="datagram-info">
+            <div class="datagram-info-netcode">
+                <p class="datagram-info-label">Net Code:</p>
+                <input class="datagram-info-input" required>
+            </div>
+            <div class="datagram-info-body">
+                <p class="datagram-info-label">Body Content:</p>
+                <textarea class="datagram-info-input" id="datagram-info-input-body"  rows="10"></textarea>
+            </div>
+            <button class="datagram-info-button-send">Send to Server</button>
+        </div>
+
+        <div class="console-info">
+            <textarea class="console-info-area" id="console-component" readonly>System.exit() returned code 1...</textarea>
+        </div>
     </body>
+
+    <!--Retrieves all of the elements in the DOM-->
+    <script src="./scripts/components.js"></script>
+
+    <!--Executes the main script-->
+    <script src="./scripts/main.js"></script>
 </html>

@@ -1,0 +1,1 @@
+let connectionStatusValue = document.getElementById('connection-info-status-value')
