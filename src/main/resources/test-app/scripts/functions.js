@@ -44,14 +44,25 @@ const disableConnectButton = (disabled) => {
     connectionButtonConnect.disabled = disabled
 }
 
+const sendToServer = () => {
+    let netcode = sendEventInputNetcode.value
+    let body = sendEventInputBody.value
+
+    printToConsole(`${netcode}\n${body}`)
+}
+
 const createNewEventEntry = () => {
     if (recvEventInputValue.length === 0) {
-        printToConsole(`[Client|ERROR] Event name can not be empty!`)
+        printToConsole(`Client|ERROR> Event name can not be empty!`)
+        clearRecvEventInput()
         return
     }
 
     if (registeredEvents.includes(recvEventInputValue)) {
-        printToConsole(`[Client|ERROR] Event name already registered!`)
+        printToConsole(`Client|ERROR> Event name '${recvEventInputValue}' already registered!`)
+        console.log(recvEventInputValue)
+        clearRecvEventInput()
+        console.log(recvEventInputValue)
         return
     }
 
@@ -69,7 +80,7 @@ const createNewEventEntry = () => {
 
     clearRecvEventInput()
     addToEventList(newEventEntry)
-    printToConsole(`[Client|INFO] Registered a new event named '${eventName}'`)
+    printToConsole(`Client|INFO> Registered a new event named '${eventName}'`)
 }
 
 /**
@@ -100,6 +111,7 @@ const clearConsole = () => {
  * Erases value presenting inside of the input field of receiving segment.
  */
 const clearRecvEventInput = () => {
+    recvEventInput.textContent = ''
     recvEventInput.value = ''
 }
 

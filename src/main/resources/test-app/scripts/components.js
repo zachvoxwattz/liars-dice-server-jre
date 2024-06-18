@@ -10,6 +10,9 @@ const outputConsole = document.getElementById('console-component')
 const connectionStatusValue = document.getElementById('connection-section-status-value')
 const eventList = document.getElementById('data-section-recv-event-list')
 
+// Input components.
+const sendEventInputNetcode = document.getElementById('data-section-send-input-netcode')
+const sendEventInputBody = document.getElementById('data-section-send-input-body')
 const recvEventInput = document.getElementById('data-section-recv-input-event')
 
 // Binds events to crucial components.
