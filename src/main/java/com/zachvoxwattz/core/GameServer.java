@@ -5,13 +5,14 @@ import org.apache.logging.log4j.Logger;
 
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.Transport;
 import com.zachvoxwattz.listeners.ConnectHandler;
 import com.zachvoxwattz.listeners.DisconnectHandler;
 
 /**
  * The main game server.
  */
-public class GameServer extends SocketIOServer {
+public class GameServer {
     /**
      * Server logger.
      */
@@ -23,13 +24,29 @@ public class GameServer extends SocketIOServer {
     private boolean debugMode;
 
     /**
+     * Socket.IO instance for the server.
+     */
+    private SocketIOServer socketIOServer;
+
+    /**
      * Constructor initializing the Socket.IO server.
      * @param configuration Object containing some crucial
      * properties for the server to boot and run.
      */
-    public GameServer(Configuration serverConfig, boolean debugMode) {
-        super(serverConfig);
+    public GameServer(int port, boolean debugMode) {
         this.debugMode = debugMode;
+
+        // Constructs a Configuration object for starting the server.
+        var config = new Configuration();
+        config.setHostname("0.0.0.0");
+        config.setPort(port);
+        config.setTransports(Transport.WEBSOCKET);
+        config.setPingInterval(5000);
+
+        // Then initializes the Socket.IO instance.
+        this.socketIOServer = new SocketIOServer(config);
+
+        // Enable event listeners.
         this.attachListeners();
     }
 
@@ -37,17 +54,26 @@ public class GameServer extends SocketIOServer {
      * Binds various event listeners to the server.
      */
     private void attachListeners() {
-        this.addConnectListener(new ConnectHandler(this));
-        this.addDisconnectListener(new DisconnectHandler(this));
+        this.socketIOServer.addConnectListener(new ConnectHandler(this));
+        this.socketIOServer.addDisconnectListener(new DisconnectHandler(this));
     }
 
     /**
-     * Terminates and stops execution of the game server.
+     * Starts the game server.
+     */
+    public void startService() {
+        gsLogger.info("Server is running on port {}", this.socketIOServer.getConfiguration().getPort());
+        this.socketIOServer.start();
+    }
+
+    /**
+     * Terminate all connections and stops execution of the game server.
      * <p>
      * All I/Os should be handled with care before shutting down!
      */
-    public void terminate() {
-
+    public void terminateService() {
+        this.socketIOServer.getAllClients().forEach((client) -> { client.disconnect(); });
+        this.socketIOServer.stop();
     }
 
     /**
@@ -56,6 +82,14 @@ public class GameServer extends SocketIOServer {
      */
     public Logger getLogger() {
         return gsLogger;
+    }
+
+    /**
+     * SocketIOServer object.
+     * @return {@code SocketIOServer} object.
+     */
+    public SocketIOServer getSocketIOServer() {
+        return this.socketIOServer;
     }
 
     /**

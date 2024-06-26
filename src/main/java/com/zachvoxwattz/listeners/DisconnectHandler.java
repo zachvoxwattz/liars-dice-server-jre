@@ -24,7 +24,9 @@ public class DisconnectHandler implements DisconnectListener {
 
     @Override
     public void onDisconnect(SocketIOClient cl) {
-        var clientIP = cl.getHandshakeData().getAddress().getAddress().getHostAddress();
-        gsLogger.info("Client {} has disconnected.", clientIP);
+        var clientID = cl.getSessionId();
+        var clientIP = cl.getHandshakeData().getAddress().getHostString();
+        var clientPort = cl.getHandshakeData().getAddress().getPort();
+        gsLogger.info("Client ID '{}' has disconnected from {}:{}", clientID, clientIP, clientPort);
     }
 }

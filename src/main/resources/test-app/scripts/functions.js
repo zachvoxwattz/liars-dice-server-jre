@@ -34,14 +34,14 @@ const setConnectionStatus = (targetState) => {
  */
 const disableConnectButton = (disabled) => {
     if (disabled) {
-        connectionButtonConnect.style.backgroundColor = connectionButtonColors.disabled.background
-        connectionButtonConnect.style.borderColor = connectionButtonColors.disabled.border
+        connectButton.style.backgroundColor = connectButtonColors.disabled.background
+        connectButton.style.borderColor = connectButtonColors.disabled.border
     }
     else {
-        connectionButtonConnect.style.backgroundColor = connectionButtonColors.connect.background
-        connectionButtonConnect.style.borderColor = connectionButtonColors.connect.border
+        connectButton.style.backgroundColor = connectButtonColors.connect.background
+        connectButton.style.borderColor = connectButtonColors.connect.border
     }
-    connectionButtonConnect.disabled = disabled
+    connectButton.disabled = disabled
 }
 
 const sendToServer = () => {
@@ -129,5 +129,13 @@ const printToConsole = (content) => {
  * Attempts to connect to the server with given IP and Port.
  */
 const connectToServer = async () => {
+    const ipRegEx = /^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\.(?!$)|$)){4}$/
+    let targetIP = '127.0.0.1'
+    let targetPort = 11912
 
+    if (ipRegEx.test(targetIPInput.value)) targetIP = targetIPInput.value
+    if (parseInt(targetPortInput.value)) targetPort = targetPortInput.value
+
+    clientConnect(targetIP, targetPort)
+    disableConnectButton(true)
 }

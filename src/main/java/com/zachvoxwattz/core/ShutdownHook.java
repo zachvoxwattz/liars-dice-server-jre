@@ -14,6 +14,6 @@ public class ShutdownHook implements Runnable {
     @Override
     public void run() {
         this.mainGameServer.getLogger().info("Shutdown Hook invoked. Terminating server...");
-        this.mainGameServer.terminate();
+        this.mainGameServer.terminateService();
     }
 }

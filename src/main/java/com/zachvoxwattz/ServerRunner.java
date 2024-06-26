@@ -3,7 +3,6 @@ package com.zachvoxwattz;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.corundumstudio.socketio.Configuration;
 import com.zachvoxwattz.core.GameServer;
 import com.zachvoxwattz.core.PortChecker;
 import com.zachvoxwattz.core.ShutdownHook;
@@ -39,21 +38,17 @@ public class ServerRunner {
             }
         }
 
+        // Performs port availability check.
         PortChecker.execute(serverPort, debugMode);
         serverRunnerLogger.info("Initialization completed. Starting server...");
 
-        // Constructs a Configuration object to be used for starting the server.
-        var serverConfiguration = new Configuration();
-        serverConfiguration.setHostname("0.0.0.0");
-        serverConfiguration.setPort(serverPort);
-
         // Initializes the server and the shutdown hook for graceful shutdown.
-        var mainServer = new GameServer(serverConfiguration, debugMode);
+        var mainServer = new GameServer(serverPort, debugMode);
 
         // Attaches the shutdown hook to Runtime.
         Runtime.getRuntime().addShutdownHook(new Thread(new ShutdownHook(mainServer)));
 
         // Starts the server in the end.
-        mainServer.start();
+        mainServer.startService();
     }
 }

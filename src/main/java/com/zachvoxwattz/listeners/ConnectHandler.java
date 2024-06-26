@@ -24,8 +24,9 @@ public class ConnectHandler implements ConnectListener {
 
     @Override
     public void onConnect(SocketIOClient cl) {
-        var clientIP = cl.getHandshakeData().getAddress().getAddress().getHostAddress();
+        var clientID = cl.getSessionId();
+        var clientIP = cl.getHandshakeData().getAddress().getHostString();
         var clientPort = cl.getHandshakeData().getAddress().getPort();
-        gsLogger.info("Client {} has connected via port {}!", clientIP, clientPort);
+        gsLogger.info("Client ID '{}' connected via {}:{}", clientID, clientIP, clientPort);
     }
 }

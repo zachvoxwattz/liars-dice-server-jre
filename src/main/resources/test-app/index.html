@@ -16,8 +16,8 @@
             <h3 id="connection-section-status-value">IDLE</h3>
             
             <div class="connection-section-button-box">
-                <button class="connection-section-button" id="connection-section-button-connect">Connect</button>
-                <button class="connection-section-button" id="connection-section-button-disconnect">Disconnect</button>
+                <button class="connection-section-button" id="connection-section-button-connect" onclick="connectToServer()">Connect</button>
+                <button class="connection-section-button" id="connection-section-button-disconnect" onclick="clientDisconnect()">Disconnect</button>
             </div>
         </div>
 
@@ -26,7 +26,7 @@
                 <div class="data-section-send-netcode">
                     <div class="data-section-label-input-box">
                         <p class="data-section-label">Net Code:</p>
-                        <input class="data-section-input" id="data-section-send-input-netcode" required>    
+                        <input class="data-section-input" id="data-section-send-input-netcode">    
                     </div>
                     <button class="data-section-button" onclick="sendToServer()">Send</button>
                 </div>

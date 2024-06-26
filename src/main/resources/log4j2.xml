@@ -15,6 +15,10 @@
             <AppenderRef ref="normalConsole"/>
         </Logger>
 
+        <Logger name="com.corundumstudio" additivity="false" level="warn">
+            <AppenderRef ref="normalConsole"/>
+        </Logger>
+        
         <!-- <Logger name="PortChecker" additivity="false" level="trace">
             <AppenderRef ref="normalConsole"/>
         </Logger> -->
