@@ -1,7 +1,5 @@
 package com.zachvoxwattz.core;
 
-import java.util.concurrent.CompletableFuture;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -76,15 +74,13 @@ public class GameServer {
      * All I/Os should be handled with care before shutting down!
      */
     public void terminateService() {
-        CompletableFuture.runAsync(() -> {
-            gsLogger.info("Run async #1 Onety One");
-            this.socketIOInstance.getBroadcastOperations().sendEvent("sv-force-kick");
-        });
+        gsLogger.info("Disconnecting players...");
+        this.socketIOInstance.getBroadcastOperations().sendEvent("sv-force-kick");
 
-        CompletableFuture.runAsync(() -> {
-            System.out.println("Run async #2 Stopping server...");
-            this.socketIOInstance.stop();   
-        });
+        if (this.socketIOInstance.getAllClients().size() == 0) {
+            gsLogger.info("Stopping server...");
+            this.socketIOInstance.stop();
+        }
     }
 
     /**
