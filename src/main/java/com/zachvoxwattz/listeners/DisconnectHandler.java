@@ -6,6 +6,9 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.zachvoxwattz.core.GameServer;
 
+/**
+ * Implemented disconnect handler for added features.
+ */
 public class DisconnectHandler implements DisconnectListener {
     /**
      * Main GameServer.
@@ -25,8 +28,6 @@ public class DisconnectHandler implements DisconnectListener {
     @Override
     public void onDisconnect(SocketIOClient cl) {
         var clientID = cl.getSessionId();
-        var clientIP = cl.getHandshakeData().getAddress().getHostString();
-        var clientPort = cl.getHandshakeData().getAddress().getPort();
-        gsLogger.info("Client ID '{}' has disconnected from {}:{}", clientID, clientIP, clientPort);
+        gsLogger.info("Client ID '{}' has disconnected.", clientID);
     }
 }

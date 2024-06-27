@@ -1,5 +1,7 @@
 package com.zachvoxwattz.core;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,6 +10,7 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.Transport;
 import com.zachvoxwattz.listeners.ConnectHandler;
 import com.zachvoxwattz.listeners.DisconnectHandler;
+import com.zachvoxwattz.listeners.PlayerPingHandler;
 
 /**
  * The main game server.
@@ -26,7 +29,7 @@ public class GameServer {
     /**
      * Socket.IO instance for the server.
      */
-    private SocketIOServer socketIOServer;
+    private SocketIOServer socketIOInstance;
 
     /**
      * Constructor initializing the Socket.IO server.
@@ -44,7 +47,7 @@ public class GameServer {
         config.setPingInterval(5000);
 
         // Then initializes the Socket.IO instance.
-        this.socketIOServer = new SocketIOServer(config);
+        this.socketIOInstance = new SocketIOServer(config);
 
         // Enable event listeners.
         this.attachListeners();
@@ -54,16 +57,17 @@ public class GameServer {
      * Binds various event listeners to the server.
      */
     private void attachListeners() {
-        this.socketIOServer.addConnectListener(new ConnectHandler(this));
-        this.socketIOServer.addDisconnectListener(new DisconnectHandler(this));
+        this.socketIOInstance.addConnectListener(new ConnectHandler(this));
+        this.socketIOInstance.addDisconnectListener(new DisconnectHandler(this));
+        this.socketIOInstance.addEventListener(PlayerPingHandler.EVENT_NAME, Integer.class, new PlayerPingHandler(this));
     }
 
     /**
      * Starts the game server.
      */
     public void startService() {
-        gsLogger.info("Server is running on port {}", this.socketIOServer.getConfiguration().getPort());
-        this.socketIOServer.start();
+        gsLogger.info("Server is running on port {}", this.socketIOInstance.getConfiguration().getPort());
+        this.socketIOInstance.start();
     }
 
     /**
@@ -72,8 +76,15 @@ public class GameServer {
      * All I/Os should be handled with care before shutting down!
      */
     public void terminateService() {
-        this.socketIOServer.getAllClients().forEach((client) -> { client.disconnect(); });
-        this.socketIOServer.stop();
+        CompletableFuture.runAsync(() -> {
+            gsLogger.info("Run async #1 Onety One");
+            this.socketIOInstance.getBroadcastOperations().sendEvent("sv-force-kick");
+        });
+
+        CompletableFuture.runAsync(() -> {
+            System.out.println("Run async #2 Stopping server...");
+            this.socketIOInstance.stop();   
+        });
     }
 
     /**
@@ -85,11 +96,11 @@ public class GameServer {
     }
 
     /**
-     * SocketIOServer object.
+     * SocketIOServer instance.
      * @return {@code SocketIOServer} object.
      */
-    public SocketIOServer getSocketIOServer() {
-        return this.socketIOServer;
+    public SocketIOServer getSocketIOInstance() {
+        return this.socketIOInstance;
     }
 
     /**

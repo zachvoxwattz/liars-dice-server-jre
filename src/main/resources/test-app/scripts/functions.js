@@ -45,30 +45,44 @@ const disableConnectButton = (disabled) => {
 }
 
 const sendToServer = () => {
-    let netcode = sendEventInputNetcode.value
-    let body = sendEventInputBody.value
+    if (socketIOClient === undefined || !socketIOClient.active) {
+        errorToConsole(`Client is not currently connected to any server!`)
+        return
+    }
 
-    printToConsole(`${netcode}\n${body}`)
+    let netcode = sendEventInputNetcode.value.trim()
+    if (netcode.length === 0) {
+        errorToConsole(`Undefined netcode!`)
+        return
+    }
+    
+    
+    let body = sendEventInputBody.value.trim()
+
+    socketIOClient.emit(netcode)
+
+    if (body.length === 0) body = '{}'
+    infoToConsole(`Sent '${netcode}' with: ${body}`)
 }
 
 const createNewEventEntry = () => {
     if (recvEventInputValue.length === 0) {
-        printToConsole(`Client|ERROR> Event name can not be empty!`)
+        errorToConsole(`Event name can not be empty!`)
         clearRecvEventInput()
         return
     }
 
     if (registeredEvents.includes(recvEventInputValue)) {
-        printToConsole(`Client|ERROR> Event name '${recvEventInputValue}' already registered!`)
-        console.log(recvEventInputValue)
+        errorToConsole(`Event name '${recvEventInputValue}' already registered!`)
         clearRecvEventInput()
-        console.log(recvEventInputValue)
         return
     }
 
     let eventName = recvEventInputValue
     let DOMeventID = `data-section-recv-event-id_${eventName}`
+
     registeredEvents.push(eventName)
+    if (socketIOClient && socketIOClient.active) addEventListener(eventName)
     
     let newEventEntry = document.createElement('button')
     newEventEntry.setAttribute('class', 'data-section-recv-event-entry')
@@ -80,7 +94,7 @@ const createNewEventEntry = () => {
 
     clearRecvEventInput()
     addToEventList(newEventEntry)
-    printToConsole(`Client|INFO> Registered a new event named '${eventName}'`)
+    infoToConsole(`Registered a new event named '${eventName}'`)
 }
 
 /**
@@ -94,10 +108,11 @@ const removeFromEventList = (eventName) => {
     let DOMeventID = `data-section-recv-event-id_${eventName}`
     let toBeDeletedIndex = registeredEvents.indexOf(eventName)
     registeredEvents.splice(toBeDeletedIndex, 1)
+    socketIOClient.off(eventName)
 
     let toBeDeleted = document.getElementById(DOMeventID)
     eventList.removeChild(toBeDeleted)
-    printToConsole(`[Client|INFO] Removed event name '${eventName}'`)
+    infoToConsole(`Removed event name '${eventName}'`)
 }
 
 /**
@@ -119,10 +134,30 @@ const clearRecvEventInput = () => {
  * Appends text content to the output console.
  * @param {*} content String to be added.
  */
-const printToConsole = (content) => {
+const infoToConsole = (content) => {
+    var appendedContent = `Client|INFO> ${content}`
+
     outputConsole.textContent.length !== 0
-        ? outputConsole.textContent += `\n${content}`
-        : outputConsole.textContent += content
+        ? appendedContent = `\n${appendedContent}`
+        : appendedContent = `${appendedContent}`
+
+    outputConsole.textContent += appendedContent
+    outputConsole.scrollTop = outputConsole.scrollHeight
+}
+
+/**
+ * Appends text content to the output console.
+ * @param {*} content String to be added.
+ */
+const errorToConsole = (content) => {
+    var appendedContent = `Client|ERROR> ${content}`
+
+    outputConsole.textContent.length !== 0
+        ? appendedContent = `\n${appendedContent}`
+        : appendedContent = `${appendedContent}`
+
+    outputConsole.textContent += appendedContent
+    outputConsole.scrollTop = outputConsole.scrollHeight
 }
 
 /**

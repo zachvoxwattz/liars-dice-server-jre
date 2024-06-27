@@ -6,6 +6,9 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.zachvoxwattz.core.GameServer;
 
+/**
+ * Implemented connection handler for added features.
+ */
 public class ConnectHandler implements ConnectListener {
     /**
      * Main GameServer.

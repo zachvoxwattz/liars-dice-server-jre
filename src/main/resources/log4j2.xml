@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration debug="true" status="INFO">
+<Configuration debug="true" status="INFO" shutdownHook="disable">
     <Appenders>
         <Console name="normalConsole" target="SYSTEM_OUT">
             <PatternLayout pattern="[%d{HH:mm:ss}] [%-1c|%level]: %msg%n" />

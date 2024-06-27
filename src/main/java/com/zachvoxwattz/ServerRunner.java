@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.zachvoxwattz.core.GameServer;
 import com.zachvoxwattz.core.PortChecker;
-import com.zachvoxwattz.core.ShutdownHook;
+import com.zachvoxwattz.core.ShutdownThread;
 import com.zachvoxwattz.utils.ValueChecker;
 
 /**
@@ -46,7 +46,7 @@ public class ServerRunner {
         var mainServer = new GameServer(serverPort, debugMode);
 
         // Attaches the shutdown hook to Runtime.
-        Runtime.getRuntime().addShutdownHook(new Thread(new ShutdownHook(mainServer)));
+        Runtime.getRuntime().addShutdownHook(new ShutdownThread(mainServer));
 
         // Starts the server in the end.
         mainServer.startService();
