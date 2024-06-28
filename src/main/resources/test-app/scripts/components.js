@@ -39,6 +39,8 @@ const connectButtonColors = {
 }
 
 const connectionStatusColors = {
+    KICKED: '#FF0000',
+    DISCONNECTED: '#FFFFFF',
     IDLE: '#808080',
     PENDING: '#fbff00',
     ACTIVE: '#61e661',

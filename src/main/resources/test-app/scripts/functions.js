@@ -1,6 +1,17 @@
+const isJSON = (json) => {
+    if (typeof json !== "string") {
+        return false;
+    }
+    try {
+        JSON.parse(json);
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
 /**
  * Sets the status of connection
- * @param {*} targetState Applicable values are: `IDLE`, `PENDING`, `ACTIVE` and `ERROR`.
+ * @param {*} targetState Applicable values are: `IDLE`, `DISCONNECTED`, `PENDING`, `ACTIVE` and `ERROR`.
  */
 const setConnectionStatus = (targetState) => {
     let state = targetState.toUpperCase()
@@ -20,6 +31,12 @@ const setConnectionStatus = (targetState) => {
         case 'ERROR':
             connectionStatusValue.style.color = connectionStatusColors.ERROR
             break
+
+        case 'DISCONNECTED':
+            connectionStatusValue.style.color = connectionStatusColors.DISCONNECTED
+
+        case 'KICKED':
+            connectionStatusValue.style.color = connectionStatusColors.KICKED
         
         default:
             connectionStatusValue.style.color = 'white'
@@ -56,10 +73,13 @@ const sendToServer = () => {
         return
     }
     
-    
     let body = sendEventInputBody.value.trim()
+    if (!isJSON(body)) {
+        errorToConsole(`Invalid JSON datagram! Recheck for typos!`)
+        return
+    }
 
-    socketIOClient.emit(netcode)
+    socketIOClient.emit(netcode, JSON.parse(body))
 
     if (body.length === 0) body = '{}'
     infoToConsole(`Sent '${netcode}' with: ${body}`)

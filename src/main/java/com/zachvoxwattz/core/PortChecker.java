@@ -45,7 +45,7 @@ public class PortChecker {
 
         if (!portIsAvailable) {
             portCheckerLogger.error("Failed to initialize server after {} attempts.", retryCount);
-            portCheckerLogger.info("Reason: Another application is using the port! Please either stop the application or try other ports!");
+            portCheckerLogger.info("Reason: Another servuce is occupying the target port! Please try other alternatives!");
             System.exit(1);
         }
 

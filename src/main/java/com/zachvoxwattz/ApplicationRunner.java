@@ -11,7 +11,7 @@ import com.zachvoxwattz.utils.ValueChecker;
 /**
  * Entry point of the game server.
  */
-public class ServerRunner {
+public class ApplicationRunner {
     private static Logger serverRunnerLogger = LogManager.getLogger("ServerRunner");
 
     public static void main(String[] args) {

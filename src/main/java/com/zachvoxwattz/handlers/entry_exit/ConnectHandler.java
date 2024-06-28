@@ -1,4 +1,4 @@
-package com.zachvoxwattz.listeners;
+package com.zachvoxwattz.handlers.entry_exit;
 
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +13,7 @@ public class ConnectHandler implements ConnectListener {
     /**
      * Main GameServer.
      */
-    private GameServer parentComponent;
+    private GameServer mainServer;
 
     /**
      * Main GameServer logger.
@@ -21,8 +21,8 @@ public class ConnectHandler implements ConnectListener {
     private static Logger gsLogger;
 
     public ConnectHandler(GameServer parent) {
-        this.parentComponent = parent;
-        gsLogger = this.parentComponent.getLogger();
+        this.mainServer = parent;
+        gsLogger = this.mainServer.getLogger();
     }
 
     @Override
@@ -31,5 +31,12 @@ public class ConnectHandler implements ConnectListener {
         var clientIP = cl.getHandshakeData().getAddress().getHostString();
         var clientPort = cl.getHandshakeData().getAddress().getPort();
         gsLogger.info("Client ID '{}' connected via {}:{}", clientID, clientIP, clientPort);
+
+        // If there is at least one connected player, creates a lobby.
+        var numberOfConnections = this.mainServer.getSocketIOInstance().getAllClients().size();
+        if (numberOfConnections > 0 && !this.mainServer.hasLobby()) {
+            this.mainServer.createLobby();
+            if (this.mainServer.getDebugMode()) gsLogger.debug("Creating a lobby as there is at least one connected player.");
+        }
     }
 }

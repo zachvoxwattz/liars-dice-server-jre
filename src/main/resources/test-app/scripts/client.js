@@ -13,21 +13,20 @@ const clientConnect = (ip, port) => {
     })
 
     socketIOClient.io.on('error', () => {
-        setConnectionStatus('ERROR')
         clientDisconnect()
+        setConnectionStatus('error')
+        disableConnectButton(false)
     })
 
     socketIOClient.on('disconnect', () => {
         clientDisconnect()
-    })
-
-    socketIOClient.on('sv-force-kick', () => {
-        clientDisconnect()
+        setConnectionStatus('disconnected')
+        disableConnectButton(false)
     })
 
     registeredEvents.forEach((entry) => { addEventListener(entry) })
 
-    setConnectionStatus('PENDING')
+    setConnectionStatus('pending')
     socketIOClient.connect()
 }
 
@@ -45,6 +44,17 @@ const clientDisconnect = () => {
 
     socketIOClient.off()
     socketIOClient.close()
+}
+
+const selfDisconnect = () => {
+    if (socketIOClient === undefined || !socketIOClient.active) {
+        errorToConsole('Can not disconnect as no existing connection found!')
+        return
+    }
+
+    socketIOClient.off()
+    socketIOClient.close()
 
     disableConnectButton(false)
+    setConnectionStatus('idle')
 }
