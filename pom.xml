@@ -71,7 +71,7 @@
           <configuration>
             <archive>
               <manifest>
-                <mainClass>com.zachvoxwattz.ServerRunner</mainClass>
+                <mainClass>com.zachvoxwattz.ApplicationRunner</mainClass>
               </manifest>
             </archive>
             <descriptorRefs>
