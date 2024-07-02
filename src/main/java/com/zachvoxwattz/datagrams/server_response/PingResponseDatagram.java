@@ -1,4 +1,4 @@
-package com.zachvoxwattz.datagrams;
+package com.zachvoxwattz.datagrams.server_response;
 
 /**
  * Message datagram for the {@code sv-res-ping} response.

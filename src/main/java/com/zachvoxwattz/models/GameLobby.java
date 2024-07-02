@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.zachvoxwattz.core.GameServer;
-import com.zachvoxwattz.datagrams.PlayerUpdateDatagram;
+import com.zachvoxwattz.datagrams.client_request.RegistrationRequestDatagram;
+import com.zachvoxwattz.datagrams.server_response.PlayerUpdateDatagram;
 import com.zachvoxwattz.models.entities.Player;
 
 /**
@@ -42,6 +43,21 @@ public class GameLobby {
         var newConnectedPlayer = new Player(id, name, avatarID, avatarBackgroundHex, avatarBackgroundAlpha, diceBodyHex, diceBodyAlpha, diceFaceHex, diceFaceAlpha);
 
         this.playerMap.put(id, newConnectedPlayer);
+    }
+
+    /**
+     * Adds a new player to the map of this lobby.
+     * @param datagram Entire {@code RegistrationRequestDatagram} object containing player's info.
+     * @param clientID ID of the player.
+     */
+    public void addPlayer(RegistrationRequestDatagram datagram, String clientID) throws Exception {
+        if (this.playerMap.containsKey(clientID)) {
+            this.mainServer.getLogger().error("Duplicated player ID '{}'!", clientID);
+            return;
+        }
+
+        var newConnectedPlayer = new Player(datagram, clientID);
+        this.playerMap.put(clientID, newConnectedPlayer);
     }
 
     /**

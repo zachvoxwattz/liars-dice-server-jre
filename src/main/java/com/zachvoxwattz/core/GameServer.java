@@ -8,7 +8,10 @@ import org.apache.logging.log4j.Logger;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.Transport;
+import com.zachvoxwattz.datagrams.client_request.PingRequestDatagram;
+import com.zachvoxwattz.datagrams.client_request.RegistrationRequestDatagram;
 import com.zachvoxwattz.handlers.PlayerPingHandler;
+import com.zachvoxwattz.handlers.RegistrationHandler;
 import com.zachvoxwattz.handlers.entry_exit.ConnectHandler;
 import com.zachvoxwattz.handlers.entry_exit.DisconnectHandler;
 import com.zachvoxwattz.models.GameLobby;
@@ -90,16 +93,18 @@ public class GameServer {
      * 
      * <p>Currently implemented listeners:
      * <ul>
-     * <li>Connect
-     * <li>Disconnect
-     * <li>Ping
+     * <li>Connect.
+     * <li>Disconnect.
+     * <li>Ping.
+     * <li>Player Registration.
      * <li>TBU...
      * </ul>
      */
     private void attachListeners() {
         this.socketIOInstance.addConnectListener(new ConnectHandler(this));
         this.socketIOInstance.addDisconnectListener(new DisconnectHandler(this));
-        this.socketIOInstance.addEventListener(PlayerPingHandler.REQ_EVENT_NAME, Integer.class, new PlayerPingHandler(this));
+        this.socketIOInstance.addEventListener(PlayerPingHandler.REQ_EVENT_NAME, PingRequestDatagram.class, new PlayerPingHandler(this));
+        this.socketIOInstance.addEventListener(RegistrationHandler.REQ_EVENT_NAME, RegistrationRequestDatagram.class, new RegistrationHandler(this));
     }
 
     /**
@@ -119,19 +124,8 @@ public class GameServer {
      * Starts the game server.
      */
     public void startService() {
-        gsLogger.info("Server is running on port {}", this.socketIOInstance.getConfiguration().getPort());
         this.socketIOInstance.start();
-
-        this.createLobby();
-        this.gameLobby.addPlayer("a", "A", "A", "A", 1, "B", 1, "C", 1);
-        this.gameLobby.addPlayer("b", "A", "A", "A", 1, "B", 1, "C", 1);
-        this.gameLobby.addPlayer("c", "A", "A", "A", 1, "B", 1, "C", 1);
-        this.gameLobby.addPlayer("d", "A", "A", "A", 1, "B", 1, "C", 1);
-        this.gameLobby.addPlayer("e", "A", "A", "A", 1, "B", 1, "C", 1);
-        this.gameLobby.addPlayer("f", "", "A", "A", 1, "B", 1, "C", 1);
-
-        System.out.println(this.gameLobby.getPlayer("a").toString());
-
+        gsLogger.info("Server is running on port {}", this.socketIOInstance.getConfiguration().getPort());
     }
 
     /**

@@ -1,5 +1,10 @@
-package com.zachvoxwattz.datagrams;
+package com.zachvoxwattz.datagrams.server_response;
 
+import com.zachvoxwattz.models.entities.Player;
+
+/**
+ * Message datagram for the {@code sv-res-all-player-update} response.
+ */
 public class PlayerUpdateDatagram {
     /**
      * Player's unique ID
@@ -47,16 +52,17 @@ public class PlayerUpdateDatagram {
     private float diceFaceAlpha;
 
     public PlayerUpdateDatagram() {}
-    public PlayerUpdateDatagram(String id, String name,String avatarID,String avatarBackgroundHex,float avatarBackgroundAlpha,String diceBodyHex,float diceBodyAlpha,String diceFaceHex,float diceFaceAlpha) {
-        this.id = id;
-        this.name = name;
-        this.avatarID = avatarID;
-        this.avatarBackgroundHex = avatarBackgroundHex;
-        this.avatarBackgroundAlpha = avatarBackgroundAlpha;
-        this.diceBodyHex = diceBodyHex;
-        this.diceBodyAlpha = diceBodyAlpha;
-        this.diceFaceHex = diceFaceHex;
-        this.diceFaceAlpha = diceFaceAlpha;
+
+    public PlayerUpdateDatagram(Player pl) {
+        this.id = pl.getID();
+        this.name = pl.getName();
+        this.avatarID = pl.getAvatarID();
+        this.avatarBackgroundHex = pl.getAvatarBackgroundHex();
+        this.avatarBackgroundAlpha = pl.getAvatarBackgroundAlpha();
+        this.diceBodyHex = pl.getDiceBodyHex();
+        this.diceBodyAlpha = pl.getDiceBodyAlpha();
+        this.diceFaceHex = pl.getDiceFaceHex();
+        this.diceFaceAlpha = pl.getDiceFaceAlpha();
     }
 
     /*
@@ -66,40 +72,20 @@ public class PlayerUpdateDatagram {
         return this.id;
     }
 
-    public void setId(String value) {
-        this.id = value;
-    }
-
     public String getName() {
         return this.name;
-    }
-
-    public void setName(String value) {
-        this.name = value;
     }
 
     public String getAvatarID() {
         return this.avatarID;
     }
 
-    public void setAvatarID(String value) {
-        this.avatarID = value;
-    }
-
     public String getAvatarBackgroundHex() {
         return this.avatarBackgroundHex;
     }
 
-    public void setAvatarBackgroundHex(String value) {
-        this.avatarBackgroundHex = value;
-    }
-
     public float getAvatarBackgroundAlpha() {
         return this.avatarBackgroundAlpha;
-    }
-
-    public void setAvatarBackgroundAlpha(float value) {
-        this.avatarBackgroundAlpha = value;
     }
 
     public String getDiceBodyHex() {

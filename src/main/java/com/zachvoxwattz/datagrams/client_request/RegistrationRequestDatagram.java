@@ -1,6 +1,9 @@
-package com.zachvoxwattz.datagrams;
+package com.zachvoxwattz.datagrams.client_request;
 
-public class PlayerInfoDatagram {
+/**
+ * Message datagram for the {@code cl-req-register} request.
+ */
+public class RegistrationRequestDatagram {
     /**
      * Player's custom in-game name.
      */
@@ -41,8 +44,8 @@ public class PlayerInfoDatagram {
      */
     private float diceFaceAlpha;
 
-    public PlayerInfoDatagram() {}
-    public PlayerInfoDatagram(String name,String avatarID,String avatarBackgroundHex,float avatarBackgroundAlpha,String diceBodyHex,float diceBodyAlpha,String diceFaceHex,float diceFaceAlpha) {
+    public RegistrationRequestDatagram() {}
+    public RegistrationRequestDatagram(String name,String avatarID,String avatarBackgroundHex,float avatarBackgroundAlpha,String diceBodyHex,float diceBodyAlpha,String diceFaceHex,float diceFaceAlpha) {
         this.name = name;
         this.avatarID = avatarID;
         this.avatarBackgroundHex = avatarBackgroundHex;
@@ -60,32 +63,16 @@ public class PlayerInfoDatagram {
         return this.name;
     }
 
-    public void setName(String value) {
-        this.name = value;
-    }
-
     public String getAvatarID() {
         return this.avatarID;
-    }
-
-    public void setAvatarID(String value) {
-        this.avatarID = value;
     }
 
     public String getAvatarBackgroundHex() {
         return this.avatarBackgroundHex;
     }
 
-    public void setAvatarBackgroundHex(String value) {
-        this.avatarBackgroundHex = value;
-    }
-
     public float getAvatarBackgroundAlpha() {
         return this.avatarBackgroundAlpha;
-    }
-
-    public void setAvatarBackgroundAlpha(float value) {
-        this.avatarBackgroundAlpha = value;
     }
 
     public String getDiceBodyHex() {

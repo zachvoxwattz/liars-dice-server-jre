@@ -1,5 +1,7 @@
 package com.zachvoxwattz.models.entities;
 
+import com.zachvoxwattz.datagrams.client_request.RegistrationRequestDatagram;
+
 /**
  * Representing each individual connected players in the server.
  * 
@@ -62,6 +64,18 @@ public class Player {
         this.diceBodyAlpha = diceBodyAlpha;
         this.diceFaceHex = diceFaceHex;
         this.diceFaceAlpha = diceFaceAlpha;
+    }
+
+    public Player(RegistrationRequestDatagram datagram, String clientID) {
+        this.id = clientID;
+        this.name = datagram.getName();
+        this.avatarID = datagram.getAvatarID();
+        this.avatarBackgroundHex = datagram.getAvatarBackgroundHex();
+        this.avatarBackgroundAlpha = datagram.getAvatarBackgroundAlpha();
+        this.diceBodyHex = datagram.getDiceBodyHex();
+        this.diceBodyAlpha = datagram.getDiceBodyAlpha();
+        this.diceFaceHex = datagram.getDiceFaceHex();
+        this.diceFaceAlpha = datagram.getDiceFaceAlpha();
     }
 
     @Override
