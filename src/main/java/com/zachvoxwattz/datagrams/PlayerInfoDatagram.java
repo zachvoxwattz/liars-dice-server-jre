@@ -1,6 +1,6 @@
 package com.zachvoxwattz.datagrams;
 
-public class PlayerDatagram {
+public class PlayerInfoDatagram {
     /**
      * Player's custom in-game name.
      */
@@ -41,8 +41,8 @@ public class PlayerDatagram {
      */
     private float diceFaceAlpha;
 
-    public PlayerDatagram() {}
-    public PlayerDatagram(String name,String avatarID,String avatarBackgroundHex,float avatarBackgroundAlpha,String diceBodyHex,float diceBodyAlpha,String diceFaceHex,float diceFaceAlpha) {
+    public PlayerInfoDatagram() {}
+    public PlayerInfoDatagram(String name,String avatarID,String avatarBackgroundHex,float avatarBackgroundAlpha,String diceBodyHex,float diceBodyAlpha,String diceFaceHex,float diceFaceAlpha) {
         this.name = name;
         this.avatarID = avatarID;
         this.avatarBackgroundHex = avatarBackgroundHex;

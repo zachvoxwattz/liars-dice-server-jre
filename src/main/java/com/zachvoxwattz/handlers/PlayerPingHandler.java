@@ -30,14 +30,11 @@ public class PlayerPingHandler extends AbstractHandler<Integer> {
         var toBeSentData = new PingResponseDatagram(69420);
         client.sendEvent(RES_EVENT_NAME, toBeSentData);
 
-        if (this.getMainServer().getDebugMode()) {
-            var clientID = client.getSessionId();
-            this.getMainServer().getLogger().debug(
-                "Client '{}' invoked ping request. Responded with {}.",
-                clientID, 
-                toBeSentData.getNo()
-            );
-        }
+        this.getMainServer().debugPrintf(
+            "Client '{}' invoked ping request. Responded with {}.",
+            client.getSessionId(), 
+            toBeSentData.getNo()
+        );
     }
     
 }

@@ -11,6 +11,7 @@ import com.corundumstudio.socketio.Transport;
 import com.zachvoxwattz.handlers.PlayerPingHandler;
 import com.zachvoxwattz.handlers.entry_exit.ConnectHandler;
 import com.zachvoxwattz.handlers.entry_exit.DisconnectHandler;
+import com.zachvoxwattz.models.GameLobby;
 
 /**
  * The main game server.
@@ -29,6 +30,11 @@ public class GameServer {
     private boolean debugMode;
 
     /**
+     * Regulates whether the server is accepting new connections.
+     */
+    private boolean acceptConnections = true;
+
+    /**
      * Keeps track of a lobby existence.
      */
     private boolean hasLobby = false;
@@ -41,7 +47,7 @@ public class GameServer {
     /**
      * Instance of a game lobby.
      */
-    private GameLobby lobby;
+    private GameLobby gameLobby;
 
     /**
      * Constructor initializing the main game server.
@@ -76,7 +82,7 @@ public class GameServer {
      */
     public void broadcastEvent(String eventName, Object datagram) {
         this.socketIOInstance.getBroadcastOperations().sendEvent(eventName, datagram);
-        if (this.debugMode) gsLogger.debug("Broadcasted event name '{}' to all listening clients.", eventName);
+        this.debugPrintf("Broadcasted event name '{}' to all listening clients.", eventName);
     }
 
     /**
@@ -100,7 +106,13 @@ public class GameServer {
      * Initializes a game lobby as requested from {@code ConnectHandler}.
      */
     public void createLobby() {
-        this.lobby = new GameLobby(this);
+        this.gameLobby = new GameLobby(this);
+
+        /*
+            Immediately sets the boolean property to true so as
+            not to make this method called twice.
+        */
+        this.hasLobby(true);
     }
 
     /**
@@ -109,6 +121,17 @@ public class GameServer {
     public void startService() {
         gsLogger.info("Server is running on port {}", this.socketIOInstance.getConfiguration().getPort());
         this.socketIOInstance.start();
+
+        this.createLobby();
+        this.gameLobby.addPlayer("a", "A", "A", "A", 1, "B", 1, "C", 1);
+        this.gameLobby.addPlayer("b", "A", "A", "A", 1, "B", 1, "C", 1);
+        this.gameLobby.addPlayer("c", "A", "A", "A", 1, "B", 1, "C", 1);
+        this.gameLobby.addPlayer("d", "A", "A", "A", 1, "B", 1, "C", 1);
+        this.gameLobby.addPlayer("e", "A", "A", "A", 1, "B", 1, "C", 1);
+        this.gameLobby.addPlayer("f", "", "A", "A", 1, "B", 1, "C", 1);
+
+        System.out.println(this.gameLobby.getPlayer("a").toString());
+
     }
 
     /**
@@ -124,6 +147,18 @@ public class GameServer {
 
         gsLogger.info("Stopping server...");
         disconnectPlayersTask.thenRun(() -> { this.socketIOInstance.stop(); });
+    }
+
+    /**
+     * Centralized method to output debug logs to consoles
+     * without having to check for the debug property every time.
+     * @param msg The log message to be printed.
+     * @param args Optional formatted arguments. To be filled in curly brackets
+     * of the log message.
+     */
+    public void debugPrintf(String msg, Object... args) {
+        if (!this.debugMode) return;
+        else gsLogger.debug(msg, args);
     }
 
     /**
@@ -146,8 +181,8 @@ public class GameServer {
      * Game lobby instance.
      * @return {@code GameLobby} object.
      */
-    public GameLobby getLobby() {
-        return this.lobby;
+    public GameLobby getGameLobby() {
+        return this.gameLobby;
     }
 
     /**
@@ -172,5 +207,21 @@ public class GameServer {
      */
     public void hasLobby(boolean value) {
         this.hasLobby = value;
+    }
+
+    /**
+     * Retrieves server state of accepting new connections.
+     * @return {@code true} if server is accepting connections.
+     */
+    public boolean acceptConnections() {
+        return this.acceptConnections;
+    }
+
+    /**
+     * Sets server state of accepting new connections.
+     * @param value boolean of server state of accepting connections.
+     */
+    public void acceptConnections(boolean value) {
+        this.acceptConnections = value;
     }
 }

@@ -1,13 +1,8 @@
-package com.zachvoxwattz.models.entities;
+package com.zachvoxwattz.datagrams;
 
-/**
- * Representing each individual connected players in the server.
- * 
- * <p>Consists of many properties belonging to themselves.
- */
-public class Player {
+public class PlayerUpdateDatagram {
     /**
-     * UUID of this player. Should be the same with Socket.IO issued ID.
+     * Player's unique ID
      */
     private String id;
 
@@ -51,8 +46,8 @@ public class Player {
      */
     private float diceFaceAlpha;
 
-    public Player() {}
-    public Player(String id,String name,String avatarID,String avatarBackgroundHex,float avatarBackgroundAlpha,String diceBodyHex,float diceBodyAlpha,String diceFaceHex,float diceFaceAlpha) {
+    public PlayerUpdateDatagram() {}
+    public PlayerUpdateDatagram(String id, String name,String avatarID,String avatarBackgroundHex,float avatarBackgroundAlpha,String diceBodyHex,float diceBodyAlpha,String diceFaceHex,float diceFaceAlpha) {
         this.id = id;
         this.name = name;
         this.avatarID = avatarID;
@@ -64,35 +59,17 @@ public class Player {
         this.diceFaceAlpha = diceFaceAlpha;
     }
 
-    @Override
-    public String toString() {
-        var returnedString = String.format(
-            "Player ID '%s' has following properties:\n\t- Name: %s\n\t- ID of avatar: %s\n\t- Ava. Background Hex: %s\n\t- Ava. Background Alpha: %.2f\n\t- Dice Background Hex: %s\n\t- Dice Background Alpha: %.2f\n\t- Dice Face Hex: %s\n\t- Dice Face Alpha: %.2f",
-            this.id,
-            this.name,
-            this.avatarID,
-            this.avatarBackgroundHex,
-            this.avatarBackgroundAlpha,
-            this.diceBodyHex,
-            this.diceBodyAlpha,
-            this.diceFaceHex,
-            this.diceFaceAlpha
-        );
-
-        return returnedString;
-    }
-
     /*
         Getters and setters.
      */
-    public String getID() {
+    public String getId() {
         return this.id;
     }
 
-    public void setID(String value) {
+    public void setId(String value) {
         this.id = value;
     }
-     
+
     public String getName() {
         return this.name;
     }
@@ -129,31 +106,15 @@ public class Player {
         return this.diceBodyHex;
     }
 
-    public void setDiceBodyHex(String value) {
-        this.diceBodyHex = value;
-    }
-
     public float getDiceBodyAlpha() {
         return this.diceBodyAlpha;
-    }
-
-    public void setDiceBodyAlpha(float value) {
-        this.diceBodyAlpha = value;
     }
 
     public String getDiceFaceHex() {
         return this.diceFaceHex;
     }
 
-    public void setDiceFaceHex(String value) {
-        this.diceFaceHex = value;
-    }
-
     public float getDiceFaceAlpha() {
         return this.diceFaceAlpha;
-    }
-
-    public void setDiceFaceAlpha(float value) {
-        this.diceFaceAlpha = value;
     }
 }

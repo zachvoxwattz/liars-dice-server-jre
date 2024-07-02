@@ -3,14 +3,14 @@ package com.zachvoxwattz.handlers;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.zachvoxwattz.core.GameServer;
-import com.zachvoxwattz.datagrams.PlayerDatagram;
+import com.zachvoxwattz.datagrams.PlayerInfoDatagram;
 
 /**
  * Implemented {@code AbstractHandler} class.
  * 
  * <p>Responsible for registering player data coming from requests from clients.
  */
-public class PlayerDataReceiver extends AbstractHandler<PlayerDatagram> {
+public class PlayerDataReceiver extends AbstractHandler<PlayerInfoDatagram> {
     /**
      * Request event name.
      */
@@ -26,7 +26,7 @@ public class PlayerDataReceiver extends AbstractHandler<PlayerDatagram> {
     }
 
     @Override
-    public void onData(SocketIOClient client, PlayerDatagram data, AckRequest ackSender) throws Exception {
+    public void onData(SocketIOClient client, PlayerInfoDatagram data, AckRequest ackSender) throws Exception {
 
     }
     

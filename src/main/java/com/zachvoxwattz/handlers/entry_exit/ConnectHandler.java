@@ -36,7 +36,7 @@ public class ConnectHandler implements ConnectListener {
         var numberOfConnections = this.mainServer.getSocketIOInstance().getAllClients().size();
         if (numberOfConnections > 0 && !this.mainServer.hasLobby()) {
             this.mainServer.createLobby();
-            if (this.mainServer.getDebugMode()) gsLogger.debug("Creating a lobby as there is at least one connected player.");
+            this.mainServer.debugPrintf("Creating a lobby as there is at least one connected player.");
         }
     }
 }
