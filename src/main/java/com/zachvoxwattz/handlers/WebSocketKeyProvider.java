@@ -10,12 +10,12 @@ public class WebSocketKeyProvider extends AbstractHandler<String> {
     /**
      * Request event name.
      */
-    public static String REQ_EVENT_NAME = "cl-req-wesockey";
+    public static String REQ_EVENT_NAME = "cl-req-wsKey";
 
     /**
      * Response event name.
      */
-    public static String RES_EVENT_NAME = "sv-res-wesockey";
+    public static String RES_EVENT_NAME = "sv-res-wsKey";
 
     public WebSocketKeyProvider(GameServer mainServer) {
         super(mainServer);

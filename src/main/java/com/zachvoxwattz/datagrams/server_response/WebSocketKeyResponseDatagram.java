@@ -1,7 +1,7 @@
 package com.zachvoxwattz.datagrams.server_response;
 
 /**
- * Message datagram for the {@code sv-res-wesockey} response.
+ * Message datagram for the {@code sv-res-wsKey} response.
  */
 public class WebSocketKeyResponseDatagram {
     private String wsKey;

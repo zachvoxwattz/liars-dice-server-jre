@@ -8,9 +8,9 @@ import org.apache.logging.log4j.Logger;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.Transport;
-import com.zachvoxwattz.datagrams.client_request.PingRequestDatagram;
+
 import com.zachvoxwattz.datagrams.client_request.RegistrationRequestDatagram;
-import com.zachvoxwattz.handlers.PlayerPingHandler;
+import com.zachvoxwattz.handlers.PingHandler;
 import com.zachvoxwattz.handlers.RegistrationHandler;
 import com.zachvoxwattz.handlers.WebSocketKeyProvider;
 import com.zachvoxwattz.handlers.entry_exit.ConnectHandler;
@@ -109,7 +109,7 @@ public class GameServer {
     private void attachListeners() {
         this.socketIOInstance.addConnectListener(new ConnectHandler(this));
         this.socketIOInstance.addDisconnectListener(new DisconnectHandler(this));
-        this.socketIOInstance.addEventListener(PlayerPingHandler.REQ_EVENT_NAME, PingRequestDatagram.class, new PlayerPingHandler(this));
+        this.socketIOInstance.addEventListener(PingHandler.REQ_EVENT_NAME, Void.class, new PingHandler(this));
         this.socketIOInstance.addEventListener(WebSocketKeyProvider.REQ_EVENT_NAME, String.class, new WebSocketKeyProvider(this));
         this.socketIOInstance.addEventListener(RegistrationHandler.REQ_EVENT_NAME, RegistrationRequestDatagram.class, new RegistrationHandler(this));
     }
@@ -143,13 +143,25 @@ public class GameServer {
      * All I/Os should be handled with care before shutting down!
      */
     public void terminateService() {
-        gsLogger.info("Disconnecting players...");
-        CompletableFuture<Void> disconnectPlayersTask = CompletableFuture.runAsync(() -> {
-            this.socketIOInstance.getAllClients().forEach((client) -> { client.disconnect(); });
-        });
+        CompletableFuture<Void> disconnectPlayersTask = null;
+        var hasClients = false;
+
+        /* 
+            If there is at least one connected player, disconnect them.
+            Otherwise, skips this operation.
+         */
+        if (this.clientCount() > 0) {
+            hasClients = true;
+            gsLogger.info("Disconnecting players...");
+            
+            disconnectPlayersTask = CompletableFuture.runAsync(() -> {
+                this.socketIOInstance.getAllClients().forEach((client) -> { client.disconnect(); });
+            });    
+        }
 
         gsLogger.info("Stopping server...");
-        disconnectPlayersTask.thenRun(() -> { this.socketIOInstance.stop(); });
+        if (hasClients) disconnectPlayersTask.thenRun(() -> { this.socketIOInstance.stop(); });
+        else this.socketIOInstance.stop();
     }
 
     /**
@@ -162,6 +174,14 @@ public class GameServer {
     public void debugPrintf(String msg, Object... args) {
         if (!this.debugMode) return;
         else gsLogger.debug(msg, args);
+    }
+
+    /**
+     * Retrieves the total number of connected clients.
+     * @return Integer value of total count.
+     */
+    public int clientCount() {
+        return this.socketIOInstance.getAllClients().size();
     }
 
     /**

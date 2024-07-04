@@ -45,15 +45,15 @@ public class RegistrationRequestDatagram {
     private float diceFaceAlpha;
 
     public RegistrationRequestDatagram() {}
-    public RegistrationRequestDatagram(String name,String avatarID,String avatarBackgroundHex,float avatarBackgroundAlpha,String diceBodyHex,float diceBodyAlpha,String diceFaceHex,float diceFaceAlpha) {
-        this.name = name;
-        this.avatarID = avatarID;
-        this.avatarBackgroundHex = avatarBackgroundHex;
-        this.avatarBackgroundAlpha = avatarBackgroundAlpha;
-        this.diceBodyHex = diceBodyHex;
-        this.diceBodyAlpha = diceBodyAlpha;
-        this.diceFaceHex = diceFaceHex;
-        this.diceFaceAlpha = diceFaceAlpha;
+    public RegistrationRequestDatagram(String a, String b, String c, float d, String e, float f, String g, float h) {
+        this.name = a;
+        this.avatarID = b;
+        this.avatarBackgroundHex = c;
+        this.avatarBackgroundAlpha = d;
+        this.diceBodyHex = e;
+        this.diceBodyAlpha = f;
+        this.diceFaceHex = g;
+        this.diceFaceAlpha = h;
     }
 
     /*

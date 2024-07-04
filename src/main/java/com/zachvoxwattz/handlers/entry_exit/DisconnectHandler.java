@@ -26,8 +26,8 @@ public class DisconnectHandler implements DisconnectListener {
     }
 
     @Override
-    public void onDisconnect(SocketIOClient cl) {
-        var clientID = cl.getSessionId();
+    public void onDisconnect(SocketIOClient client) {
+        var clientID = client.getSessionId();
         gsLogger.info("Client ID '{}' has disconnected.", clientID);
     }
 }

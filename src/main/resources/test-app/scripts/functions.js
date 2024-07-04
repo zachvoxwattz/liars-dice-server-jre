@@ -62,7 +62,7 @@ const disableConnectButton = (disabled) => {
 }
 
 const sendToServer = () => {
-    if (socketIOClient === undefined || !socketIOClient.active) {
+    if (socketIOClient === undefined || !socketIOClient.connected) {
         errorToConsole(`Client is not currently connected to any server!`)
         return
     }
@@ -107,7 +107,7 @@ const createNewEventEntry = () => {
     let DOMeventID = `data-section-recv-event-id_${eventName}`
 
     registeredEvents.push(eventName)
-    if (socketIOClient && socketIOClient.active) addEventListener(eventName)
+    if (socketIOClient && socketIOClient.connected) addEventListener(eventName)
     
     let newEventEntry = document.createElement('button')
     newEventEntry.setAttribute('class', 'data-section-recv-event-entry')
@@ -160,7 +160,7 @@ const clearRecvEventInput = () => {
  * @param {*} content String to be added.
  */
 const infoToConsole = (content) => {
-    var appendedContent = `Client|INFO> ${content}`
+    var appendedContent = `INFO> ${content}`
 
     outputConsole.textContent.length !== 0
         ? appendedContent = `\n${appendedContent}`
@@ -175,7 +175,7 @@ const infoToConsole = (content) => {
  * @param {*} content String to be added.
  */
 const errorToConsole = (content) => {
-    var appendedContent = `Client|ERROR> ${content}`
+    var appendedContent = `ERROR> ${content}`
 
     outputConsole.textContent.length !== 0
         ? appendedContent = `\n${appendedContent}`
@@ -188,14 +188,15 @@ const errorToConsole = (content) => {
 /**
  * Attempts to connect to the server with given IP and Port.
  */
-const connectToServer = async () => {
+const connectToServer = () => {
     const ipRegEx = /^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\.(?!$)|$)){4}$/
-    let targetIP = '127.0.0.1'
-    let targetPort = 11912
+    let targetIP = '127.0.0.1' // If none or invalid inputs are given, default localhost IP is used.
+    let targetPort = 11912 // The same applies to the target server port.
 
     if (ipRegEx.test(targetIPInput.value)) targetIP = targetIPInput.value
     if (parseInt(targetPortInput.value)) targetPort = targetPortInput.value
 
-    clientConnect(targetIP, targetPort)
+    prepareSocketIOClient(targetIP, targetPort)
+    connectSocketIOClient()
     disableConnectButton(true)
 }
