@@ -54,7 +54,6 @@ public class PlayerUpdateDatagram {
     public PlayerUpdateDatagram() {}
 
     public PlayerUpdateDatagram(Player pl) {
-        this.id = pl.getID();
         this.name = pl.getName();
         this.avatarID = pl.getAvatarID();
         this.avatarBackgroundHex = pl.getAvatarBackgroundHex();

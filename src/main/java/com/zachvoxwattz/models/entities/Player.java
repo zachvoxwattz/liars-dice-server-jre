@@ -9,11 +9,6 @@ import com.zachvoxwattz.datagrams.client_request.RegistrationRequestDatagram;
  */
 public class Player {
     /**
-     * UUID of this player. Should be the same with Socket.IO issued ID.
-     */
-    private String id;
-
-    /**
      * Player's custom in-game name.
      */
     private String name;
@@ -54,8 +49,7 @@ public class Player {
     private float diceFaceAlpha;
 
     public Player() {}
-    public Player(String id,String name,String avatarID,String avatarBackgroundHex,float avatarBackgroundAlpha,String diceBodyHex,float diceBodyAlpha,String diceFaceHex,float diceFaceAlpha) {
-        this.id = id;
+    public Player(String name,String avatarID,String avatarBackgroundHex,float avatarBackgroundAlpha,String diceBodyHex,float diceBodyAlpha,String diceFaceHex,float diceFaceAlpha) {
         this.name = name;
         this.avatarID = avatarID;
         this.avatarBackgroundHex = avatarBackgroundHex;
@@ -67,7 +61,6 @@ public class Player {
     }
 
     public Player(RegistrationRequestDatagram datagram, String clientID) {
-        this.id = clientID;
         this.name = datagram.getName();
         this.avatarID = datagram.getAvatarID();
         this.avatarBackgroundHex = datagram.getAvatarBackgroundHex();
@@ -82,7 +75,6 @@ public class Player {
     public String toString() {
         var returnedString = String.format(
             "Player ID '%s' has following properties:\n\t- Name: %s\n\t- ID of avatar: %s\n\t- Ava. Background Hex: %s\n\t- Ava. Background Alpha: %.2f\n\t- Dice Background Hex: %s\n\t- Dice Background Alpha: %.2f\n\t- Dice Face Hex: %s\n\t- Dice Face Alpha: %.2f",
-            this.id,
             this.name,
             this.avatarID,
             this.avatarBackgroundHex,
@@ -99,14 +91,6 @@ public class Player {
     /*
         Getters and setters.
      */
-    public String getID() {
-        return this.id;
-    }
-
-    public void setID(String value) {
-        this.id = value;
-    }
-     
     public String getName() {
         return this.name;
     }

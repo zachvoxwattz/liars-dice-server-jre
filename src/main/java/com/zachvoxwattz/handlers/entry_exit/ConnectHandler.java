@@ -47,6 +47,10 @@ public class ConnectHandler implements ConnectListener {
             var clientIP = client.getHandshakeData().getAddress().getHostString();
             var clientPort = client.getHandshakeData().getAddress().getPort();
             gsLogger.info("Client ID '{}' connected via {}:{}", clientID, clientIP, clientPort);
+
+            // Checks for the number players to prevent further connections.
+            var numberOfConnections = this.mainServer.getSocketIOInstance().getAllClients().size();
+            if (numberOfConnections + 1 > GameServer.MAX_CONNECTED_CLIENTS) this.mainServer.acceptConnections(false);
         }
 
         // If this connection is the first one to connect to the server, creates a lobby.

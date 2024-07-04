@@ -1,17 +1,16 @@
-package com.zachvoxwattz.models;
+package com.zachvoxwattz.core;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.zachvoxwattz.core.GameServer;
 import com.zachvoxwattz.datagrams.client_request.RegistrationRequestDatagram;
 import com.zachvoxwattz.datagrams.server_response.PlayerUpdateDatagram;
 import com.zachvoxwattz.models.entities.Player;
 
 /**
- * Waiting room lobby that holds up to 6 players.
+ * Class used for managing all users.
  */
-public class GameLobby {
+public class UserManager {
     /**
      * Main server instance.
      */
@@ -22,11 +21,11 @@ public class GameLobby {
      */
     private Map<String, Player> playerMap;
 
-    public GameLobby(GameServer mainServer) {
+    public UserManager(GameServer mainServer) {
         this.mainServer = mainServer;
         this.playerMap = new HashMap<>();
     }
-
+    
     /**
      * Adds a new player to the map of this lobby.
      * @param id ID of the player.
@@ -39,8 +38,8 @@ public class GameLobby {
      * @param diceFaceHex Hex color code of player's dice face.
      * @param diceFaceAlpha Alpha of the hex color code of player's dice face.
      */
-    public void addPlayer(String id,String name,String avatarID,String avatarBackgroundHex,float avatarBackgroundAlpha,String diceBodyHex,float diceBodyAlpha,String diceFaceHex,float diceFaceAlpha) {
-        var newConnectedPlayer = new Player(id, name, avatarID, avatarBackgroundHex, avatarBackgroundAlpha, diceBodyHex, diceBodyAlpha, diceFaceHex, diceFaceAlpha);
+    public void addPlayer(String id, String name,String avatarID,String avatarBackgroundHex,float avatarBackgroundAlpha,String diceBodyHex,float diceBodyAlpha,String diceFaceHex,float diceFaceAlpha) {
+        var newConnectedPlayer = new Player(name, avatarID, avatarBackgroundHex, avatarBackgroundAlpha, diceBodyHex, diceBodyAlpha, diceFaceHex, diceFaceAlpha);
 
         this.playerMap.put(id, newConnectedPlayer);
     }

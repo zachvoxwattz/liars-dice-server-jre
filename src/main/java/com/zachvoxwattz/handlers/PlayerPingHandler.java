@@ -28,7 +28,6 @@ public class PlayerPingHandler extends AbstractHandler<PingRequestDatagram> {
 
     @Override
     public void onData(SocketIOClient client, PingRequestDatagram data, AckRequest ackSender) throws Exception {
-        if (!data.getPingRequest()) return;
         var toBeSentData = new PingResponseDatagram(69420);
         client.sendEvent(RES_EVENT_NAME, toBeSentData);
 

@@ -28,9 +28,9 @@ public class RegistrationHandler extends AbstractHandler<RegistrationRequestData
 
     @Override
     public void onData(SocketIOClient client, RegistrationRequestDatagram data, AckRequest ackSender) throws Exception {
-        var gameLobby = this.getMainServer().getGameLobby();
+        var userManager = this.getMainServer().getUserManager();
         var clientID = client.getSessionId().toString();
-        gameLobby.addPlayer(data, clientID);
+        userManager.addPlayer(data, clientID);
 
         this.getMainServer().debugPrintf("Registered player ID '{}' into the lobby", clientID);
         client.sendEvent(RES_EVENT_NAME, new RegistrationResponseDatagram(true));

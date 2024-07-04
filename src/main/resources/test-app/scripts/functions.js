@@ -74,14 +74,19 @@ const sendToServer = () => {
     }
     
     let body = sendEventInputBody.value.trim()
-    if (!isJSON(body)) {
+    if (body.length !== 0 && !isJSON(body)) {
         errorToConsole(`Invalid JSON datagram! Recheck for typos!`)
         return
     }
 
-    socketIOClient.emit(netcode, JSON.parse(body))
+    if (body.length !== 0) {
+        socketIOClient.emit(netcode, JSON.parse(body))
+    }
+    else if (body.length === 0) {
+        socketIOClient.emit(netcode)
+        body = '{}'
+    }
 
-    if (body.length === 0) body = '{}'
     infoToConsole(`Sent '${netcode}' with: ${body}`)
 }
 

@@ -12,9 +12,9 @@ import com.zachvoxwattz.datagrams.client_request.PingRequestDatagram;
 import com.zachvoxwattz.datagrams.client_request.RegistrationRequestDatagram;
 import com.zachvoxwattz.handlers.PlayerPingHandler;
 import com.zachvoxwattz.handlers.RegistrationHandler;
+import com.zachvoxwattz.handlers.WebSocketKeyProvider;
 import com.zachvoxwattz.handlers.entry_exit.ConnectHandler;
 import com.zachvoxwattz.handlers.entry_exit.DisconnectHandler;
-import com.zachvoxwattz.models.GameLobby;
 
 /**
  * The main game server.
@@ -22,6 +22,11 @@ import com.zachvoxwattz.models.GameLobby;
  * <p>Responsible for accepting incoming connections, processing information and uphold the game experience.
  */
 public class GameServer {
+    /**
+     * Max number of connections allowed.
+     */
+    public static int MAX_CONNECTED_CLIENTS = 6;
+
     /**
      * Server logger.
      */
@@ -43,14 +48,14 @@ public class GameServer {
     private boolean hasLobby = false;
 
     /**
+     * Management class of all connected users.
+     */
+    private UserManager userManager;
+
+    /**
      * Socket.IO instance for the server.
      */
     private SocketIOServer socketIOInstance;
-
-    /**
-     * Instance of a game lobby.
-     */
-    private GameLobby gameLobby;
 
     /**
      * Constructor initializing the main game server.
@@ -96,6 +101,7 @@ public class GameServer {
      * <li>Connect.
      * <li>Disconnect.
      * <li>Ping.
+     * <li>WebSocket Key provider.
      * <li>Player Registration.
      * <li>TBU...
      * </ul>
@@ -104,20 +110,23 @@ public class GameServer {
         this.socketIOInstance.addConnectListener(new ConnectHandler(this));
         this.socketIOInstance.addDisconnectListener(new DisconnectHandler(this));
         this.socketIOInstance.addEventListener(PlayerPingHandler.REQ_EVENT_NAME, PingRequestDatagram.class, new PlayerPingHandler(this));
+        this.socketIOInstance.addEventListener(WebSocketKeyProvider.REQ_EVENT_NAME, String.class, new WebSocketKeyProvider(this));
         this.socketIOInstance.addEventListener(RegistrationHandler.REQ_EVENT_NAME, RegistrationRequestDatagram.class, new RegistrationHandler(this));
     }
 
     /**
-     * Initializes a game lobby as requested from {@code ConnectHandler}.
+     * Initializes a game lobby as requested
+     * from {@code ConnectHandler}.
      */
     public void createLobby() {
-        this.gameLobby = new GameLobby(this);
+        // Also creates the mapping of connected players.
+        this.userManager = new UserManager(this);
 
         /*
             Immediately sets the boolean property to true so as
             not to make this method called twice.
         */
-        this.hasLobby(true);
+        this.hasLobby = true;
     }
 
     /**
@@ -175,8 +184,8 @@ public class GameServer {
      * Game lobby instance.
      * @return {@code GameLobby} object.
      */
-    public GameLobby getGameLobby() {
-        return this.gameLobby;
+    public UserManager getUserManager() {
+        return this.userManager;
     }
 
     /**

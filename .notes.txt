@@ -2,4 +2,5 @@
 
 
 # TODOs:
-- Optimize the src/main/resources/log4j2.xml
+- [PROGRESSIVE OVERTIME] Optimize the src/main/resources/log4j2.xml
+- Handle illegal connections.
