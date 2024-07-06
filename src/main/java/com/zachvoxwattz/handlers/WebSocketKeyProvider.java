@@ -23,9 +23,14 @@ public class WebSocketKeyProvider extends AbstractHandler<String> {
 
     @Override
     public void onData(SocketIOClient client, String data, AckRequest ackSender) throws Exception {
-        var toBeSentDatagram = new WebSocketKeyResponseDatagram(WebSocketKeyGenerator.generateKey());
-        client.sendEvent(RES_EVENT_NAME, toBeSentDatagram);
+        var wsKey = WebSocketKeyGenerator.generateKey();
+        var clientID = client.getSessionId().toString();
 
-        this.getMainServer().debugPrintf("WebSocketKey '{}' generated for client '{}'", toBeSentDatagram.getWsKey(), client.getSessionId());
+        // Registers it to the UserManager.
+        this.getMainServer().getUserManager().registerPlayerWSKey(clientID, wsKey);
+
+        // Then sends the data back to the client.
+        client.sendEvent(RES_EVENT_NAME, new WebSocketKeyResponseDatagram(wsKey));
+        this.getMainServer().debugPrintf("WebSocketKey '{}' generated for client '{}'", wsKey, clientID);
     }
 }

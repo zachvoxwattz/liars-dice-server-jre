@@ -21,9 +21,24 @@ public class UserManager {
      */
     private Map<String, Player> playerMap;
 
+    /**
+     * A mapping of players and their WebSocket key.
+     */
+    private Map<String, String> wsKeyMap;
+
     public UserManager(GameServer mainServer) {
         this.mainServer = mainServer;
         this.playerMap = new HashMap<>();
+        this.wsKeyMap = new HashMap<>();
+    }
+
+    /**
+     * Adds an entry of WebSocket key corresponding with its owner ID to the map.
+     * @param id 
+     * @param wsKey
+     */
+    public void registerPlayerWSKey(String id, String wsKey) {
+        this.wsKeyMap.put(id, wsKey);
     }
     
     /**
