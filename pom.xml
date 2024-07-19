@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.zachvoxwattz</groupId>
-  <artifactId>liars-dice-server-jre</artifactId>
+  <artifactId>liarsdice-server</artifactId>
   <version>0.0.1</version>
 
   <name>liars-dice-server-jre</name>
@@ -111,6 +111,14 @@
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addClasspath>true</addClasspath>
+                <mainClass>com.zachvoxwattz.ApplicationRunner</mainClass>
+              </manifest>
+            </archive>
+          </configuration>
         </plugin>
 
         <plugin>
