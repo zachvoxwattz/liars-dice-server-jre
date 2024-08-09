@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.zachvoxwattz.core.GameServer;
+import com.zachvoxwattz.datagrams.server_response.ErrorResponseDatagram;
 
 /**
  * Implemented connection handler for added features.
@@ -37,8 +38,10 @@ public class ConnectHandler implements ConnectListener {
 
         // If the server no longer accepts connections, deny new ones.
         if (!this.mainServer.acceptConnections()) {
-            client.sendEvent(CONNECTION_DENIED_EVENT_NAME);
+            var errorDatagram = new ErrorResponseDatagram(503, "Server no longer accepts new connection!");
+            client.sendEvent(CONNECTION_DENIED_EVENT_NAME, errorDatagram);
             client.disconnect();
+
             this.mainServer.debugPrintf("Refusing client ID '{}' as server no longer accepts new connection.", clientID);
             return;
         }

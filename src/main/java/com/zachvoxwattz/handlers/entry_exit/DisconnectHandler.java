@@ -13,7 +13,7 @@ public class DisconnectHandler implements DisconnectListener {
     /**
      * Main GameServer.
      */
-    private GameServer parentComponent;
+    private GameServer mainServer;
 
     /**
      * Main GameServer logger.
@@ -21,13 +21,17 @@ public class DisconnectHandler implements DisconnectListener {
     private static Logger gsLogger;
 
     public DisconnectHandler(GameServer parent) {
-        this.parentComponent = parent;
-        gsLogger = this.parentComponent.getLogger();
+        this.mainServer = parent;
+        gsLogger = this.mainServer.getLogger();
     }
 
     @Override
     public void onDisconnect(SocketIOClient client) {
         var clientID = client.getSessionId();
         gsLogger.info("Client ID '{}' has disconnected.", clientID);
+
+        // Decreases the number of connections.
+        var numberOfConnections = this.mainServer.getSocketIOInstance().getAllClients().size();
+        if (numberOfConnections < GameServer.MAX_CONNECTED_CLIENTS) this.mainServer.acceptConnections(true);
     }
 }
