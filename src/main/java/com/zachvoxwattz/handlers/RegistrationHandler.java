@@ -1,8 +1,9 @@
 package com.zachvoxwattz.handlers;
+import com.zachvoxwattz.core.GameServer;
 
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
-import com.zachvoxwattz.core.GameServer;
+
 import com.zachvoxwattz.datagrams.client_request.RegistrationRequestDatagram;
 import com.zachvoxwattz.datagrams.server_response.RegistrationResponseDatagram;
 
@@ -32,7 +33,7 @@ public class RegistrationHandler extends AbstractHandler<RegistrationRequestData
         var clientID = client.getSessionId().toString();
         userManager.addPlayer(data, clientID);
 
-        this.getMainServer().debugPrintf("Registered player ID '{}' into the lobby", clientID);
+        this.getMainServer().debugPrintf("Registered player ID '%s' into the lobby", clientID);
         client.sendEvent(RES_EVENT_NAME, new RegistrationResponseDatagram(true));
     }
     

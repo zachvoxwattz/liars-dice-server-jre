@@ -1,10 +1,9 @@
 package com.zachvoxwattz.handlers.entry_exit;
 
-import org.apache.logging.log4j.Logger;
-
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.zachvoxwattz.core.GameServer;
+import com.zachvoxwattz.core.LogService;
 import com.zachvoxwattz.datagrams.server_response.ErrorResponseDatagram;
 
 /**
@@ -21,14 +20,8 @@ public class ConnectHandler implements ConnectListener {
      */
     private GameServer mainServer;
 
-    /**
-     * Main GameServer logger.
-     */
-    private static Logger gsLogger;
-
     public ConnectHandler(GameServer parent) {
         this.mainServer = parent;
-        gsLogger = this.mainServer.getLogger();
     }
 
     @Override
@@ -42,14 +35,14 @@ public class ConnectHandler implements ConnectListener {
             client.sendEvent(CONNECTION_DENIED_EVENT_NAME, errorDatagram);
             client.disconnect();
 
-            this.mainServer.debugPrintf("Refusing client ID '{}' as server no longer accepts new connection.", clientID);
+            this.mainServer.debugPrintf("Refusing client ID '%s' as server no longer accepts new connection.", clientID);
             return;
         }
 
         else {
             var clientIP = client.getHandshakeData().getAddress().getHostString();
             var clientPort = client.getHandshakeData().getAddress().getPort();
-            gsLogger.info("Client ID '{}' connected via {}:{}", clientID, clientIP, clientPort);
+            LogService.logInfo("Client ID '%s' connected via %s:%s", clientID, clientIP, clientPort);
 
             // Checks for the number players to prevent further connections.
             var numberOfConnections = this.mainServer.getSocketIOInstance().getAllClients().size();

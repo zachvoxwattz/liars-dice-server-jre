@@ -12,11 +12,6 @@ import com.zachvoxwattz.models.entities.Player;
  */
 public class UserManager {
     /**
-     * Main server instance.
-     */
-    private GameServer mainServer;
-
-    /**
      * A mapping of players and their ID.
      */
     private Map<String, Player> playerMap;
@@ -27,7 +22,6 @@ public class UserManager {
     private Map<String, String> wsKeyMap;
 
     public UserManager(GameServer mainServer) {
-        this.mainServer = mainServer;
         this.playerMap = new HashMap<>();
         this.wsKeyMap = new HashMap<>();
     }
@@ -66,7 +60,7 @@ public class UserManager {
      */
     public void addPlayer(RegistrationRequestDatagram datagram, String clientID) throws Exception {
         if (this.playerMap.containsKey(clientID)) {
-            this.mainServer.getLogger().error("Duplicated player ID '{}'!", clientID);
+            LogService.logError("Duplicated player ID '%s'!", clientID);
             return;
         }
 

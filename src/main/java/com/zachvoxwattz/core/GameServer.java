@@ -2,9 +2,6 @@ package com.zachvoxwattz.core;
 
 import java.util.concurrent.CompletableFuture;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.Transport;
@@ -26,11 +23,6 @@ public class GameServer {
      * Max number of connections allowed.
      */
     public static int MAX_CONNECTED_CLIENTS = 6;
-
-    /**
-     * Server logger.
-     */
-    private static Logger gsLogger = LogManager.getLogger("GameServer");
     
     /**
      * Server debug mode value.
@@ -90,7 +82,7 @@ public class GameServer {
      */
     public void broadcastEvent(String eventName, Object datagram) {
         this.socketIOInstance.getBroadcastOperations().sendEvent(eventName, datagram);
-        this.debugPrintf("Broadcasted event name '{}' to all listening clients.", eventName);
+        this.debugPrintf("Broadcasted event name '%s' to all listening clients.", eventName);
     }
 
     /**
@@ -134,7 +126,7 @@ public class GameServer {
      */
     public void startService() {
         this.socketIOInstance.start();
-        gsLogger.info("Server is running on port {}", this.socketIOInstance.getConfiguration().getPort());
+        LogService.logInfo("Server is running on port %s", this.socketIOInstance.getConfiguration().getPort());
     }
 
     /**
@@ -152,14 +144,14 @@ public class GameServer {
          */
         if (this.clientCount() > 0) {
             hasClients = true;
-            gsLogger.info("Disconnecting players...");
+            LogService.logInfo("Disconnecting players...");
             
             disconnectPlayersTask = CompletableFuture.runAsync(() -> {
                 this.socketIOInstance.getAllClients().forEach((client) -> { client.disconnect(); });
             });    
         }
 
-        gsLogger.info("Stopping server...");
+        LogService.logInfo("Stopping server...");
         if (hasClients) disconnectPlayersTask.thenRun(() -> { this.socketIOInstance.stop(); });
         else this.socketIOInstance.stop();
     }
@@ -173,7 +165,7 @@ public class GameServer {
      */
     public void debugPrintf(String msg, Object... args) {
         if (!this.debugMode) return;
-        else gsLogger.debug(msg, args);
+        else LogService.logDebug(msg, args);
     }
 
     /**
@@ -182,14 +174,6 @@ public class GameServer {
      */
     public int clientCount() {
         return this.socketIOInstance.getAllClients().size();
-    }
-
-    /**
-     * Logger object of the GameServer.
-     * @return {@code Logger} object.
-     */
-    public Logger getLogger() {
-        return gsLogger;
     }
 
     /**

@@ -3,15 +3,7 @@ package com.zachvoxwattz.core;
 import java.net.ServerSocket;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class PortChecker {
-    /**
-     * The static logging class.
-     */
-    private static Logger portCheckerLogger = LogManager.getLogger("PortChecker");
-    
     /**
      * Executes the entire checking process of a given port.
      * <p>
@@ -29,14 +21,14 @@ public class PortChecker {
         var retryCountMax = 5;
         
         // Checking whether the target port is available.
-        if (debugMode) portCheckerLogger.debug("Checking port {} availability...", serverPort);
+        if (debugMode) LogService.logDebug("Checking port %s availability...", serverPort);
 
         while (!portIsAvailable && retryCount < retryCountMax) {
             portIsAvailable = portCheck(serverPort);
             if (portIsAvailable) break;
             else {
                 retryCount++;
-                if (debugMode) portCheckerLogger.debug("Port {} is currently occupied. Retrying...", serverPort);
+                if (debugMode) LogService.logDebug("Port %s is currently occupied. Retrying...", serverPort);
             }
 
             try { TimeUnit.SECONDS.sleep(5); }
@@ -44,12 +36,12 @@ public class PortChecker {
         }
 
         if (!portIsAvailable) {
-            portCheckerLogger.error("Failed to initialize server after {} attempts.", retryCount);
-            portCheckerLogger.info("Reason: Another servuce is occupying the target port! Please try other alternatives!");
+            LogService.logError("Failed to initialize server after %s attempts.", retryCount);
+            LogService.logInfo("Reason: Another servuce is occupying the target port! Please try other alternatives!");
             System.exit(1);
         }
 
-        else if (debugMode) portCheckerLogger.debug("Port {} is available.", serverPort);
+        else if (debugMode) LogService.logDebug("Port %s is available.", serverPort);
     }
 
     /**
