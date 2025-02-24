@@ -27,7 +27,7 @@ public class PingHandler extends AbstractHandler<Void> {
     @Override
     public void onData(SocketIOClient client, Void data, AckRequest ackSender) throws Exception {
         client.sendEvent(RES_EVENT_NAME);
-        this.getMainServer().debugPrintf("Client '{}' invoked ping request. Responded to request.", client.getSessionId());
+        this.getMainServer().debugPrintf("Client '%s' invoked ping request. Responded to request.", client.getSessionId());
     }
     
 }

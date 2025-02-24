@@ -31,6 +31,6 @@ public class WebSocketKeyProvider extends AbstractHandler<String> {
 
         // Then sends the data back to the client.
         client.sendEvent(RES_EVENT_NAME, new WebSocketKeyResponseDatagram(wsKey));
-        this.getMainServer().debugPrintf("WebSocketKey '{}' generated for client '{}'", wsKey, clientID);
+        this.getMainServer().debugPrintf("WebSocketKey '%s' generated for client '%s'", wsKey, clientID);
     }
 }

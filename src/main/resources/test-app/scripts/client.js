@@ -1,9 +1,10 @@
-const numberOfReconnectionAttemps = 3
+const numberOfReconnectionAttemps = 5
 var recvEventInputValue = ''
 var registeredEvents = []
 var socketIOClient
 var isConnecting = false
 
+// TODO: Create blueprints for Socket.IO v2 and v4
 const prepareSocketIOClient = (ip, port) => {
     socketIOClient = io(`ws://${ip}:${port}/`, {
         autoConnect: false,
