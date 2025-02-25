@@ -47,21 +47,25 @@ public class LogService {
         switch (type) {
             case INFO:
                 return "\033[38;5;255;48;5;48;1mINFO\033[0m";
+
             case DEBUG:
                 return "\033[38;5;255;48;5;33;1mDEBUG\033[0m";
+
             case WARNING:
                 return "\033[38;5;255;48;5;172;1mWARNING\033[0m";
+
             case ERROR:
                 return "\033[38;5;255;48;5;160;1mERROR\033[0m";
+
             case CRITICAL:
                 return "\033[38;5;255;48;5;52;1mCRITICAL\033[0m";
+
             default:
                 try {
-                    throw new Exception("Unsupported LogServiceType value");
-                } 
-                
+                    throw new Exception("Unsupported 'LogServiceType' value");
+                }
+
                 catch (Exception e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
         }
