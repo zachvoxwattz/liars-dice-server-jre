@@ -1,9 +1,10 @@
-package com.zachvoxwattz.handlers;
+package com.zachvoxwattz.handlers.client_processor;
 
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.zachvoxwattz.core.GameServer;
 import com.zachvoxwattz.datagrams.server_response.WebSocketKeyResponseDatagram;
+import com.zachvoxwattz.handlers.AbstractHandler;
 import com.zachvoxwattz.utils.WebSocketKeyGenerator;
 
 public class WebSocketKeyProvider extends AbstractHandler<String> {

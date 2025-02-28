@@ -1,4 +1,4 @@
-package com.zachvoxwattz.handlers;
+package com.zachvoxwattz.handlers.client_processor;
 import com.zachvoxwattz.core.GameServer;
 
 import com.corundumstudio.socketio.AckRequest;
@@ -6,6 +6,7 @@ import com.corundumstudio.socketio.SocketIOClient;
 
 import com.zachvoxwattz.datagrams.client_request.RegistrationRequestDatagram;
 import com.zachvoxwattz.datagrams.server_response.RegistrationResponseDatagram;
+import com.zachvoxwattz.handlers.AbstractHandler;
 
 /**
  * Implemented {@code AbstractHandler} class.

@@ -7,11 +7,11 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.Transport;
 
 import com.zachvoxwattz.datagrams.client_request.RegistrationRequestDatagram;
-import com.zachvoxwattz.handlers.PingHandler;
-import com.zachvoxwattz.handlers.RegistrationHandler;
-import com.zachvoxwattz.handlers.WebSocketKeyProvider;
-import com.zachvoxwattz.handlers.entry_exit.ConnectHandler;
-import com.zachvoxwattz.handlers.entry_exit.DisconnectHandler;
+import com.zachvoxwattz.handlers.client_processor.RegistrationHandler;
+import com.zachvoxwattz.handlers.client_processor.WebSocketKeyProvider;
+import com.zachvoxwattz.handlers.connection.ConnectHandler;
+import com.zachvoxwattz.handlers.connection.DisconnectHandler;
+import com.zachvoxwattz.handlers.ping.PingHandler;
 
 /**
  * The main game server.

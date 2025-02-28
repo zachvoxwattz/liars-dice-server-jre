@@ -1,8 +1,9 @@
-package com.zachvoxwattz.handlers;
+package com.zachvoxwattz.handlers.ping;
 
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.zachvoxwattz.core.GameServer;
+import com.zachvoxwattz.handlers.AbstractHandler;
 
 /**
  * Implemented {@code AbstractHandler} class.

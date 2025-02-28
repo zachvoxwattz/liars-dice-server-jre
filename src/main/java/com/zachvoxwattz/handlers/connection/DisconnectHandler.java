@@ -1,4 +1,4 @@
-package com.zachvoxwattz.handlers.entry_exit;
+package com.zachvoxwattz.handlers.connection;
 
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DisconnectListener;
