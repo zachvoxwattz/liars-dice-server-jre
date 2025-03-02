@@ -6,12 +6,12 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.Transport;
 
-import com.zachvoxwattz.datagrams.client_request.RegistrationRequestDatagram;
-import com.zachvoxwattz.handlers.client_processor.RegistrationHandler;
-import com.zachvoxwattz.handlers.client_processor.WebSocketKeyProvider;
 import com.zachvoxwattz.handlers.connection.ConnectHandler;
 import com.zachvoxwattz.handlers.connection.DisconnectHandler;
+import com.zachvoxwattz.handlers.interceptor.ServerEventInterceptor;
 import com.zachvoxwattz.handlers.ping.PingHandler;
+
+import com.zachvoxwattz.shared.RequestEventType;
 
 /**
  * The main game server.
@@ -40,11 +40,6 @@ public class GameServer {
     private boolean hasLobby = false;
 
     /**
-     * Management class of all connected users.
-     */
-    private UserManager userManager;
-
-    /**
      * Socket.IO instance for the server.
      */
     private SocketIOServer socketIOInstance;
@@ -71,18 +66,8 @@ public class GameServer {
         // Then initializes the Socket.IO instance.
         this.socketIOInstance = new SocketIOServer(config);
 
-        // Enable event listeners.
+        // Attaches middlewares and listeners.
         this.attachListeners();
-    }
-
-    /**
-     * Broadcasts to all clients with given event name and datagram.
-     * @param eventName String formatted. Specifies the event name to be broadcasted so that clients can listen to.
-     * @param datagram The data object to be sent to clients if applicable.
-     */
-    public void broadcastEvent(String eventName, Object datagram) {
-        this.socketIOInstance.getBroadcastOperations().sendEvent(eventName, datagram);
-        this.debugPrintf("Broadcasted event name '%s' to all listening clients.", eventName);
     }
 
     /**
@@ -99,11 +84,17 @@ public class GameServer {
      * </ul>
      */
     private void attachListeners() {
+        // Middleware for every incoming connection.
+        this.socketIOInstance.addEventInterceptor(new ServerEventInterceptor(this));
+
+        // Listener for handling incoming connection.
         this.socketIOInstance.addConnectListener(new ConnectHandler(this));
+
+        // Listener for handling every disconnection.
         this.socketIOInstance.addDisconnectListener(new DisconnectHandler(this));
-        this.socketIOInstance.addEventListener(PingHandler.REQ_EVENT_NAME, Void.class, new PingHandler(this));
-        this.socketIOInstance.addEventListener(WebSocketKeyProvider.REQ_EVENT_NAME, String.class, new WebSocketKeyProvider(this));
-        this.socketIOInstance.addEventListener(RegistrationHandler.REQ_EVENT_NAME, RegistrationRequestDatagram.class, new RegistrationHandler(this));
+
+        // Listener for handling Ping requests.
+        this.socketIOInstance.addEventListener(RequestEventType.PING, Void.class, new PingHandler(this));
     }
 
     /**
@@ -111,9 +102,6 @@ public class GameServer {
      * from {@code ConnectHandler}.
      */
     public void createLobby() {
-        // Also creates the mapping of connected players.
-        this.userManager = new UserManager(this);
-
         /*
             Immediately sets the boolean property to true so as
             not to make this method called twice.
@@ -157,6 +145,16 @@ public class GameServer {
     }
 
     /**
+     * Broadcasts to all clients with given event name and datagram.
+     * @param eventName String formatted. Specifies the event name to be broadcasted so that clients can listen to.
+     * @param datagram The data object to be sent to clients if applicable.
+     */
+    public void broadcastEvent(String eventName, Object datagram) {
+        this.socketIOInstance.getBroadcastOperations().sendEvent(eventName, datagram);
+        this.debugPrintf("Broadcasted event name '%s' to all listening clients.", eventName);
+    }
+
+    /**
      * Centralized method to output debug logs to consoles
      * without having to check for the debug property every time.
      * @param msg The log message to be printed.
@@ -182,14 +180,6 @@ public class GameServer {
      */
     public SocketIOServer getSocketIOInstance() {
         return this.socketIOInstance;
-    }
-
-    /**
-     * Game lobby instance.
-     * @return {@code GameLobby} object.
-     */
-    public UserManager getUserManager() {
-        return this.userManager;
     }
 
     /**
