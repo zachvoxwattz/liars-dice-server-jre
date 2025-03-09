@@ -3,7 +3,7 @@ package com.zachvoxwattz.utils;
 /**
  * Static class consisting a collection of static value checker methods.
  */
-public class ValueChecker {
+public class ValueTypeValidator {
     /**
      * Checks if the input string is an integer.
      * @param value The string to be checked.

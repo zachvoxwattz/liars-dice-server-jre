@@ -3,11 +3,10 @@ package com.zachvoxwattz.handlers.ping;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 
-import com.zachvoxwattz.core.GameServer;
-
+import com.zachvoxwattz.core.MainServer;
+import com.zachvoxwattz.core.event_manager.EventNameManager;
+import com.zachvoxwattz.core.event_manager.type.ResponseEventType;
 import com.zachvoxwattz.handlers.AbstractHandler;
-
-import com.zachvoxwattz.shared.ResponseEventType;
 
 /**
  * Implemented {@code AbstractHandler} class.
@@ -15,13 +14,13 @@ import com.zachvoxwattz.shared.ResponseEventType;
  * <p>Responsible for responding to incoming ping requests from clients.
  */
 public class PingHandler extends AbstractHandler<Void> {
-    public PingHandler(GameServer parentComponent) {
+    public PingHandler(MainServer parentComponent) {
         super(parentComponent);
     }
 
     @Override
     public void onData(SocketIOClient client, Void data, AckRequest ackSender) throws Exception {
-        client.sendEvent(ResponseEventType.PING);
+        client.sendEvent(EventNameManager.getSVEvent(ResponseEventType.PING));
         this.getMainServer().debugPrintf("Client '%s' invoked ping request. Responded to request.", client.getSessionId());
     }
     

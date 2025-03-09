@@ -2,8 +2,8 @@ package com.zachvoxwattz.handlers.connection;
 
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.ConnectListener;
-import com.zachvoxwattz.core.GameServer;
-import com.zachvoxwattz.core.LogService;
+import com.zachvoxwattz.core.MainServer;
+import com.zachvoxwattz.core.logging.LogService;
 import com.zachvoxwattz.datagrams.server_response.ErrorResponseDatagram;
 
 /**
@@ -18,9 +18,9 @@ public class ConnectHandler implements ConnectListener {
     /**
      * Main GameServer.
      */
-    private GameServer mainServer;
+    private MainServer mainServer;
 
-    public ConnectHandler(GameServer parent) {
+    public ConnectHandler(MainServer parent) {
         this.mainServer = parent;
     }
 
@@ -46,7 +46,7 @@ public class ConnectHandler implements ConnectListener {
 
             // Checks for the number players to prevent further connections.
             var numberOfConnections = this.mainServer.getSocketIOInstance().getAllClients().size();
-            if (numberOfConnections + 1 > GameServer.MAX_CONNECTED_CLIENTS) this.mainServer.acceptConnections(false);
+            if (numberOfConnections + 1 > MainServer.MAX_CONNECTED_CLIENTS) this.mainServer.acceptConnections(false);
         }
 
         // If this connection is the first one to connect to the server, creates a lobby.

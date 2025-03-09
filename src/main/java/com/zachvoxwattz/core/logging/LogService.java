@@ -1,0 +1,145 @@
+package com.zachvoxwattz.core.logging;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+/**
+ * Custom made logging service for entire server.
+ **/
+public class LogService {
+
+    private static boolean isInitialized = false;
+    private static boolean debugMode = false;
+    private static DateTimeFormatter dateTimeFormatter;
+
+    /**
+     * Initializes the custom logging service.
+     * <p>
+     * Only called once during initialization phase of server. Nothing will happen upon calling it again.
+     * </p>
+     */
+    public static void initialize(boolean isDebugMode) {
+        if (isInitialized) return;
+
+        dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss:SS");
+        isInitialized = true;
+        debugMode = isDebugMode;
+    }
+
+    public static void initialize() {
+        initialize(false);
+    }
+
+    /**
+     * Logs a message to terminal. Logging level: <b>Informational</b>
+     * @param message - Content to be logged.
+     * @param args - Additional required variables for content.
+     */
+    public static void logInfo(String message, Object... args) {
+        HandleUninitialized();
+        logConsole(message, LogServiceType.INFO, args); 
+    }
+
+    /**
+     * Logs a message to terminal. Logging level: <b>Debugging</b>
+     * @param message - Content to be logged.
+     * @param args - Additional required variables for content.
+     */
+    public static void logDebug(String message, Object... args) {
+        HandleUninitialized();
+        if (debugMode) logConsole(message, LogServiceType.DEBUG, args); 
+    }
+
+    /**
+     * Logs a message to terminal. Logging level: <b>Warning</b>
+     * @param message - Content to be logged.
+     * @param args - Additional required variables for content.
+     */
+    public static void logWarning(String message, Object... args) {
+        HandleUninitialized();
+        logConsole(message, LogServiceType.WARNING, args); 
+    }
+
+    /**
+     * Logs a message to terminal. Logging level: <b>Error</b>
+     * @param message - Content to be logged.
+     * @param args - Additional required variables for content.
+     */
+    public static void logError(String message, Object... args) {
+        HandleUninitialized();
+        logConsole(message, LogServiceType.ERROR, args); 
+    }
+
+    /**
+     * Logs a message to terminal. Logging level: <b>Critical</b>
+     * @param message - Content to be logged.
+     * @param args - Additional required variables for content.
+     */
+    public static void logCritical(String message, Object... args) {
+        HandleUninitialized();
+        logConsole(message, LogServiceType.CRITICAL, args); 
+    }
+
+    private static void HandleUninitialized() {
+        if (!isInitialized) throw new IllegalAccessError("LogService has not been initialized yet."); 
+    }
+
+    private static String getCurrentTimeStamp() {
+        return String.format(LocalDateTime.now().format(dateTimeFormatter));
+    }
+
+    private static String retrieveCallingClass() {
+        StackTraceElement[] callers = Thread.currentThread().getStackTrace();
+        var originalCaller = callers[callers.length - 1].getClassName();
+
+        return originalCaller.substring(originalCaller.lastIndexOf('.') + 1);
+    }
+
+    private static String parseLogType(LogServiceType type) {
+        switch (type) {
+            case INFO:
+                return "\033[38;5;255;48;5;48;1mINFO\033[0m";
+
+            case DEBUG:
+                return "\033[38;5;255;48;5;33;1mDEBUG\033[0m";
+
+            case WARNING:
+                return "\033[38;5;255;48;5;172;1mWARNING\033[0m";
+
+            case ERROR:
+                return "\033[38;5;255;48;5;160;1mERROR\033[0m";
+
+            case CRITICAL:
+                return "\033[38;5;255;48;5;52;1mCRITICAL\033[0m";
+
+            default:
+                try {
+                    throw new Exception("Unsupported 'LogServiceType' value");
+                }
+
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+        }
+        return null;
+    }
+
+    public static void logConsole(String message, LogServiceType type, Object... args) {
+        var outputMessage = String.format(
+            "[%s] [%s|%s]: %s",
+            getCurrentTimeStamp(),
+            retrieveCallingClass(), parseLogType(type), 
+            String.format(message, args)
+        );
+
+        System.out.println(outputMessage);
+    }
+
+    /**
+     * Denotes whether the debug mode should be enabled or not.
+     * @param value - <b>true</b> to enable debug logging.
+     */
+    public static void setDebugMode(boolean value) {
+        debugMode = value;
+    }
+}

@@ -1,7 +1,7 @@
 package com.zachvoxwattz.handlers;
 
 import com.corundumstudio.socketio.listener.DataListener;
-import com.zachvoxwattz.core.GameServer;
+import com.zachvoxwattz.core.MainServer;
 
 /**
  * {@code Abstract} request handler to process requests from clients.
@@ -28,16 +28,16 @@ public abstract class AbstractHandler<T> implements DataListener<T> {
     /**
      * The main server.
      */
-    private GameServer mainServer;
+    private MainServer mainServer;
 
-    public AbstractHandler(GameServer mainServer) {
+    public AbstractHandler(MainServer mainServer) {
         this.mainServer = mainServer;
     }
 
     /**
      * Getter of the main server instance.
      */
-    public GameServer getMainServer() {
+    public MainServer getMainServer() {
         return this.mainServer;
     }
 }

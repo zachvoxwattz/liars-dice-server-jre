@@ -2,8 +2,8 @@ package com.zachvoxwattz.handlers.connection;
 
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DisconnectListener;
-import com.zachvoxwattz.core.GameServer;
-import com.zachvoxwattz.core.LogService;
+import com.zachvoxwattz.core.MainServer;
+import com.zachvoxwattz.core.logging.LogService;
 
 /**
  * Implemented disconnect handler for added features.
@@ -12,9 +12,9 @@ public class DisconnectHandler implements DisconnectListener {
     /**
      * Main GameServer.
      */
-    private GameServer mainServer;
+    private MainServer mainServer;
 
-    public DisconnectHandler(GameServer parent) {
+    public DisconnectHandler(MainServer parent) {
         this.mainServer = parent;
     }
 
@@ -25,6 +25,6 @@ public class DisconnectHandler implements DisconnectListener {
 
         // Decreases the number of connections.
         var numberOfConnections = this.mainServer.getSocketIOInstance().getAllClients().size();
-        if (numberOfConnections < GameServer.MAX_CONNECTED_CLIENTS) this.mainServer.acceptConnections(true);
+        if (numberOfConnections < MainServer.MAX_CONNECTED_CLIENTS) this.mainServer.acceptConnections(true);
     }
 }

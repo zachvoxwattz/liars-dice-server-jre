@@ -1,9 +1,11 @@
-package com.zachvoxwattz.core;
+package com.zachvoxwattz.core.misc;
 
 import java.net.ServerSocket;
 import java.util.concurrent.TimeUnit;
 
-public class PortChecker {
+import com.zachvoxwattz.core.logging.LogService;
+
+public class PortStatusChecker {
     /**
      * Executes the entire checking process of a given port.
      * <p>
@@ -21,14 +23,14 @@ public class PortChecker {
         var retryCountMax = 5;
         
         // Checking whether the target port is available.
-        if (debugMode) LogService.logDebug("Checking port %s availability...", serverPort);
+        LogService.logDebug("Checking port %s availability...", serverPort);
 
         while (!portIsAvailable && retryCount < retryCountMax) {
             portIsAvailable = portCheck(serverPort);
             if (portIsAvailable) break;
             else {
                 retryCount++;
-                if (debugMode) LogService.logDebug("Port %s is currently occupied. Retrying...", serverPort);
+                LogService.logDebug("Port %s is currently occupied. Retrying...", serverPort);
             }
 
             try { TimeUnit.SECONDS.sleep(5); }
@@ -41,7 +43,7 @@ public class PortChecker {
             System.exit(1);
         }
 
-        else if (debugMode) LogService.logDebug("Port %s is available.", serverPort);
+        else LogService.logDebug("Port %s is available.", serverPort);
     }
 
     /**

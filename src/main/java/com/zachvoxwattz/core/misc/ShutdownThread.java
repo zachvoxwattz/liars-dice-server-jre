@@ -1,4 +1,7 @@
-package com.zachvoxwattz.core;
+package com.zachvoxwattz.core.misc;
+
+import com.zachvoxwattz.core.MainServer;
+import com.zachvoxwattz.core.logging.LogService;
 
 /**
  * Implemented Runnable hook used for shutting down the server gracefully.
@@ -7,9 +10,9 @@ public class ShutdownThread extends Thread {
     /**
      * Main game server instance.
      */
-    private GameServer mainGameServer;
+    private MainServer mainGameServer;
 
-    public ShutdownThread(GameServer mainGameServer) {
+    public ShutdownThread(MainServer mainGameServer) {
         this.mainGameServer = mainGameServer;
     }
 

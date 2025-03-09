@@ -5,12 +5,12 @@ import java.util.List;
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.listener.EventInterceptor;
 import com.corundumstudio.socketio.transport.NamespaceClient;
-import com.zachvoxwattz.core.GameServer;
+import com.zachvoxwattz.core.MainServer;
 
 public class ServerEventInterceptor implements EventInterceptor {
-    private GameServer mainServer;
+    private MainServer mainServer;
 
-    public ServerEventInterceptor(GameServer mainServer) {
+    public ServerEventInterceptor(MainServer mainServer) {
         this.mainServer = mainServer;
     }
 

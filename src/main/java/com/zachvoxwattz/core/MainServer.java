@@ -5,20 +5,21 @@ import java.util.concurrent.CompletableFuture;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.Transport;
+import com.zachvoxwattz.core.event_manager.EventNameManager;
+import com.zachvoxwattz.core.event_manager.type.RequestEventType;
+import com.zachvoxwattz.core.logging.LogService;
 
 import com.zachvoxwattz.handlers.connection.ConnectHandler;
 import com.zachvoxwattz.handlers.connection.DisconnectHandler;
 import com.zachvoxwattz.handlers.interceptor.ServerEventInterceptor;
 import com.zachvoxwattz.handlers.ping.PingHandler;
 
-import com.zachvoxwattz.shared.RequestEventType;
-
 /**
  * The main game server.
  * 
  * <p>Responsible for accepting incoming connections, processing information and uphold the game experience.
  */
-public class GameServer {
+public class MainServer {
     /**
      * Max number of connections allowed.
      */
@@ -53,7 +54,7 @@ public class GameServer {
      * mode on the server. This argument is optional, by default,
      * omitting it results in value {@code false}.
      */
-    public GameServer(int port, boolean debugMode) {
+    public MainServer(int port, boolean debugMode) {
         this.debugMode = debugMode;
 
         // Constructs a Configuration object for starting the server.
@@ -94,7 +95,11 @@ public class GameServer {
         this.socketIOInstance.addDisconnectListener(new DisconnectHandler(this));
 
         // Listener for handling Ping requests.
-        this.socketIOInstance.addEventListener(RequestEventType.PING, Void.class, new PingHandler(this));
+        this.socketIOInstance.addEventListener(
+            EventNameManager.getCLEvent(RequestEventType.PING), 
+            Void.class,
+            new PingHandler(this)
+        );
     }
 
     /**

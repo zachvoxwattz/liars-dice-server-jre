@@ -10,7 +10,7 @@ import javax.crypto.SecretKey;
  * Class responsible for generating WebSocket keys
  * for clients to communicate with the server.
  */
-public class WebSocketKeyGenerator {
+public class WSKeyGenerator {
     /**
      * Used for aiding in generating random keys. 
      */
