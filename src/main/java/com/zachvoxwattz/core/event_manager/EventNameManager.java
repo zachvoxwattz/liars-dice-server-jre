@@ -30,9 +30,11 @@ public class EventNameManager {
     public static void initialize() {
         // Initializes the client request event map.
         clReqEventsMap = new HashMap<>();
+        clReqEventsMap.put(RequestEventType.NON_EXIST_TEST, null);
         
         // Initializes the server response event map.
         svResEventsMap = new HashMap<>();
+        svResEventsMap.put(ResponseEventType.NON_EXIST_TEST, null);
 
         // Sets the flag to true.
         isInitialized = true;
