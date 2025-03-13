@@ -2,6 +2,7 @@ package com.zachvoxwattz.handlers;
 
 import com.corundumstudio.socketio.listener.DataListener;
 import com.zachvoxwattz.core.MainServer;
+import com.zachvoxwattz.core.event_string.EventStringProvider;
 
 /**
  * {@code Abstract} request handler to process requests from clients.
@@ -28,16 +29,31 @@ public abstract class AbstractHandler<T> implements DataListener<T> {
     /**
      * The main server.
      */
-    private MainServer mainServer;
+    protected MainServer mainServer;
+
+    /**
+     * The event string provider
+     */
+    protected EventStringProvider eventStringProvider;
 
     public AbstractHandler(MainServer mainServer) {
         this.mainServer = mainServer;
+        this.eventStringProvider = mainServer.getEventStringProvider();
     }
 
     /**
-     * Getter of the main server instance.
+     * Returns the main server instance.
+     * @return {@code MainServer} object
      */
     public MainServer getMainServer() {
         return this.mainServer;
+    }
+
+    /**
+     * Returns the event string provider instance.
+     * @return {@code EventStringProvider} object
+     */
+    public EventStringProvider getEventStringProvider() {
+        return this.eventStringProvider;
     }
 }

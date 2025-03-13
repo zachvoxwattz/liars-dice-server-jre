@@ -10,7 +10,7 @@ import com.zachvoxwattz.core.logging.LogService;
  */
 public class DisconnectHandler implements DisconnectListener {
     /**
-     * Main GameServer.
+     * Main server instance.
      */
     private MainServer mainServer;
 
@@ -24,7 +24,7 @@ public class DisconnectHandler implements DisconnectListener {
         LogService.logInfo("Client ID '%s' has disconnected.", clientID);
 
         // Decreases the number of connections.
-        var numberOfConnections = this.mainServer.getSocketIOInstance().getAllClients().size();
-        if (numberOfConnections < MainServer.MAX_CONNECTED_CLIENTS) this.mainServer.acceptConnections(true);
+        var numberOfConnectionsAfter = this.mainServer.getClientCount() - 1;
+        if (numberOfConnectionsAfter < MainServer.MAX_CONNECTED_CLIENTS) this.mainServer.acceptConnections(true);
     }
 }

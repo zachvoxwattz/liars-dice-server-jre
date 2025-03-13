@@ -4,8 +4,9 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 
 import com.zachvoxwattz.core.MainServer;
-import com.zachvoxwattz.core.event_manager.EventNameManager;
-import com.zachvoxwattz.core.event_manager.type.ResponseEventType;
+import com.zachvoxwattz.core.event_string.type.ResVar;
+import com.zachvoxwattz.core.logging.LogService;
+
 import com.zachvoxwattz.handlers.AbstractHandler;
 
 /**
@@ -20,8 +21,7 @@ public class PingHandler extends AbstractHandler<Void> {
 
     @Override
     public void onData(SocketIOClient client, Void data, AckRequest ackSender) throws Exception {
-        client.sendEvent(EventNameManager.getSVEvent(ResponseEventType.PING));
-        this.getMainServer().debugPrintf("Client '%s' invoked ping request. Responded to request.", client.getSessionId());
+        client.sendEvent(this.eventStringProvider.getSVEvent(ResVar.PING));
+        LogService.logDebug("Client '%s' invoked ping request. Responded to request.", client.getSessionId());
     }
-    
 }

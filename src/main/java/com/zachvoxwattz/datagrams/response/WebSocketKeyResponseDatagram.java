@@ -1,4 +1,4 @@
-package com.zachvoxwattz.datagrams.server_response;
+package com.zachvoxwattz.datagrams.response;
 
 /**
  * Message datagram for the {@code sv-res-wsKey} response.

@@ -1,4 +1,4 @@
-package com.zachvoxwattz.datagrams.client_request;
+package com.zachvoxwattz.datagrams.request;
 
 /**
  * Message datagram for the {@code cl-req-register} request.

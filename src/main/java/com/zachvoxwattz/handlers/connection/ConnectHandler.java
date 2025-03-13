@@ -3,20 +3,16 @@ package com.zachvoxwattz.handlers.connection;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.zachvoxwattz.core.MainServer;
+import com.zachvoxwattz.core.event_string.type.ResVar;
 import com.zachvoxwattz.core.logging.LogService;
-import com.zachvoxwattz.datagrams.server_response.ErrorResponseDatagram;
+import com.zachvoxwattz.datagrams.response.ErrorResponseDatagram;
 
 /**
  * Implemented connection handler for added features.
  */
 public class ConnectHandler implements ConnectListener {
     /**
-     * Connection refusal event name.
-     */
-    private static String CONNECTION_DENIED_EVENT_NAME = "sv-res-deny-connection";
-
-    /**
-     * Main GameServer.
+     * Main server instance.
      */
     private MainServer mainServer;
 
@@ -32,10 +28,14 @@ public class ConnectHandler implements ConnectListener {
         // If the server no longer accepts connections, deny new ones.
         if (!this.mainServer.acceptConnections()) {
             var errorDatagram = new ErrorResponseDatagram(503, "Server no longer accepts new connection!");
-            client.sendEvent(CONNECTION_DENIED_EVENT_NAME, errorDatagram);
+            
+            client.sendEvent(
+                this.mainServer.getEventStringProvider().getSVEvent(ResVar.ERR_NO_CONNECT),
+                errorDatagram
+            );
             client.disconnect();
 
-            this.mainServer.debugPrintf("Refusing client ID '%s' as server no longer accepts new connection.", clientID);
+            LogService.logDebug("Refusing client ID '%s' as server no longer accepts new connection.", clientID);
             return;
         }
 
@@ -45,14 +45,14 @@ public class ConnectHandler implements ConnectListener {
             LogService.logInfo("Client ID '%s' connected via %s:%s", clientID, clientIP, clientPort);
 
             // Checks for the number players to prevent further connections.
-            var numberOfConnections = this.mainServer.getSocketIOInstance().getAllClients().size();
+            var numberOfConnections = this.mainServer.getClientCount();
             if (numberOfConnections + 1 > MainServer.MAX_CONNECTED_CLIENTS) this.mainServer.acceptConnections(false);
         }
 
         // If this connection is the first one to connect to the server, creates a lobby.
         if (!this.mainServer.hasLobby()) {
             this.mainServer.createLobby();
-            this.mainServer.debugPrintf("Creating a lobby as there is at least one connected player.");
+            LogService.logDebug("Creating a lobby as there is at least one connected player.");
         }
     }
 }

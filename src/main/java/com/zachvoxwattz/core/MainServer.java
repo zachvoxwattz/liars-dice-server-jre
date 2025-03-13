@@ -5,8 +5,9 @@ import java.util.concurrent.CompletableFuture;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.Transport;
-import com.zachvoxwattz.core.event_manager.EventNameManager;
-import com.zachvoxwattz.core.event_manager.type.RequestEventType;
+
+import com.zachvoxwattz.core.event_string.EventStringProvider;
+import com.zachvoxwattz.core.event_string.type.ReqVar;
 import com.zachvoxwattz.core.logging.LogService;
 
 import com.zachvoxwattz.handlers.connection.ConnectHandler;
@@ -41,6 +42,11 @@ public class MainServer {
     private boolean hasLobby = false;
 
     /**
+     * The event string provider for both client request and server response events.
+     */
+    private EventStringProvider eventStringProvider;
+
+    /**
      * Socket.IO instance for the server.
      */
     private SocketIOServer socketIOInstance;
@@ -56,6 +62,9 @@ public class MainServer {
      */
     public MainServer(int port, boolean debugMode) {
         this.debugMode = debugMode;
+        
+        // Initializes essential components first.
+        this.eventStringProvider = new EventStringProvider();
 
         // Constructs a Configuration object for starting the server.
         var config = new Configuration();
@@ -85,18 +94,18 @@ public class MainServer {
      * </ul>
      */
     private void attachListeners() {
-        // Middleware for every incoming connection.
-        this.socketIOInstance.addEventInterceptor(new ServerEventInterceptor(this));
-
         // Listener for handling incoming connection.
         this.socketIOInstance.addConnectListener(new ConnectHandler(this));
 
         // Listener for handling every disconnection.
         this.socketIOInstance.addDisconnectListener(new DisconnectHandler(this));
 
+        // Middleware for listening to all confirmed listeners down below.
+        this.socketIOInstance.addEventInterceptor(new ServerEventInterceptor(this));
+
         // Listener for handling Ping requests.
         this.socketIOInstance.addEventListener(
-            EventNameManager.getCLEvent(RequestEventType.PING), 
+            this.eventStringProvider.getCLEvent(ReqVar.PING), 
             Void.class,
             new PingHandler(this)
         );
@@ -135,7 +144,7 @@ public class MainServer {
             If there is at least one connected player, disconnect them.
             Otherwise, skips this operation.
          */
-        if (this.clientCount() > 0) {
+        if (this.getClientCount() > 0) {
             hasClients = true;
             LogService.logInfo("Disconnecting players...");
             
@@ -156,27 +165,23 @@ public class MainServer {
      */
     public void broadcastEvent(String eventName, Object datagram) {
         this.socketIOInstance.getBroadcastOperations().sendEvent(eventName, datagram);
-        this.debugPrintf("Broadcasted event name '%s' to all listening clients.", eventName);
+        LogService.logDebug("Broadcasted event name '%s' to all listening clients.", eventName);
     }
 
     /**
-     * Centralized method to output debug logs to consoles
-     * without having to check for the debug property every time.
-     * @param msg The log message to be printed.
-     * @param args Optional formatted arguments. To be filled in curly brackets
-     * of the log message.
-     */
-    public void debugPrintf(String msg, Object... args) {
-        if (!this.debugMode) return;
-        else LogService.logDebug(msg, args);
-    }
-
-    /**
-     * Retrieves the total number of connected clients.
+     * Returns the total number of connected clients.
      * @return Integer value of total count.
      */
-    public int clientCount() {
+    public int getClientCount() {
         return this.socketIOInstance.getAllClients().size();
+    }
+
+    /**
+     * EventStringProvider instance.
+     * @return {@code EventStringProvider} object.
+     */
+    public EventStringProvider getEventStringProvider() {
+        return this.eventStringProvider;
     }
 
     /**
