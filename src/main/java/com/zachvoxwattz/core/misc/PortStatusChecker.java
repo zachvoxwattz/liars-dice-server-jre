@@ -39,7 +39,7 @@ public class PortStatusChecker {
 
         if (!portIsAvailable) {
             LogService.logError("Failed to initialize server after %s attempts.", retryCount);
-            LogService.logInfo("Reason: Another application or service is occupying the target port! Please try other alternatives!");
+            LogService.logError("Reason: Another application or service is occupying the target port! Please try other alternatives!");
             System.exit(1);
         }
 

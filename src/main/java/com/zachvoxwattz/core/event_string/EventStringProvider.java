@@ -49,7 +49,7 @@ public class EventStringProvider {
 
         // Initializes the server authentication required list.
         this.authRequiredList = new ArrayList<>();
-        this.authRequiredList.add("cl-req-testauth");
+        this.authRequiredList.add("cl-req-ping");
 
         // Sets the flag to true.
         isInitialized = true;

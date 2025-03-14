@@ -36,9 +36,10 @@ public class ServerEventInterceptor implements EventInterceptor {
 
         // Kicks a client if they don't have an auth token attached when requesting for specified events.
         if (this.eventStringProvider.eventNameRequiresAuthentication(netCode)) {
-            String clAuthToken = (String) client.getHandshakeData().getAuthToken();
-
-            if (clAuthToken.equals(null)) {
+            String clAuthToken = client.getHandshakeData().getAuthToken().toString();
+            LogService.logDebug(clAuthToken);
+            
+            if (clAuthToken.equals(null) || clAuthToken == null) {
                 ErrorResponseDatagram resDatagram = new ErrorResponseDatagram(403, "Authentication token missing");
                 client.sendEvent(
                     this.eventStringProvider.getSVEvent(ResVar.NO_AUTH_TOKEN),
