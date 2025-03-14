@@ -9,7 +9,7 @@ import com.corundumstudio.socketio.Transport;
 import com.zachvoxwattz.core.event_string.EventStringProvider;
 import com.zachvoxwattz.core.event_string.type.ReqVar;
 import com.zachvoxwattz.core.logging.LogService;
-
+import com.zachvoxwattz.handlers.auth.AuthTokenHandler;
 import com.zachvoxwattz.handlers.connection.ConnectHandler;
 import com.zachvoxwattz.handlers.connection.DisconnectHandler;
 import com.zachvoxwattz.handlers.interceptor.ServerEventInterceptor;
@@ -108,6 +108,13 @@ public class MainServer {
             this.eventStringProvider.getCLEvent(ReqVar.PING), 
             Void.class,
             new PingHandler(this)
+        );
+
+        // Listener for handling auth token request.
+        this.socketIOInstance.addEventListener(
+            this.eventStringProvider.getCLEvent(ReqVar.AUTH_TOKEN),
+            Void.class,
+            new AuthTokenHandler(this)
         );
     }
 

@@ -10,7 +10,7 @@ import javax.crypto.SecretKey;
  * Class responsible for generating WebSocket keys
  * for clients to communicate with the server.
  */
-public class WSKeyGenerator {
+public class AuthTokenGenerator {
     /**
      * Used for aiding in generating random keys. 
      */
@@ -20,12 +20,12 @@ public class WSKeyGenerator {
      * Generates a randomized key.
      * @return Key string.
      */
-    public static String generateKey() {
-        KeyGenerator keyGen = null;
+    public static String generateToken() {
+        KeyGenerator tokenGen = null;
 
         try {
-            keyGen = KeyGenerator.getInstance("HmacSHA256");
-            keyGen.init(secRand);
+            tokenGen = KeyGenerator.getInstance("HmacSHA256");
+            tokenGen.init(secRand);
         }
         catch (Exception e) { e.printStackTrace(); }
         
@@ -41,9 +41,9 @@ public class WSKeyGenerator {
         // return String.format("%s$%s", generatedKeyString1, generatedKeyString2);
         
         // But it would be... redundant for this app. Therefore, only 1 key is used.
-        SecretKey generatedKey = keyGen.generateKey();
-        String generatedKeyString = Base64.getEncoder().encodeToString(generatedKey.getEncoded());
+        SecretKey generatedToken = tokenGen.generateKey();
+        String generatedTokenString = Base64.getEncoder().encodeToString(generatedToken.getEncoded());
         
-        return generatedKeyString;
+        return generatedTokenString;
     }
 }

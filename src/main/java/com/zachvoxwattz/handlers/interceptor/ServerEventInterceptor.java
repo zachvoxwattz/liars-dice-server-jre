@@ -34,20 +34,25 @@ public class ServerEventInterceptor implements EventInterceptor {
     public void onEvent(NamespaceClient client, String netCode, List<Object> datagram, AckRequest ack) {
         LogService.logDebug("\n\t- Client ID: %s\n\t- Net code: %s", client.getSessionId(), netCode);
 
-        // Sends back to the client an error message if the requested netcode does not exist.
-        if (!eventStringProvider.reqStringExists(netCode)) {
-            var errorDatagram = new ErrorResponseDatagram(503, String.format("Communication code '%s' is not supported", netCode));
-            client.sendEvent(
-                this.eventStringProvider.getSVEvent(ResVar.ERR_WRONG_NETCODE),
-                errorDatagram
-            );
+        // Kicks a client if they don't have an auth token attached when requesting for specified events.
+        if (this.eventStringProvider.eventNameRequiresAuthentication(netCode)) {
+            String clAuthToken = (String) client.getHandshakeData().getAuthToken();
 
-            LogService.logWarning(
-                "Client %s tried to request for netcode '%s', which does not exist at all.",
-                client.getSessionId(),
-                netCode
-            );
-            return;
+            if (clAuthToken.equals(null)) {
+                ErrorResponseDatagram resDatagram = new ErrorResponseDatagram(403, "Authentication token missing");
+                client.sendEvent(
+                    this.eventStringProvider.getSVEvent(ResVar.NO_AUTH_TOKEN),
+                    resDatagram
+                );
+
+                client.disconnect();
+                LogService.logWarning("Client '%s' tried to make a request without an authentication token. Rejecting connection.", client.getSessionId());
+            }
+
+            else {
+                // TODO: handle token validation here!
+                System.out.println();
+            }
         }
     }
 
