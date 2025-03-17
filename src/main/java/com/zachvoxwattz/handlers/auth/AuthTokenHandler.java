@@ -20,8 +20,10 @@ public class AuthTokenHandler extends AbstractHandler<Void> {
     }
 
     @Override
-    public void onData(SocketIOClient client, Void data, AckRequest ackSender) throws Exception {
-        AuthTokenResponseDatagram datagram = new AuthTokenResponseDatagram(AuthTokenGenerator.generateToken());
+    public void onEventExecution(SocketIOClient client, Void data, AckRequest ackSender) {
+        var authToken = AuthTokenGenerator.generateToken();
+        AuthTokenResponseDatagram datagram = new AuthTokenResponseDatagram(authToken);
+        
         client.sendEvent(
             this.eventStringProvider.getSVEvent(ResVar.AUTH_TOKEN),
             datagram

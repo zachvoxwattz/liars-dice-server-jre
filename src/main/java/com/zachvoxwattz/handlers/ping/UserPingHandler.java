@@ -14,13 +14,13 @@ import com.zachvoxwattz.handlers.AbstractHandler;
  * 
  * <p>Responsible for responding to incoming ping requests from clients.
  */
-public class PingHandler extends AbstractHandler<Void> {
-    public PingHandler(MainServer parentComponent) {
+public class UserPingHandler extends AbstractHandler<Void> {
+    public UserPingHandler(MainServer parentComponent) {
         super(parentComponent);
     }
 
     @Override
-    public void onData(SocketIOClient client, Void data, AckRequest ackSender) throws Exception {
+    public void onEventExecution(SocketIOClient client, Void data, AckRequest ackSender) {
         client.sendEvent(this.eventStringProvider.getSVEvent(ResVar.PING));
         LogService.logDebug("Client '%s' invoked ping request. Responded to request.", client.getSessionId());
     }

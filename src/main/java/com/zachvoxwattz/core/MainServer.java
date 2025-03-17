@@ -9,11 +9,11 @@ import com.corundumstudio.socketio.Transport;
 import com.zachvoxwattz.core.event_string.EventStringProvider;
 import com.zachvoxwattz.core.event_string.type.ReqVar;
 import com.zachvoxwattz.core.logging.LogService;
+
 import com.zachvoxwattz.handlers.auth.AuthTokenHandler;
 import com.zachvoxwattz.handlers.connection.ConnectHandler;
 import com.zachvoxwattz.handlers.connection.DisconnectHandler;
-import com.zachvoxwattz.handlers.interceptor.ServerEventInterceptor;
-import com.zachvoxwattz.handlers.ping.PingHandler;
+import com.zachvoxwattz.handlers.ping.UserPingHandler;
 
 /**
  * The main game server.
@@ -72,6 +72,7 @@ public class MainServer {
         config.setPort(port);
         config.setTransports(Transport.WEBSOCKET);
         config.setPingInterval(10000);
+        config.setPingTimeout(45000);
 
         // Then initializes the Socket.IO instance.
         this.socketIOInstance = new SocketIOServer(config);
@@ -100,14 +101,11 @@ public class MainServer {
         // Listener for handling every disconnection.
         this.socketIOInstance.addDisconnectListener(new DisconnectHandler(this));
 
-        // Middleware for listening to all confirmed listeners down below.
-        this.socketIOInstance.addEventInterceptor(new ServerEventInterceptor(this));
-
         // Listener for handling Ping requests.
         this.socketIOInstance.addEventListener(
             this.eventStringProvider.getCLEvent(ReqVar.PING), 
             Void.class,
-            new PingHandler(this)
+            new UserPingHandler(this)
         );
 
         // Listener for handling auth token request.
