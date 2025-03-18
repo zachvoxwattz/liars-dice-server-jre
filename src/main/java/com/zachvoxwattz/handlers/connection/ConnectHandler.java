@@ -3,7 +3,7 @@ package com.zachvoxwattz.handlers.connection;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.zachvoxwattz.core.MainServer;
-import com.zachvoxwattz.core.event_string.type.ResVar;
+import com.zachvoxwattz.core.event_string.entity.ResVar;
 import com.zachvoxwattz.core.logging.LogService;
 import com.zachvoxwattz.datagrams.response.ErrorResponseDatagram;
 

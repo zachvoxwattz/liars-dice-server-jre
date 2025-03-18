@@ -5,8 +5,8 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 import com.zachvoxwattz.core.event_string.EventStringProvider;
-import com.zachvoxwattz.core.event_string.type.ReqVar;
-import com.zachvoxwattz.core.event_string.type.ResVar;
+import com.zachvoxwattz.core.event_string.entity.ReqVar;
+import com.zachvoxwattz.core.event_string.entity.ResVar;
 
 public class EventStringProviderTest {
     private EventStringProvider eventStringProvider;

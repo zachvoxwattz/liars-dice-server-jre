@@ -1,12 +1,21 @@
 package com.zachvoxwattz.core.event_string;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.zachvoxwattz.core.event_string.type.ReqVar;
-import com.zachvoxwattz.core.event_string.type.ResVar;
+import com.corundumstudio.socketio.namespace.EventEntry;
+import com.corundumstudio.socketio.protocol.Event;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.zachvoxwattz.core.event_string.entity.ReqVar;
+import com.zachvoxwattz.core.event_string.entity.ResVar;
+import com.zachvoxwattz.core.logging.LogService;
 
 /**
  * Responsible for managing all of the possible request and response event names.
@@ -19,38 +28,33 @@ public class EventStringProvider {
     // Tracks whether the class is initialized or not.
     private boolean isInitialized = false;
 
-    // List of possible client request event names
-    private Map<ReqVar, String> clReqEventsMap;
+    // Map of all possible event names
+    private Map<String, String> eventsMap;
 
-    // List of possible server response event names
-    private Map<ResVar, String> svResEventsMap;
-
-    // List of authentication required event names
-    private List<String> authRequiredList;
+    // List of authentication required events.
+    private List<String> authRequiredEventsList;
 
     /**
      * Initializes the event name manager.
      */
     public EventStringProvider() {
-        // Initializes the client request event map.
-        this.clReqEventsMap = new HashMap<>();
-        this.clReqEventsMap.put(ReqVar.NON_EXIST, null);
-        this.clReqEventsMap.put(ReqVar.PING, "cl-req-ping");
-        this.clReqEventsMap.put(ReqVar.AUTH_TOKEN, "cl-req-authtoken");
+        // Initializes the event map.
+        this.eventsMap = new HashMap<>();
+
+        // Retrieves the .json file.
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            List<EventEntry> eventEntries = Arrays.asList(
+                mapper.readValue(Paths.get("entries.json").toFile(),
+                EventEntry[].class
+            ));
+        }
+
+        catch (Exception ex) {
+            LogService.logCritical("An error occurred while trying to parse events JSON list.\n\n%s", ex.getMessage());
+        }
+
         
-        // Initializes the server response event map.
-        this.svResEventsMap = new HashMap<>();
-        this.svResEventsMap.put(ResVar.NON_EXIST, null);
-        this.svResEventsMap.put(ResVar.PING, "sv-res-ping");
-        this.svResEventsMap.put(ResVar.ERR_WRONG_NETCODE, "sv-res-invalid-netcode");
-        this.svResEventsMap.put(ResVar.ERR_NO_CONNECT, "sv-res-deny-connect");
-        this.svResEventsMap.put(ResVar.AUTH_TOKEN, "sv-res-authtoken");
-        this.svResEventsMap.put(ResVar.NO_AUTH_TOKEN, "sv-res-deny-null-authtoken");
-
-        // Initializes the server authentication required list.
-        this.authRequiredList = new ArrayList<>();
-        this.authRequiredList.add("cl-req-ping");
-
         // Sets the flag to true.
         isInitialized = true;
     }

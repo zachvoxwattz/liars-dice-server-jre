@@ -1,0 +1,22 @@
+[
+    {
+        "key": "cl-test-null",
+        "value": null,
+        "requiresAuth": false
+    },
+    {
+        "key": "sv-test-null",
+        "value": null,
+        "requiresAuth": false
+    },
+    {
+        "key": "cl-ping",
+        "value": "cl-req-ping",
+        "requiresAuth": false
+    },
+    {
+        "key": "sv-ping",
+        "value": "sv-res-ping",
+        "requiresAuth": false
+    }
+]

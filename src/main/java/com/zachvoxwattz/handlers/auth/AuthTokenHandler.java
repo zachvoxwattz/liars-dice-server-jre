@@ -4,7 +4,7 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 
 import com.zachvoxwattz.core.MainServer;
-import com.zachvoxwattz.core.event_string.type.ResVar;
+import com.zachvoxwattz.core.event_string.entity.ResVar;
 import com.zachvoxwattz.datagrams.response.AuthTokenResponseDatagram;
 
 import com.zachvoxwattz.handlers.AbstractHandler;
