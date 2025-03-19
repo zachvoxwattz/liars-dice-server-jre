@@ -4,7 +4,6 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 
 import com.zachvoxwattz.core.MainServer;
-import com.zachvoxwattz.core.event_string.entity.ResVar;
 import com.zachvoxwattz.core.logging.LogService;
 
 import com.zachvoxwattz.handlers.AbstractHandler;
@@ -21,7 +20,7 @@ public class UserPingHandler extends AbstractHandler<Void> {
 
     @Override
     public void onEventExecution(SocketIOClient client, Void data, AckRequest ackSender) {
-        client.sendEvent(this.eventStringProvider.getSVEvent(ResVar.PING));
+        client.sendEvent(this.eventStringProvider.getEventString("sv-ping"));
         LogService.logDebug("Client '%s' invoked ping request. Responded to request.", client.getSessionId());
     }
 }

@@ -18,5 +18,20 @@
         "key": "sv-ping",
         "value": "sv-res-ping",
         "requiresAuth": false
+    },
+    {
+        "key": "cl-request-token",
+        "value": "cl-req-token",
+        "requiresAuth": false
+    },
+    {
+        "key": "sv-response-token",
+        "value": "sv-res-token",
+        "requiresAuth": false
+    },
+    {
+        "key": "sv-error",
+        "value": "sv-res-err",
+        "requiresAuth": false
     }
 ]

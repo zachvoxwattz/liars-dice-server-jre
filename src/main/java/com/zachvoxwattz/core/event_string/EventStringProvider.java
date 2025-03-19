@@ -1,20 +1,13 @@
 package com.zachvoxwattz.core.event_string;
 
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.corundumstudio.socketio.namespace.EventEntry;
-import com.corundumstudio.socketio.protocol.Event;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.zachvoxwattz.core.event_string.entity.ReqVar;
-import com.zachvoxwattz.core.event_string.entity.ResVar;
+import com.zachvoxwattz.core.event_string.entity.EventString;
 import com.zachvoxwattz.core.logging.LogService;
 
 /**
@@ -25,9 +18,6 @@ import com.zachvoxwattz.core.logging.LogService;
  * </p>
  */
 public class EventStringProvider {
-    // Tracks whether the class is initialized or not.
-    private boolean isInitialized = false;
-
     // Map of all possible event names
     private Map<String, String> eventsMap;
 
@@ -41,22 +31,27 @@ public class EventStringProvider {
         // Initializes the event map.
         this.eventsMap = new HashMap<>();
 
-        // Retrieves the .json file.
+        // Processes the event map.
         try {
+            // Read the json file and append the entries to the hash map.
             ObjectMapper mapper = new ObjectMapper();
-            List<EventEntry> eventEntries = Arrays.asList(
-                mapper.readValue(Paths.get("entries.json").toFile(),
-                EventEntry[].class
-            ));
+            List<EventString> eventEntries = mapper.readValue(
+                this.getClass().getResourceAsStream("/events/entries.json"),
+                new TypeReference<List<EventString>>() {}
+            );
+
+            // Iterate through each entry of the list.
+            eventEntries.forEach((entry) -> {
+                eventsMap.put(entry.getKey(), entry.getValue());
+
+                // If such entry requires authentication, adds to a discrete list.
+                if (entry.requiresAuth()) this.authRequiredEventsList.add(entry.getValue());
+            });
         }
 
         catch (Exception ex) {
             LogService.logCritical("An error occurred while trying to parse events JSON list.\n\n%s", ex.getMessage());
         }
-
-        
-        // Sets the flag to true.
-        isInitialized = true;
     }
 
     /**
@@ -64,30 +59,25 @@ public class EventStringProvider {
      * @param eventName The event string to be tested.
      * @return {@code true} if exists.
      */
-    public boolean reqStringExists(String eventName) {
-        return this.clReqEventsMap.containsValue(eventName);
-    }
-
-    public boolean eventNameRequiresAuthentication(String eventName) {
-        return this.authRequiredList.contains(eventName);
+    public boolean eventStringExists(String eventName) {
+        return this.eventsMap.containsValue(eventName);
     }
 
     /**
-     * Processes to show error in terminal.
-     * @throws {@code IllegalAccessError} if component has not been initialized.
+     * Verifies the existence of a designated event entry which requires authentication.
+     * @param eventName The event string to be tested.
+     * @return {@code true} if exists.
      */
-    private void HandleUninitialized() {
-        if (!isInitialized) throw new IllegalAccessError("EventNameManager has not been initialized yet.");
+    public boolean eventNameRequiresAuth(String eventName) {
+        return this.authRequiredEventsList.contains(eventName);
     }
 
-
-    public String getCLEvent(ReqVar type) {
-        HandleUninitialized();
-        return clReqEventsMap.get(type);
-    }
-
-    public String getSVEvent(ResVar type) {
-        HandleUninitialized();
-        return svResEventsMap.get(type);
+    /**
+     * Returns the actual value of an event entry associated with the provided key.
+     * @param key - Assigned to the event.
+     * @return An event {@code String}.
+     */
+    public String getEventString(String key) {
+        return this.eventsMap.get(key);
     }
 }

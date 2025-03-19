@@ -2,8 +2,8 @@ package com.zachvoxwattz.handlers.connection;
 
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.ConnectListener;
+
 import com.zachvoxwattz.core.MainServer;
-import com.zachvoxwattz.core.event_string.entity.ResVar;
 import com.zachvoxwattz.core.logging.LogService;
 import com.zachvoxwattz.datagrams.response.ErrorResponseDatagram;
 
@@ -30,7 +30,7 @@ public class ConnectHandler implements ConnectListener {
             var errorDatagram = new ErrorResponseDatagram(503, "Server no longer accepts new connection!");
             
             client.sendEvent(
-                this.mainServer.getEventStringProvider().getSVEvent(ResVar.ERR_NO_CONNECT),
+                this.mainServer.getEventStringProvider().getEventString("sv-error"),
                 errorDatagram
             );
             client.disconnect();

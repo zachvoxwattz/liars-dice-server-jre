@@ -3,12 +3,12 @@ package com.zachvoxwattz.core.event_string.entity;
 /**
  * Model for parsing JSON event string entries.
  */
-public class EventEntry {
+public class EventString {
     private String key;
     private String value;
-    private boolean requiresAuth;
+    private Boolean requiresAuth;
 
-    public EventEntry() {}
+    public EventString() {}
 
     /**
      * Constructor for this model
@@ -16,7 +16,7 @@ public class EventEntry {
      * @param value - Value of the event entry.
      * @param requiresAuth - Denotes whether this event needs authentication.
      */
-    public EventEntry(String key, String value, boolean requiresAuth) {
+    public EventString(String key, String value, Boolean requiresAuth) {
         this.key = key;
         this.value = value;
         this.requiresAuth = requiresAuth;
@@ -32,7 +32,7 @@ public class EventEntry {
 
     /**
      * Setter for the entry key
-     * @param key
+     * @param key - To be set
      */
     public void setKey(String key) {
         this.key = key;
@@ -48,14 +48,14 @@ public class EventEntry {
 
     /**
      * Setter for the entry value
-     * @param value
+     * @param value - To be set
      */
     public void setValue(String value) {
         this.value = value;
     }
 
     /**
-     * Getter of the entry value
+     * Getter of the entry requires auth property.
      * @return The value
      */
     public boolean requiresAuth() {
@@ -63,8 +63,8 @@ public class EventEntry {
     }
 
     /**
-     * Setter for the entry value
-     * @param value
+     * Setter of the entry requires auth property.
+     * @param value - To be set
      */
     public void requiresAuth(boolean value) {
         this.requiresAuth = value;

@@ -4,7 +4,7 @@ import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 
 import com.zachvoxwattz.core.MainServer;
-import com.zachvoxwattz.core.event_string.entity.ResVar;
+
 import com.zachvoxwattz.datagrams.response.AuthTokenResponseDatagram;
 
 import com.zachvoxwattz.handlers.AbstractHandler;
@@ -25,7 +25,7 @@ public class AuthTokenHandler extends AbstractHandler<Void> {
         AuthTokenResponseDatagram datagram = new AuthTokenResponseDatagram(authToken);
         
         client.sendEvent(
-            this.eventStringProvider.getSVEvent(ResVar.AUTH_TOKEN),
+            this.eventStringProvider.getEventString("sv-response-token"),
             datagram
         );
     }
