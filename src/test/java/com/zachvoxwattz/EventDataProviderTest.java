@@ -8,18 +8,18 @@ import java.net.URL;
 
 import org.junit.Test;
 
-import com.zachvoxwattz.core.event_string.EventStringProvider;
+import com.zachvoxwattz.core.event_string.EventDataProvider;
 import com.zachvoxwattz.core.logging.LogService;
 
 /**
  * Contains tests for {@code EventStringProvider} class.
  */
-public class EventStringProviderTest {
-    private EventStringProvider eventStringProvider;
+public class EventDataProviderTest {
+    private EventDataProvider eventStringProvider;
 
-    public EventStringProviderTest() {
+    public EventDataProviderTest() {
         LogService.initialize();
-        this.eventStringProvider = new EventStringProvider();
+        this.eventStringProvider = new EventDataProvider();
     }
 
     /**
@@ -38,12 +38,20 @@ public class EventStringProviderTest {
             ex.printStackTrace();
         }
     }
+
+    /**
+     * Tests to see if entries are filled within {@code EventDataProvider} class maps.
+     */
+    @Test
+    public void ShouldNotBeEmpty() {
+        assertTrue(this.eventStringProvider.getMapCount() > 0);
+    }
     
     /**
      * Tests to see if null value is observed.
      */
     @Test
-    public void NullOrInvalidCheckingClient() {
+    public void NullOrInvalidCheckClient() {
         assertNull(this.eventStringProvider.getEventString("cl-test-null"));
     }
 
@@ -51,7 +59,7 @@ public class EventStringProviderTest {
      * Tests to see if null value is observed.
      */
     @Test
-    public void NullOrInvalidCheckingServer() {
+    public void NullOrInvalidCheckServer() {
         assertNull(this.eventStringProvider.getEventString("sv-test-null"));
     }
 }

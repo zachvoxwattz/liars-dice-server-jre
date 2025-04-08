@@ -7,7 +7,7 @@ import java.util.Map;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.zachvoxwattz.core.event_string.entity.EventString;
+import com.zachvoxwattz.core.event_string.entity.EventDataEntry;
 import com.zachvoxwattz.core.logging.LogService;
 
 /**
@@ -17,17 +17,14 @@ import com.zachvoxwattz.core.logging.LogService;
  * Shared across the entire application.
  * </p>
  */
-public class EventStringProvider {
+public class EventDataProvider {
     // Map of all possible event names
-    private Map<String, String> eventsMap;
-
-    // List of authentication required events.
-    private List<String> authRequiredEventsList;
+    private Map<String, EventDataEntry> eventsMap;
 
     /**
      * Initializes the event name manager.
      */
-    public EventStringProvider() {
+    public EventDataProvider() {
         // Initializes the event map.
         this.eventsMap = new HashMap<>();
 
@@ -35,17 +32,15 @@ public class EventStringProvider {
         try {
             // Read the json file and append the entries to the hash map.
             ObjectMapper mapper = new ObjectMapper();
-            List<EventString> eventEntries = mapper.readValue(
+            List<EventDataEntry> eventEntries = mapper.readValue(
                 this.getClass().getResourceAsStream("/events/entries.json"),
-                new TypeReference<List<EventString>>() {}
+                new TypeReference<List<EventDataEntry>>() {}
             );
 
             // Iterate through each entry of the list.
             eventEntries.forEach((entry) -> {
-                eventsMap.put(entry.getKey(), entry.getValue());
-
-                // If such entry requires authentication, adds to a discrete list.
-                if (entry.requiresAuth()) this.authRequiredEventsList.add(entry.getValue());
+                System.out.println(entry.getAuth());
+                eventsMap.put(entry.getKey(), entry);
             });
         }
 
@@ -55,21 +50,38 @@ public class EventStringProvider {
     }
 
     /**
+     * Returns the map size of registered entries.
+     * @return {@code int} number of registered events.
+     */
+    public int getMapCount() {
+        return this.eventsMap.size();
+    }
+
+    /**
      * Verifies the existence of a value of an entry in request map.
      * @param eventName The event string to be tested.
      * @return {@code true} if exists.
      */
     public boolean eventStringExists(String eventName) {
-        return this.eventsMap.containsValue(eventName);
+        boolean foundEvent = false;
+        for (Map.Entry<String, EventDataEntry> item: this.eventsMap.entrySet()) {
+            var currentValue = item.getValue().getValue();
+            if (eventName.equals(currentValue)) {
+                foundEvent = true;
+                break;
+            }
+        }
+
+        return foundEvent;
     }
 
     /**
-     * Verifies the existence of a designated event entry which requires authentication.
-     * @param eventName The event string to be tested.
-     * @return {@code true} if exists.
+     * Returns the object of an event entry associated with the provided key.
+     * @param key - Assigned to the event.
+     * @return An event {@code EventStringObject}.
      */
-    public boolean eventNameRequiresAuth(String eventName) {
-        return this.authRequiredEventsList.contains(eventName);
+    public EventDataEntry getEventData(String key) {
+        return this.eventsMap.get(key);
     }
 
     /**
@@ -78,6 +90,6 @@ public class EventStringProvider {
      * @return An event {@code String}.
      */
     public String getEventString(String key) {
-        return this.eventsMap.get(key);
+        return this.getEventData(key).getValue();
     }
 }

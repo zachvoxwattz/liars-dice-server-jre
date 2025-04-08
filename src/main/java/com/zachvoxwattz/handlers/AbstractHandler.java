@@ -5,7 +5,7 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.listener.DataListener;
 
 import com.zachvoxwattz.core.MainServer;
-import com.zachvoxwattz.core.event_string.EventStringProvider;
+import com.zachvoxwattz.core.event_string.EventDataProvider;
 
 /**
  * {@code Abstract} request handler to process requests from clients.
@@ -30,7 +30,7 @@ public abstract class AbstractHandler<T> implements DataListener<T> {
     /**
      * The event string provider
      */
-    protected EventStringProvider eventStringProvider;
+    protected EventDataProvider eventStringProvider;
 
     /**
      * Constructor for data listener creation.
@@ -54,7 +54,7 @@ public abstract class AbstractHandler<T> implements DataListener<T> {
          * executes this block first. 
          */
         if (this.requiresAuth) {
-            
+            // var headers = client.getHandshakeData();
         }
 
         this.onEventExecution(client, data, ackSender);
@@ -80,7 +80,7 @@ public abstract class AbstractHandler<T> implements DataListener<T> {
      * Returns the event string provider instance.
      * @return {@code EventStringProvider} object
      */
-    public EventStringProvider getEventStringProvider() {
+    public EventDataProvider getEventStringProvider() {
         return this.eventStringProvider;
     }
 }

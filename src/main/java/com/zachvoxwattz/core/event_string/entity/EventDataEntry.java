@@ -1,14 +1,17 @@
 package com.zachvoxwattz.core.event_string.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Model for parsing JSON event string entries.
  */
-public class EventString {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class EventDataEntry {
     private String key;
     private String value;
-    private Boolean requiresAuth;
+    private String setAuth;
 
-    public EventString() {}
+    public EventDataEntry() {}
 
     /**
      * Constructor for this model
@@ -16,10 +19,10 @@ public class EventString {
      * @param value - Value of the event entry.
      * @param requiresAuth - Denotes whether this event needs authentication.
      */
-    public EventString(String key, String value, Boolean requiresAuth) {
+    public EventDataEntry(String key, String value, String setAuth) {
         this.key = key;
         this.value = value;
-        this.requiresAuth = requiresAuth;
+        this.setAuth = setAuth;
     }
 
     /**
@@ -55,18 +58,26 @@ public class EventString {
     }
 
     /**
+     * Getter of the entry value
+     * @return The value
+     */
+    public String getAuth() {
+        return this.setAuth;
+    }
+
+    /**
+     * Setter for the entry value
+     * @param value - To be set
+     */
+    public void setAuth(String value) {
+        this.setAuth = value;
+    }
+
+    /**
      * Getter of the entry requires auth property.
      * @return The value
      */
     public boolean requiresAuth() {
-        return this.requiresAuth;
-    }
-
-    /**
-     * Setter of the entry requires auth property.
-     * @param value - To be set
-     */
-    public void requiresAuth(boolean value) {
-        this.requiresAuth = value;
+        return true;
     }
 }

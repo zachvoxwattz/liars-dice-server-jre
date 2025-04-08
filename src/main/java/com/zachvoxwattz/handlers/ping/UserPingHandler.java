@@ -14,8 +14,8 @@ import com.zachvoxwattz.handlers.AbstractHandler;
  * <p>Responsible for responding to incoming ping requests from clients.
  */
 public class UserPingHandler extends AbstractHandler<Void> {
-    public UserPingHandler(MainServer parentComponent) {
-        super(parentComponent);
+    public UserPingHandler(MainServer parentComponent, boolean requiresAuth) {
+        super(parentComponent, requiresAuth);
     }
 
     @Override

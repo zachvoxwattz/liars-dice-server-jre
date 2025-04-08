@@ -6,7 +6,7 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.Transport;
 
-import com.zachvoxwattz.core.event_string.EventStringProvider;
+import com.zachvoxwattz.core.event_string.EventDataProvider;
 import com.zachvoxwattz.core.logging.LogService;
 
 import com.zachvoxwattz.handlers.auth.AuthTokenHandler;
@@ -43,7 +43,7 @@ public class MainServer {
     /**
      * The event string provider for both client request and server response events.
      */
-    private EventStringProvider eventStringProvider;
+    private EventDataProvider eventStringProvider;
 
     /**
      * Socket.IO instance for the server.
@@ -63,7 +63,7 @@ public class MainServer {
         this.debugMode = debugMode;
         
         // Initializes essential components first.
-        this.eventStringProvider = new EventStringProvider();
+        this.eventStringProvider = new EventDataProvider();
 
         // Constructs a Configuration object for starting the server.
         var config = new Configuration();
@@ -101,10 +101,11 @@ public class MainServer {
         this.socketIOInstance.addDisconnectListener(new DisconnectHandler(this));
 
         // Listener for handling Ping requests.
+        var pingEventData = this.eventStringProvider.getEventData("cl-ping");
         this.socketIOInstance.addEventListener(
-            this.eventStringProvider.getEventString("cl-ping"), 
+            pingEventData.getValue(), 
             Void.class,
-            new UserPingHandler(this)
+            new UserPingHandler(this, true)
         );
 
         // Listener for handling auth token request.
@@ -184,7 +185,7 @@ public class MainServer {
      * EventStringProvider instance.
      * @return {@code EventStringProvider} object.
      */
-    public EventStringProvider getEventStringProvider() {
+    public EventDataProvider getEventStringProvider() {
         return this.eventStringProvider;
     }
 
