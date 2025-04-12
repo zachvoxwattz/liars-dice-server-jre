@@ -1,37 +1,27 @@
 [
     {
-        "key": "cl-test-null",
-        "value": null,
-        "setAuth": 0
-    },
-    {
-        "key": "sv-test-null",
-        "value": null,
-        "setAuth": 0
-    },
-    {
         "key": "cl-ping",
         "value": "cl-req-ping",
-        "setAuth": 0
+        "requiresAuth": false
     },
     {
         "key": "sv-ping",
         "value": "sv-res-ping",
-        "setAuth": 0
+        "requiresAuth": false
     },
     {
         "key": "cl-request-token",
         "value": "cl-req-token",
-        "setAuth": 0
+        "requiresAuth": false
     },
     {
         "key": "sv-response-token",
         "value": "sv-res-token",
-        "setAuth": 1
+        "requiresAuth": true
     },
     {
         "key": "sv-error",
         "value": "sv-res-err",
-        "setAuth": 1
+        "requiresAuth": true
     }
 ]

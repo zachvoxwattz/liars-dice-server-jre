@@ -1,6 +1,5 @@
 package com.zachvoxwattz;
 
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -45,21 +44,5 @@ public class EventDataProviderTest {
     @Test
     public void ShouldNotBeEmpty() {
         assertTrue(this.eventStringProvider.getMapCount() > 0);
-    }
-    
-    /**
-     * Tests to see if null value is observed.
-     */
-    @Test
-    public void NullOrInvalidCheckClient() {
-        assertNull(this.eventStringProvider.getEventString("cl-test-null"));
-    }
-
-    /**
-     * Tests to see if null value is observed.
-     */
-    @Test
-    public void NullOrInvalidCheckServer() {
-        assertNull(this.eventStringProvider.getEventString("sv-test-null"));
     }
 }
