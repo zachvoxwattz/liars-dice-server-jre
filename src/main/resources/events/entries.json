@@ -1,27 +1,27 @@
 [
     {
-        "key": "cl-ping",
+        "key": "CL_Ping",
         "value": "cl-req-ping",
         "requiresAuth": false
     },
     {
-        "key": "sv-ping",
+        "key": "SV_Ping",
         "value": "sv-res-ping",
         "requiresAuth": false
     },
     {
-        "key": "cl-request-token",
+        "key": "CL_ReqToken",
         "value": "cl-req-token",
         "requiresAuth": false
     },
     {
-        "key": "sv-response-token",
+        "key": "SV_ResToken",
         "value": "sv-res-token",
-        "requiresAuth": true
+        "requiresAuth": false
     },
     {
-        "key": "sv-error",
+        "key": "SV_Err",
         "value": "sv-res-err",
-        "requiresAuth": true
+        "requiresAuth": false
     }
 ]

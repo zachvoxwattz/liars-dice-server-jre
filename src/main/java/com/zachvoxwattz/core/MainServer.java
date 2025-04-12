@@ -101,7 +101,7 @@ public class MainServer {
         this.socketIOInstance.addDisconnectListener(new DisconnectHandler(this));
 
         // Listener for handling Ping requests.
-        var pingEventData = this.eventStringProvider.getEventData("cl-ping");
+        var pingEventData = this.eventStringProvider.getEventData("CL_Ping");
         this.socketIOInstance.addEventListener(
             pingEventData.getValue(), 
             Void.class,
@@ -110,7 +110,7 @@ public class MainServer {
 
         // Listener for handling auth token request.
         this.socketIOInstance.addEventListener(
-            this.eventStringProvider.getEventString("cl-request-token"),
+            this.eventStringProvider.getEventString("CL_ReqToken"),
             Void.class,
             new AuthTokenHandler(this)
         );

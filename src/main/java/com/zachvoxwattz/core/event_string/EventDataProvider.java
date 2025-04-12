@@ -98,7 +98,11 @@ public class EventDataProvider {
      * @return An event {@code EventStringObject}.
      */
     public EventDataEntry getEventData(String key) {
-        return this.eventsMap.get(key);
+        var targetEventDataEntry = this.eventsMap.get(key);
+        if (targetEventDataEntry == null) 
+            throw new IllegalArgumentException(String.format("Event entry '%s' has not been registered!", key)); 
+        else 
+            return this.eventsMap.get(key);
     }
 
     /**
