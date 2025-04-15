@@ -25,21 +25,13 @@ public class PortStatusChecker {
         // Checking whether the target port is available.
         LogService.logDebug("Checking port %s availability...", serverPort);
 
-        while (!portIsAvailable && retryCount < retryCountMax) {
-            portIsAvailable = portCheck(serverPort);
-            if (portIsAvailable) break;
-            else {
-                retryCount++;
-                LogService.logDebug("Port %s is currently occupied. Retrying...", serverPort);
-            }
-
-            try { TimeUnit.SECONDS.sleep(5); }
-            catch (Exception e) {}
+        while (retryCount < retryCountMax) {
+            // TODO: redo this section.
         }
 
         if (!portIsAvailable) {
             LogService.logError("Failed to initialize server after %s attempts.", retryCount);
-            LogService.logError("Reason: Another application or service is occupying the target port! Please try other alternatives!");
+            LogService.logError("Reason: Another application or service is occupying the target port. Please try other alternatives.");
             System.exit(1);
         }
 

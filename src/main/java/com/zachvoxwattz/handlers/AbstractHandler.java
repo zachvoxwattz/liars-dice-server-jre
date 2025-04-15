@@ -7,6 +7,8 @@ import com.corundumstudio.socketio.listener.DataListener;
 import com.zachvoxwattz.core.MainServer;
 import com.zachvoxwattz.core.event_string.EventDataProvider;
 
+import io.netty.handler.codec.http.HttpHeaders;
+
 /**
  * {@code Abstract} request handler to process requests from clients.
  * 
@@ -54,7 +56,10 @@ public abstract class AbstractHandler<T> implements DataListener<T> {
          * executes this block first. 
          */
         if (this.requiresAuth) {
-            // var headers = client.getHandshakeData();
+            // Extracts the headers from the client.
+            // HttpHeaders clientHeaders = client.getHandshakeData();
+
+            
         }
 
         this.onEventExecution(client, data, ackSender);

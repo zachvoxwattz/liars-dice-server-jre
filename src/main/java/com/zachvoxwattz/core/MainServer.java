@@ -1,11 +1,13 @@
 package com.zachvoxwattz.core;
 
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+import com.corundumstudio.socketio.AuthorizationResult;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.Transport;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zachvoxwattz.core.event_string.EventDataProvider;
 import com.zachvoxwattz.core.logging.LogService;
 
@@ -13,6 +15,8 @@ import com.zachvoxwattz.handlers.auth.AuthTokenHandler;
 import com.zachvoxwattz.handlers.connection.ConnectHandler;
 import com.zachvoxwattz.handlers.connection.DisconnectHandler;
 import com.zachvoxwattz.handlers.ping.UserPingHandler;
+
+import io.netty.handler.codec.http.HttpHeaders;
 
 /**
  * The main game server.
@@ -67,11 +71,22 @@ public class MainServer {
 
         // Constructs a Configuration object for starting the server.
         var config = new Configuration();
+        config.setOrigin("*");
         config.setHostname("0.0.0.0");
         config.setPort(port);
         config.setTransports(Transport.WEBSOCKET);
         config.setPingInterval(10000);
         config.setPingTimeout(45000);
+
+        // Configures the Authorisation listener.
+        config.setAuthorizationListener(handshakeData -> {
+            HttpHeaders headers = handshakeData.getHttpHeaders();
+            for (Map.Entry<String, String> header : headers) {
+                LogService.logDebug("\n\t\tKey: %s\n\t\tValue: %s", header.getKey(), header.getValue());
+            }
+            
+            return AuthorizationResult.SUCCESSFUL_AUTHORIZATION;
+        });
 
         // Then initializes the Socket.IO instance.
         this.socketIOInstance = new SocketIOServer(config);
