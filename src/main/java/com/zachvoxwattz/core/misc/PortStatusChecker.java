@@ -26,7 +26,16 @@ public class PortStatusChecker {
         LogService.logDebug("Checking port %s availability...", serverPort);
 
         while (retryCount < retryCountMax) {
-            // TODO: redo this section.
+            portIsAvailable = portCheck(serverPort);
+            
+            if (portIsAvailable) break;
+            else {
+                LogService.logError("Port %s is currently unavailable. Retrying...", serverPort);
+                if (++retryCount == retryCountMax) break;
+            }
+
+            try { TimeUnit.SECONDS.sleep(5); }
+            catch (Exception e) {}
         }
 
         if (!portIsAvailable) {
