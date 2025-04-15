@@ -30,7 +30,7 @@ public class EventDataProviderTest {
             URL targetURL = this.getClass().getResource("/events/entries.json");
             File targetFile = new File(targetURL.getFile());
 
-            assertTrue(targetFile.exists());
+            assertTrue("JSON event registry found cannot be found!", targetFile.exists());
         }
 
         catch (Exception ex) {
@@ -43,6 +43,6 @@ public class EventDataProviderTest {
      */
     @Test
     public void ShouldNotBeEmpty() {
-        assertTrue(this.eventStringProvider.getMapCount() > 0);
+        assertTrue("Event registry file has 0 entry!", this.eventStringProvider.getMapCount() > 0);
     }
 }
