@@ -2,7 +2,7 @@ package com.zachvoxwattz;
 
 import com.zachvoxwattz.core.MainServer;
 import com.zachvoxwattz.core.logging.LogService;
-import com.zachvoxwattz.core.misc.PortStatusChecker;
+import com.zachvoxwattz.core.misc.PortChecker;
 import com.zachvoxwattz.core.misc.ShutdownThread;
 import com.zachvoxwattz.utils.ValueTypeValidator;
 
@@ -41,7 +41,7 @@ public class ApplicationRunner {
         }
 
         // Performs port availability check.
-        PortStatusChecker.execute(serverPort, debugMode);
+        PortChecker.execute(serverPort, debugMode);
 
         // Initializes the server and the shutdown hook for graceful shutdown.
         mainServer = new MainServer(serverPort, debugMode);

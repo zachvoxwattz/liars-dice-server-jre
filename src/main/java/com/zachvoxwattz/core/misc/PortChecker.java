@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.zachvoxwattz.core.logging.LogService;
 
-public class PortStatusChecker {
+public class PortChecker {
     /**
      * Executes the entire checking process of a given port.
      * <p>
