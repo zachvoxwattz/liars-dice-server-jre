@@ -7,8 +7,6 @@ import com.corundumstudio.socketio.listener.DataListener;
 import com.zachvoxwattz.core.MainServer;
 import com.zachvoxwattz.core.event_string.EventDataProvider;
 
-import io.netty.handler.codec.http.HttpHeaders;
-
 /**
  * {@code Abstract} request handler to process requests from clients.
  * 
@@ -58,7 +56,15 @@ public abstract class AbstractHandler<T> implements DataListener<T> {
         if (this.requiresAuth) {
             // Extracts the headers from the client.
             // HttpHeaders clientHeaders = client.getHandshakeData();
-
+            // Configures the Authorisation listener.
+            // config.setAuthorizationListener(handshakeData -> {
+            //     HttpHeaders headers = handshakeData.getHttpHeaders();
+            //     for (Map.Entry<String, String> header : headers) {
+            //         LogService.logDebug("\n\t\tKey: %s\n\t\tValue: %s", header.getKey(), header.getValue());
+            //     }
+                
+            //     return AuthorizationResult.SUCCESSFUL_AUTHORIZATION;
+            // });
             
         }
 

@@ -20,7 +20,7 @@ public class UserPingHandler extends AbstractHandler<Void> {
 
     @Override
     public void onEventExecution(SocketIOClient client, Void data, AckRequest ackSender) {
-        client.sendEvent(this.eventStringProvider.getEventString("sv-ping"));
+        client.sendEvent(this.eventStringProvider.getEventString("SV_Ping"));
         LogService.logDebug("Client '%s' invoked ping request. Responded to request.", client.getSessionId());
     }
 }
