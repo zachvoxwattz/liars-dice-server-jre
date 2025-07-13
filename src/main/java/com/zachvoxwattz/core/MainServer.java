@@ -134,7 +134,10 @@ public class MainServer {
      */
     public void startService() {
         this.socketIOInstance.start();
-        LogService.logInfo("Server is running on port %s", this.socketIOInstance.getConfiguration().getPort());
+        LogService.logInfo(
+            "Server is running on port %s", 
+            this.socketIOInstance.getConfiguration().getPort()
+        );
     }
 
     /**

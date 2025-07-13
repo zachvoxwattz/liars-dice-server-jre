@@ -10,18 +10,44 @@ import com.zachvoxwattz.utils.ValueTypeValidator;
  * Entry point of the game server.
  */
 public class ApplicationRunner {
-    // The main server object.
+    /**
+     * The main server object.
+     */
     private static MainServer mainServer;
 
+    /**
+     * Denotes whether to use debug mode.
+     */
+    private static boolean debugMode = false;
+
+    /**
+     * Target port number to use.
+     */
+    private static int serverPort = 11912;
+
+    /**
+     * The very first entry point to this application.
+     * @param args - List of string arguments
+     */
     public static void main(String[] args) {
         // Initializes the logging service.
         LogService.initialize();
-
-        // Declares default values for the configuration of the server.
-        var serverPort = 11912;
-        var debugMode = false;
         
-        // Checks if there exists at least one input argument.
+        // Parse the given args.
+        parseArgs(args);
+
+        // Performs port availability check.
+        PortChecker.execute(serverPort, debugMode);
+
+        // Initializes the server.
+        initializeServer();
+    }
+
+    /**
+     * Checks if there exists at least one input argument.
+     * @param args - List of string arguments
+     */
+    protected static void parseArgs(String[] args) {
         if (args.length > 0) {
             // Processes the second passed argument as server's debug mode.
             if (ValueTypeValidator.isBoolean(args[1])) {
@@ -39,10 +65,12 @@ public class ApplicationRunner {
                 LogService.logDebug("Assigned default port number %s to the server.", serverPort);
             }
         }
+    }
 
-        // Performs port availability check.
-        PortChecker.execute(serverPort, debugMode);
-
+    /**
+     * Entry point of server initialization.
+     */
+    protected static void initializeServer() {
         // Initializes the server and the shutdown hook for graceful shutdown.
         mainServer = new MainServer(serverPort, debugMode);
 
