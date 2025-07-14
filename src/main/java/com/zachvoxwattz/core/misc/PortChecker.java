@@ -10,10 +10,8 @@ public class PortChecker {
      * Executes the entire checking process of a given port.
      * <p>
      * Prints additional details to user if debug mode is enabled.
-     * @param serverPort The port number to be checked.
-     * @param debugMode Boolean value regulating whether to enable the mode or not.
      */
-    public static void execute(int serverPort, boolean debugMode) {
+    public static void execute() {
         /*
             Declares some working variables to
             check port availability.
@@ -23,14 +21,14 @@ public class PortChecker {
         var retryCountMax = 5;
         
         // Checking whether the target port is available.
-        LogService.logDebug("Checking port %s availability...", serverPort);
+        LogService.logDebug("Checking port %s availability...", ServerConfigurations.PORT_NUMBER);
 
         while (retryCount < retryCountMax) {
-            portIsAvailable = portCheck(serverPort);
+            portIsAvailable = isPortAvailable(ServerConfigurations.PORT_NUMBER);
             
             if (portIsAvailable) break;
             else {
-                LogService.logError("Port %s is currently unavailable. Retrying...", serverPort);
+                LogService.logError("Port %s is currently unavailable. Retrying...", ServerConfigurations.PORT_NUMBER);
                 if (++retryCount == retryCountMax) break;
             }
 
@@ -44,7 +42,7 @@ public class PortChecker {
             System.exit(1);
         }
 
-        else LogService.logDebug("Port %s is available.", serverPort);
+        else LogService.logDebug("Port %s is available.", ServerConfigurations.PORT_NUMBER);
     }
 
     /**
@@ -52,7 +50,7 @@ public class PortChecker {
      * @param port The value to be checked.
      * @return {@code true} if the port is available. Otherwise, {@code false}.
      */
-    public static boolean portCheck(int port) {
+    public static boolean isPortAvailable(int port) {
         try {
             new ServerSocket(port).close();
             return true;

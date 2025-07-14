@@ -3,13 +3,13 @@ package com.zachvoxwattz.core.logging;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.zachvoxwattz.core.misc.ServerConfigurations;
+
 /**
  * Custom made logging service for entire server.
  **/
 public class LogService {
-
     private static boolean isInitialized = false;
-    private static boolean debugMode = false;
     private static DateTimeFormatter dateTimeFormatter;
 
     /**
@@ -18,16 +18,13 @@ public class LogService {
      * Only called once during initialization phase of server. Nothing will happen upon calling it again.
      * </p>
      */
-    public static void initialize(boolean isDebugMode) {
+    public static void initialize() {
         if (isInitialized) return;
 
         dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss:SS");
         isInitialized = true;
-        debugMode = isDebugMode;
-    }
-
-    public static void initialize() {
-        initialize(false);
+        logDebug("Server debug mode enabled.");
+        logDebug("Assigned port number %s to the server.", ServerConfigurations.PORT_NUMBER);
     }
 
     /**
@@ -47,7 +44,7 @@ public class LogService {
      */
     public static void logDebug(String message, Object... args) {
         HandleUninitialized();
-        if (debugMode) logConsole(message, LogServiceType.DEBUG, args); 
+        if (ServerConfigurations.DEBUG_MODE) logConsole(message, LogServiceType.DEBUG, args); 
     }
 
     /**
@@ -138,13 +135,5 @@ public class LogService {
         );
 
         System.out.println(outputMessage);
-    }
-
-    /**
-     * Denotes whether the debug mode should be enabled or not.
-     * @param value - <b>true</b> to enable debug logging.
-     */
-    public static void setDebugMode(boolean value) {
-        debugMode = value;
     }
 }
