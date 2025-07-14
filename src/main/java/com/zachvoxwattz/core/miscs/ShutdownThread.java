@@ -1,7 +1,7 @@
-package com.zachvoxwattz.core.misc;
+package com.zachvoxwattz.core.miscs;
 
 import com.zachvoxwattz.core.MainServer;
-import com.zachvoxwattz.core.logging.LogService;
+import com.zachvoxwattz.core.logging.LogSentry;
 
 /**
  * Implemented Runnable hook used for shutting down the server gracefully.
@@ -18,8 +18,8 @@ public class ShutdownThread extends Thread {
 
     @Override
     public void run() {
-        LogService.logInfo("Shutdown hook invoked.");
+        LogSentry.logInfo("Shutdown hook invoked.");
         this.mainGameServer.executeShutdownSequence();
-        LogService.logInfo("Shutdown sequence successful.");
+        LogSentry.logInfo("Shutdown sequence successful.");
     }
 }

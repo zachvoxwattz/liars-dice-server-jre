@@ -1,10 +1,10 @@
 package com.zachvoxwattz;
 
 import com.zachvoxwattz.core.MainServer;
-import com.zachvoxwattz.core.logging.LogService;
-import com.zachvoxwattz.core.misc.PortChecker;
-import com.zachvoxwattz.core.misc.ServerConfigurations;
-import com.zachvoxwattz.core.misc.ShutdownThread;
+import com.zachvoxwattz.core.logging.LogSentry;
+import com.zachvoxwattz.core.miscs.PortChecker;
+import com.zachvoxwattz.core.miscs.ShutdownThread;
+import com.zachvoxwattz.core.shared.ServerConfigurations;
 import com.zachvoxwattz.utils.ValueTypeValidator;
 
 /**
@@ -25,7 +25,7 @@ public class ApplicationRunner {
         parseArgs(args);
 
         // Initializes the logging service.
-        LogService.initialize();
+        LogSentry.initialize();
 
         // Performs port availability check.
         PortChecker.execute();
@@ -61,5 +61,8 @@ public class ApplicationRunner {
 
         // Attaches the shutdown hook to Runtime.
         Runtime.getRuntime().addShutdownHook(new ShutdownThread(mainServer));
+
+        // Starts the main server.
+        mainServer.start();
     }
 }

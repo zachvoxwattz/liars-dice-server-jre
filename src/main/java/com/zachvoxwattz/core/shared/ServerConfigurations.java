@@ -1,4 +1,4 @@
-package com.zachvoxwattz.core.misc;
+package com.zachvoxwattz.core.shared;
 
 /**
  * Static class holding all of the configurations of the application.

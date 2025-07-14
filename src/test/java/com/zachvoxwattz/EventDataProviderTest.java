@@ -7,8 +7,8 @@ import java.net.URL;
 
 import org.junit.Test;
 
-import com.zachvoxwattz.core.event_string.EventDataProvider;
-import com.zachvoxwattz.core.logging.LogService;
+import com.zachvoxwattz.core.event_data_provider.EventDataProvider;
+import com.zachvoxwattz.core.logging.LogSentry;
 
 /**
  * Contains tests for {@code EventStringProvider} class.
@@ -17,7 +17,7 @@ public class EventDataProviderTest {
     private EventDataProvider eventStringProvider;
 
     public EventDataProviderTest() {
-        LogService.initialize();
+        LogSentry.initialize();
         this.eventStringProvider = new EventDataProvider();
     }
 

@@ -6,14 +6,11 @@ import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.Transport;
 
-import com.zachvoxwattz.core.event_string.EventDataProvider;
+import com.zachvoxwattz.core.event_data_provider.EventDataProvider;
+import com.zachvoxwattz.core.handlers.auth.SocketConnectionAuthorizationListener;
 import com.zachvoxwattz.core.interfaces.ModuleAction;
-import com.zachvoxwattz.core.logging.LogService;
-import com.zachvoxwattz.core.misc.ServerConfigurations;
-import com.zachvoxwattz.handlers.auth.AuthTokenHandler;
-import com.zachvoxwattz.handlers.connection.ConnectHandler;
-import com.zachvoxwattz.handlers.connection.DisconnectHandler;
-import com.zachvoxwattz.handlers.ping.UserPingHandler;
+import com.zachvoxwattz.core.logging.LogSentry;
+import com.zachvoxwattz.core.shared.ServerConfigurations;
 
 /**
  * <p>Responsible for accepting incoming and managing existing connections.
@@ -58,6 +55,9 @@ public class ClientManager implements ModuleAction {
         config.setPingInterval(10000);
         config.setPingTimeout(45000);
 
+        // Adds the authorization middleware.
+        config.setAuthorizationListener(new SocketConnectionAuthorizationListener(this));
+
         // Then initializes the Socket.IO instance.
         this.socketIOInstance = new SocketIOServer(config);
 
@@ -79,26 +79,6 @@ public class ClientManager implements ModuleAction {
      * </ul>
      */
     private void attachListeners() {
-        // Listener for handling incoming connection.
-        this.socketIOInstance.addConnectListener(new ConnectHandler(this));
-
-        // Listener for handling every disconnection.
-        this.socketIOInstance.addDisconnectListener(new DisconnectHandler(this));
-
-        // Listener for handling Ping requests.
-        var pingEventData = this.eventStringProvider.getEventData("CL_Ping");
-        this.socketIOInstance.addEventListener(
-            pingEventData.getValue(), 
-            Void.class,
-            new UserPingHandler(this, true)
-        );
-
-        // Listener for handling auth token request.
-        this.socketIOInstance.addEventListener(
-            this.eventStringProvider.getEventString("CL_ReqToken"),
-            Void.class,
-            new AuthTokenHandler(this)
-        );
     }
 
     /**
@@ -108,7 +88,7 @@ public class ClientManager implements ModuleAction {
      */
     public void broadcastEvent(String eventName, Object datagram) {
         this.socketIOInstance.getBroadcastOperations().sendEvent(eventName, datagram);
-        LogService.logDebug("Broadcasted event name '%s' to all listening clients.", eventName);
+        LogSentry.logDebug("Broadcasted event name '%s' to all listening clients.", eventName);
     }
 
     /**
@@ -117,7 +97,7 @@ public class ClientManager implements ModuleAction {
     @Override
     public void initialize() {
         this.socketIOInstance.start();
-        LogService.logInfo(
+        LogSentry.logInfo(
             "Server is running on port %s", 
             this.socketIOInstance.getConfiguration().getPort()
         );
@@ -139,14 +119,14 @@ public class ClientManager implements ModuleAction {
          */
         if (this.getClientCount() > 0) {
             hasClients = true;
-            LogService.logInfo("Disconnecting players...");
+            LogSentry.logInfo("Disconnecting players...");
             
             disconnectPlayersTask = CompletableFuture.runAsync(() -> {
                 this.socketIOInstance.getAllClients().forEach((client) -> { client.disconnect(); });
             });
         }
 
-        LogService.logInfo("Stopping server...");
+        LogSentry.logInfo("Stopping server...");
         if (hasClients) disconnectPlayersTask.thenRun(() -> { this.socketIOInstance.stop(); });
         else this.socketIOInstance.stop();
     }

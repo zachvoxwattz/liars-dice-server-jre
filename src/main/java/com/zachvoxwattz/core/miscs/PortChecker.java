@@ -1,9 +1,10 @@
-package com.zachvoxwattz.core.misc;
+package com.zachvoxwattz.core.miscs;
 
 import java.net.ServerSocket;
 import java.util.concurrent.TimeUnit;
 
-import com.zachvoxwattz.core.logging.LogService;
+import com.zachvoxwattz.core.logging.LogSentry;
+import com.zachvoxwattz.core.shared.ServerConfigurations;
 
 public class PortChecker {
     /**
@@ -21,14 +22,14 @@ public class PortChecker {
         var retryCountMax = 5;
         
         // Checking whether the target port is available.
-        LogService.logDebug("Checking port %s availability...", ServerConfigurations.PORT_NUMBER);
+        LogSentry.logDebug("Checking port %s availability...", ServerConfigurations.PORT_NUMBER);
 
         while (retryCount < retryCountMax) {
             portIsAvailable = isPortAvailable(ServerConfigurations.PORT_NUMBER);
             
             if (portIsAvailable) break;
             else {
-                LogService.logError("Port %s is currently unavailable. Retrying...", ServerConfigurations.PORT_NUMBER);
+                LogSentry.logError("Port %s is currently unavailable. Retrying...", ServerConfigurations.PORT_NUMBER);
                 if (++retryCount == retryCountMax) break;
             }
 
@@ -37,12 +38,12 @@ public class PortChecker {
         }
 
         if (!portIsAvailable) {
-            LogService.logError("Failed to initialize server after %s attempts.", retryCount);
-            LogService.logError("Reason: Another application or service is occupying the target port. Please try other alternatives.");
+            LogSentry.logError("Failed to initialize server after %s attempts.", retryCount);
+            LogSentry.logError("Reason: Another application or service is occupying the target port. Please try other alternatives.");
             System.exit(1);
         }
 
-        else LogService.logDebug("Port %s is available.", ServerConfigurations.PORT_NUMBER);
+        else LogSentry.logDebug("Port %s is available.", ServerConfigurations.PORT_NUMBER);
     }
 
     /**

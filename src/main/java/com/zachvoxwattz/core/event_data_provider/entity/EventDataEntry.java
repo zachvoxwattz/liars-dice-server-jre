@@ -1,4 +1,4 @@
-package com.zachvoxwattz.core.event_string.entity;
+package com.zachvoxwattz.core.event_data_provider.entity;
 
 /**
  * Model for parsing JSON event string entries.

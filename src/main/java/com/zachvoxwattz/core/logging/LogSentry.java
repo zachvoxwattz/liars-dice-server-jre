@@ -3,17 +3,17 @@ package com.zachvoxwattz.core.logging;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import com.zachvoxwattz.core.misc.ServerConfigurations;
+import com.zachvoxwattz.core.shared.ServerConfigurations;
 
 /**
- * Custom made logging service for entire server.
+ * Custom made logging component for entire server.
  **/
-public class LogService {
+public class LogSentry {
     private static boolean isInitialized = false;
     private static DateTimeFormatter dateTimeFormatter;
 
     /**
-     * Initializes the custom logging service.
+     * Initializes the custom logging component.
      * <p>
      * Only called once during initialization phase of server. Nothing will happen upon calling it again.
      * </p>
@@ -34,7 +34,7 @@ public class LogService {
      */
     public static void logInfo(String message, Object... args) {
         HandleUninitialized();
-        logConsole(message, LogServiceType.INFO, args); 
+        logConsole(message, LogType.INFO, args); 
     }
 
     /**
@@ -44,7 +44,7 @@ public class LogService {
      */
     public static void logDebug(String message, Object... args) {
         HandleUninitialized();
-        if (ServerConfigurations.DEBUG_MODE) logConsole(message, LogServiceType.DEBUG, args); 
+        if (ServerConfigurations.DEBUG_MODE) logConsole(message, LogType.DEBUG, args); 
     }
 
     /**
@@ -54,7 +54,7 @@ public class LogService {
      */
     public static void logWarning(String message, Object... args) {
         HandleUninitialized();
-        logConsole(message, LogServiceType.WARNING, args); 
+        logConsole(message, LogType.WARNING, args); 
     }
 
     /**
@@ -64,7 +64,7 @@ public class LogService {
      */
     public static void logError(String message, Object... args) {
         HandleUninitialized();
-        logConsole(message, LogServiceType.ERROR, args); 
+        logConsole(message, LogType.ERROR, args); 
     }
 
     /**
@@ -74,7 +74,7 @@ public class LogService {
      */
     public static void logCritical(String message, Object... args) {
         HandleUninitialized();
-        logConsole(message, LogServiceType.CRITICAL, args); 
+        logConsole(message, LogType.CRITICAL, args); 
     }
 
     private static void HandleUninitialized() {
@@ -92,7 +92,7 @@ public class LogService {
         return originalCaller.substring(originalCaller.lastIndexOf('.') + 1);
     }
 
-    private static String parseLogType(LogServiceType type) {
+    private static String parseLogType(LogType type) {
         switch (type) {
             case INFO:
                 // return "\033[38;5;255;48;5;48;1mINFO\033[0m";
@@ -126,7 +126,7 @@ public class LogService {
         return null;
     }
 
-    public static void logConsole(String message, LogServiceType type, Object... args) {
+    public static void logConsole(String message, LogType type, Object... args) {
         var outputMessage = String.format(
             "[%s] [%s|%s]: %s",
             getCurrentTimeStamp(),

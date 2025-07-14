@@ -18,6 +18,13 @@ public class MainServer {
     }
 
     /**
+     * Runs the starting sequence of the application.
+     */
+    public void start() {
+        this.clientManager.initialize();
+    }
+
+    /**
      * Runs the shutdown sequence of the application.
      */
     public void executeShutdownSequence() {
