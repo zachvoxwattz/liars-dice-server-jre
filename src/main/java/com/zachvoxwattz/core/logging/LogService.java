@@ -98,20 +98,25 @@ public class LogService {
     private static String parseLogType(LogServiceType type) {
         switch (type) {
             case INFO:
-                return "\033[38;5;255;48;5;48;1mINFO\033[0m";
+                // return "\033[38;5;255;48;5;48;1mINFO\033[0m";
+                return "INFO";
 
             case DEBUG:
-                return "\033[38;5;255;48;5;33;1mDEBUG\033[0m";
+                // return "\033[38;5;255;48;5;33;1mDEBUG\033[0m";
+                return "DEBUG";
 
             case WARNING:
-                return "\033[38;5;255;48;5;172;1mWARNING\033[0m";
+                // return "\033[38;5;255;48;5;172;1mWARNING\033[0m";
+                return "WARNING";
 
             case ERROR:
-                return "\033[38;5;255;48;5;160;1mERROR\033[0m";
+                // return "\033[38;5;255;48;5;160;1mERROR\033[0m";
+                return "ERROR";
 
             case CRITICAL:
-                return "\033[38;5;255;48;5;52;1mCRITICAL\033[0m";
-
+                // return "\033[38;5;255;48;5;52;1mCRITICAL\033[0m";
+                return "CRITICAL";
+                
             default:
                 try {
                     throw new Exception("Unsupported 'LogServiceType' value");
