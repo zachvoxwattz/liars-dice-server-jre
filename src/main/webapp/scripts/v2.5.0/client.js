@@ -6,16 +6,17 @@ var isConnecting = false
 
 const prepareSocketIOClient = (ip, port) => {
     socketIOClient = io(`ws://${ip}:${port}/`, {
-        autoConnect: false,
-        forceNew: false,
-        reconnection: true,
-        reconnectionAttempts: numberOfReconnectionAttemps - 1,
-        reconnectionDelay: 1000,
-        reconnectionDelayMax: 2000,
-        randomizationFactor: 0.375,
-        timeout: 10000,
-        transports: ["websocket"]
-    })
+            autoConnect: false,
+            forceNew: false,
+            reconnection: true,
+            reconnectionAttempts: numberOfReconnectionAttemps - 1,
+            reconnectionDelay: 1000,
+            reconnectionDelayMax: 2000,
+            randomizationFactor: 0.375,
+            timeout: 10000,
+            transports: ["websocket", "polling"],
+        }
+    )
 
     socketIOClient.on('connect', () => {
         setConnectionStatus('ACTIVE')

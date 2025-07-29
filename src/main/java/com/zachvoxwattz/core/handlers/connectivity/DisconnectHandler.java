@@ -20,9 +20,12 @@ public class DisconnectHandler implements DisconnectListener {
     public void onDisconnect(SocketIOClient client) {
         var clientID = client.getSessionId();
         LogSentry.logInfo("Client ID '%s' has disconnected.", clientID);
+    }
 
-        // Decreases the number of connections.
-        // var numberOfConnectionsAfter = this.mainServer.getClientCount() - 1;
-        // if (numberOfConnectionsAfter < MainServer.MAX_CONNECTED_CLIENTS) this.mainServer.acceptConnections(true);
+    /**
+     * @return {@code ClientManager} object
+     */
+    public ClientManager getClientManager() {
+        return this.clientManager;
     }
 }

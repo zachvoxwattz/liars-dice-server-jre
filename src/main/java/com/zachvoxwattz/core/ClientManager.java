@@ -7,7 +7,9 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.Transport;
 
 import com.zachvoxwattz.core.event_data_provider.EventDataProvider;
-import com.zachvoxwattz.core.handlers.auth.SocketConnectionAuthorizationListener;
+import com.zachvoxwattz.core.handlers.connectivity.ConnectHandler;
+import com.zachvoxwattz.core.handlers.connectivity.DisconnectHandler;
+import com.zachvoxwattz.core.handlers.middleware.SocketConnectionAuthorizationListener;
 import com.zachvoxwattz.core.interfaces.ModuleAction;
 import com.zachvoxwattz.core.logging.LogSentry;
 import com.zachvoxwattz.core.shared.ServerConfigurations;
@@ -79,6 +81,8 @@ public class ClientManager implements ModuleAction {
      * </ul>
      */
     private void attachListeners() {
+        this.socketIOInstance.addConnectListener(new ConnectHandler(this));
+        this.socketIOInstance.addDisconnectListener(new DisconnectHandler(this));
     }
 
     /**
