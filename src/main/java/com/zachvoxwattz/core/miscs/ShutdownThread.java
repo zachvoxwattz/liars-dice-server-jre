@@ -18,7 +18,7 @@ public class ShutdownThread extends Thread {
 
     @Override
     public void run() {
-        LogSentry.logInfo("Shutdown hook invoked.");
+        LogSentry.logShutdown("Shutdown hook invoked.");
         this.mainGameServer.executeShutdownSequence();
         LogSentry.logInfo("Shutdown sequence successful.");
     }

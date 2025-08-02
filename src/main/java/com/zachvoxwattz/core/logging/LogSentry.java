@@ -29,8 +29,8 @@ public class LogSentry {
 
     /**
      * Logs a message to terminal. Logging level: <b>Informational</b>
-     * @param message - Content to be logged.
-     * @param args - Additional required variables for content.
+     * @param message - Contents to be logged.
+     * @param args - Arguments passed to the message.
      */
     public static void logInfo(String message, Object... args) {
         HandleUninitialized();
@@ -39,8 +39,8 @@ public class LogSentry {
 
     /**
      * Logs a message to terminal. Logging level: <b>Debugging</b>
-     * @param message - Content to be logged.
-     * @param args - Additional required variables for content.
+     * @param message - Contents to be logged.
+     * @param args - Arguments passed to the message.
      */
     public static void logDebug(String message, Object... args) {
         HandleUninitialized();
@@ -49,8 +49,8 @@ public class LogSentry {
 
     /**
      * Logs a message to terminal. Logging level: <b>Warning</b>
-     * @param message - Content to be logged.
-     * @param args - Additional required variables for content.
+     * @param message - Contents to be logged.
+     * @param args - Arguments passed to the message.
      */
     public static void logWarning(String message, Object... args) {
         HandleUninitialized();
@@ -59,8 +59,8 @@ public class LogSentry {
 
     /**
      * Logs a message to terminal. Logging level: <b>Error</b>
-     * @param message - Content to be logged.
-     * @param args - Additional required variables for content.
+     * @param message - Contents to be logged.
+     * @param args - Arguments passed to the message.
      */
     public static void logError(String message, Object... args) {
         HandleUninitialized();
@@ -69,12 +69,21 @@ public class LogSentry {
 
     /**
      * Logs a message to terminal. Logging level: <b>Critical</b>
-     * @param message - Content to be logged.
-     * @param args - Additional required variables for content.
+     * @param message - Contents to be logged.
+     * @param args - Arguments passed to the message.
      */
     public static void logCritical(String message, Object... args) {
         HandleUninitialized();
         logConsole(message, LogType.CRITICAL, args); 
+    }
+
+    /**
+     * Logs a message to terminal. Logging level: <b>Critical</b>
+     * @param message - Contents to be logged.
+     * @param args - Arguments passed to the message.
+     */
+    public static void logShutdown(String message, Object... args) {
+        logConsoleShutdown(message, LogType.INFO, args);
     }
 
     private static void HandleUninitialized() {
@@ -126,9 +135,32 @@ public class LogSentry {
         return null;
     }
 
-    public static void logConsole(String message, LogType type, Object... args) {
+    /**
+     * Main method for logging to console. To be used <b>internally</b> only.
+     * @param message - Contents to be logged.
+     * @param type - Logging level.
+     * @param args - Arguments to be passed to the main content object.
+     */
+    private static void logConsole(String message, LogType type, Object... args) {
         var outputMessage = String.format(
             "[%s] [%s|%s]: %s",
+            getCurrentTimeStamp(),
+            retrieveCallingClass(), parseLogType(type), 
+            String.format(message, args)
+        );
+
+        System.out.println(outputMessage);
+    }
+
+    /**
+     * Main method for logging to console. To be used <b>internally</b> only during shutdown process.
+     * @param message - Contents to be logged.
+     * @param type - Logging level.
+     * @param args - Arguments to be passed to the main content object.
+     */
+    private static void logConsoleShutdown(String message, LogType type, Object... args) {
+        var outputMessage = String.format(
+            "\n[%s] [%s|%s]: %s",
             getCurrentTimeStamp(),
             retrieveCallingClass(), parseLogType(type), 
             String.format(message, args)

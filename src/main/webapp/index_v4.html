@@ -3,39 +3,63 @@
     <head>
         <title>Liar's Dice Tester v4</title>
         <link rel="icon" type="image/x-icon" href="./favicon.png">
-        <link rel="stylesheet" href="./styles_v4.css">
+        <link rel="stylesheet" href="./styles.css">
     </head>
 
     <body>
-        <section class="component-section" id="comp-sec-connection">
-            <div class="connection-input-div">
-                <input class="input-field" id="input-field-ip" placeholder="IP">
-                <input class="input-field" id="input-field-port" placeholder="Port">
+        <div class="connection-section" id="connection-section-id">
+            <div class="connection-section-input-box">
+                <input class="connection-section-input" id="connection-section-input-ip" placeholder="Target IP" maxlength="15">
+                <input class="connection-section-input" id="connection-section-input-port" placeholder="Port" maxlength="5">
             </div>
 
-            <div>
-                <h1>Sample Status here</h1>
+            <h3 id="connection-section-status-value">IDLE</h3>
+            
+            <div class="connection-section-button-box">
+                <button class="connection-section-button" id="connection-section-button-connect" onclick="connectToServer()">Connect</button>
+                <button class="connection-section-button" id="connection-section-button-disconnect" onclick="userDisconnect()">Disconnect</button>
+            </div>
+        </div>
+
+        <div class="data-section">
+            <div class="data-section-send">
+                <div class="data-section-send-netcode">
+                    <div class="data-section-label-input-box">
+                        <p class="data-section-label">Net Code:</p>
+                        <input class="data-section-input" id="data-section-send-input-netcode">    
+                    </div>
+                    <button class="data-section-button" onclick="sendToServer()">Send</button>
+                </div>
+
+                <div class="data-section-send-body">
+                    <p class="data-section-label">Body Content:</p>
+                    <textarea class="data-section-input" id="data-section-send-input-body" rows="10"></textarea>
+                </div>
             </div>
 
-            <div>
-                <button>
+            <div class="data-section-recv">
+                <div class="data-section-recv-event">
+                    <div class="data-section-label-input-box">
+                        <p class="data-section-label">Event:</p>
+                        <input class="data-section-input" id="data-section-recv-input-event">
+                    </div>
+                    <button class="data-section-button" onclick="createNewEventEntry()">Listen</button>
+                </div>
 
-                </button>
-
-                <button>
-
-                </button>
+                <div class="data-section-recv-body">
+                    <p class="data-section-label">Binded List:</p>
+                    <div id="data-section-recv-event-list"></div>
+                </div>
             </div>
-        </section>
+        </div>
 
-        <section class="component-section">
-        </section>
-
-        <section class="component-section">
-        </section>
-
-        <section class="component-section">
-        </section>
+        <div class="console-section">
+            <div class="console-section-button-clear-box">
+                <button id="console-section-button-clear" onclick="clearConsole()">🔥</button>
+                <button id="console-section-button-clear" onclick="clearConsole()">🔥</button>
+            </div>
+            <textarea class="console-section-component" id="console-component" readonly placeholder="Nothing at the moment..."></textarea>
+        </div>
     </body>
 
     <!--Retrieves all of the elements in the DOM and declares various functions to be used-->
