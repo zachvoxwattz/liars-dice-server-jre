@@ -9,7 +9,7 @@ import com.corundumstudio.socketio.Transport;
 import com.zachvoxwattz.core.event_data_provider.EventDataProvider;
 import com.zachvoxwattz.core.handlers.connectivity.ConnectHandler;
 import com.zachvoxwattz.core.handlers.connectivity.DisconnectHandler;
-import com.zachvoxwattz.core.handlers.middleware.SocketConnectionAuthorizationListener;
+// import com.zachvoxwattz.core.handlers.middleware.SocketConnectionAuthorizationListener;
 import com.zachvoxwattz.core.interfaces.ModuleAction;
 import com.zachvoxwattz.core.logging.LogSentry;
 import com.zachvoxwattz.core.shared.ServerConfigurations;
@@ -58,7 +58,7 @@ public class ClientManager implements ModuleAction {
         config.setPingTimeout(45000);
 
         // Adds the authorization middleware.
-        config.setAuthorizationListener(new SocketConnectionAuthorizationListener(this));
+        // config.setAuthorizationListener(new SocketConnectionAuthorizationListener(this));
 
         // Then initializes the Socket.IO instance.
         this.socketIOInstance = new SocketIOServer(config);

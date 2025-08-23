@@ -7,59 +7,59 @@
     </head>
 
     <body>
-        <div class="connection-section" id="connection-section-id">
-            <div class="connection-section-input-box">
-                <input class="connection-section-input" id="connection-section-input-ip" placeholder="Target IP" maxlength="15">
-                <input class="connection-section-input" id="connection-section-input-port" placeholder="Port" maxlength="5">
+        <section class="connection-section">
+            <div class="input-div">
+                <input class="input-field" id="connection-section-input-ip" placeholder="Target IP" maxlength="15">
+                <input class="input-field" id="connection-section-input-port" placeholder="Port" maxlength="5">
             </div>
 
             <h3 id="connection-section-status-value">IDLE</h3>
             
-            <div class="connection-section-button-box">
-                <button class="connection-section-button" id="connection-section-button-connect" onclick="connectToServer()">Connect</button>
-                <button class="connection-section-button" id="connection-section-button-disconnect" onclick="userDisconnect()">Disconnect</button>
+            <div class="button-div">
+                <button id="connection-section-button-connect" onclick="connectToServer()">Connect</button>
+                <button id="connection-section-button-disconnect" onclick="userDisconnect()">Disconnect</button>
             </div>
-        </div>
+        </section>
 
-        <div class="data-section">
-            <div class="data-section-send">
-                <div class="data-section-send-netcode">
-                    <div class="data-section-label-input-box">
-                        <p class="data-section-label">Net Code:</p>
-                        <input class="data-section-input" id="data-section-send-input-netcode">    
+        <section class="data-section">
+            <div class="send-operation-div">
+                <div class="send-operation-netcode-div">
+                    <div class="input-div">
+                        <p>Net Code:</p>
+                        <input id="data-section-send-input-netcode">    
                     </div>
-                    <button class="data-section-button" onclick="sendToServer()">Send</button>
+                    <button onclick="sendToServer()">Send</button>
                 </div>
 
-                <div class="data-section-send-body">
-                    <p class="data-section-label">Body Content:</p>
-                    <textarea class="data-section-input" id="data-section-send-input-body" rows="10"></textarea>
+                <div class="send-operation-body-div">
+                    <p>Body Content:</p>
+                    <textarea id="data-section-send-input-body" rows="10"></textarea>
                 </div>
             </div>
 
-            <div class="data-section-recv">
-                <div class="data-section-recv-event">
-                    <div class="data-section-label-input-box">
-                        <p class="data-section-label">Event:</p>
-                        <input class="data-section-input" id="data-section-recv-input-event">
+            <div class="recv-operation-div">
+                <div class="recv-operation-event-div">
+                    <div class="input-div">
+                        <p>Event:</p>
+                        <input id="data-section-recv-input-event">
                     </div>
-                    <button class="data-section-button" onclick="createNewEventEntry()">Listen</button>
+                    <button onclick="createNewEventEntry()">Listen</button>
                 </div>
 
-                <div class="data-section-recv-body">
-                    <p class="data-section-label">Binded List:</p>
+                <div class="recv-operation-body-div">
+                    <p>Binded List:</p>
                     <div id="data-section-recv-event-list"></div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="console-section">
-            <div class="console-section-button-clear-box">
+        <section class="console-section">
+            <div class="clear-button-div">
                 <button id="console-section-button-clear" onclick="clearConsole()">🔥</button>
                 <button id="console-section-button-clear" onclick="clearConsole()">🔥</button>
             </div>
-            <textarea class="console-section-component" id="console-component" readonly placeholder="Nothing at the moment..."></textarea>
-        </div>
+            <textarea id="console-component" readonly placeholder="Nothing at the moment..."></textarea>
+        </section>
     </body>
 
     <!--Retrieves all of the elements in the DOM and declares various functions to be used-->
