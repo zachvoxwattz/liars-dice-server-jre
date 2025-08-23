@@ -256,7 +256,7 @@ body {
                     display: none;
                 }
 
-                .data-section-recv-event-entry {
+                .recv-event-entry {
                     display: block;
                     border-width: 0;
                     background-color: transparent;
