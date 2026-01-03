@@ -3,6 +3,7 @@ target
 
 # IDE specific folders and files
 .vscode
+.idea
 
 # Log file
 *.log
