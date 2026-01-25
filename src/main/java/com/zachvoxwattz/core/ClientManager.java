@@ -52,7 +52,7 @@ public class ClientManager implements ModuleAction {
         config.setOrigin("*");
         config.setHostname("0.0.0.0");
         config.setPort(ServerConfigurations.PORT_NUMBER);
-        config.setTransports(Transport.WEBSOCKET);
+        config.setTransports(Transport.WEBSOCKET, Transport.POLLING);   // Adds support for both
         config.setPingInterval(10000);
         config.setPingTimeout(45000);
 
