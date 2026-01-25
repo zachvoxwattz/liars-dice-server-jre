@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Liar's Dice Tester v4</title>
+        <link rel="icon" type="image/x-icon" href="./favicon.png">
+        <link rel="stylesheet" href="./styles.css">
+    </head>
+
+    <body>
+        <section class="connection-info-main">
+            <div class="input-field-group">
+                <input placeholder="Target IP" class="input-field ip">
+                <input placeholder="Port" class="input-field port">
+            </div>
+
+            <p class="client-status-indicator">PLACEHOLDER</p>
+
+            <div class="btn-group">
+                <button class="connect">Connect</button>
+                <button class="disconnect">Disconnect</button>
+            </div>
+        </section>
+
+        <section class="connection-info-misc">
+            <div class="auth-token-info">
+                <label>Auth Token</label>
+                <input class="input-field" placeholder="Fill in if applicable" disabled>
+            </div>
+
+            <div class="namespace-info">
+                <label>Namespace</label>
+                <input class="input-field" placeholder="Fill in if applicable" disabled>
+            </div>
+        </section>
+
+        <section class="operation-actions">
+            <div class="operation-entry-div">
+                <div class="first-row">
+                    <div class="input-div">
+                        <label>Net Code</label>
+                        <input class="input-field" id="data-section-send-input-netcode">    
+                    </div>
+                    <button onclick="sendToServer()">Send</button>
+                </div>
+
+                <div class="second-row">
+                    <label>Body</label>
+                    <textarea class="input-big" id="data-section-send-input-body" rows="10"></textarea>
+                </div>
+            </div>
+
+            <div class="operation-entry-div">
+                <div class="first-row">
+                    <div class="input-div">
+                        <label>Event(s)</label>
+                        <input class="input-field" id="data-section-recv-input-event">
+                    </div>
+                    <button onclick="createNewEventEntry()">Listen</button>
+                </div>
+
+                <div class="second-row">
+                    <label>Binded list</label>
+                    <div class="input-big" id="data-section-recv-event-list"></div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>
