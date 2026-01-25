@@ -9,7 +9,6 @@ import com.corundumstudio.socketio.Transport;
 import com.zachvoxwattz.core.event_data_provider.EventDataProvider;
 import com.zachvoxwattz.core.handlers.connectivity.ConnectHandler;
 import com.zachvoxwattz.core.handlers.connectivity.DisconnectHandler;
-// import com.zachvoxwattz.core.handlers.middleware.SocketConnectionAuthorizationListener;
 import com.zachvoxwattz.core.interfaces.ModuleAction;
 import com.zachvoxwattz.core.logging.LogSentry;
 import com.zachvoxwattz.core.shared.ServerConfigurations;
@@ -21,17 +20,17 @@ public class ClientManager implements ModuleAction {
     /**
      * The main server object of the application.
      */
-    private MainServer mainServer;
+    private final MainServer mainServer;
 
     /**
      * Socket.IO instance for the server.
      */
-    private SocketIOServer socketIOInstance;
+    private final SocketIOServer socketIOInstance;
 
     /**
      * The event string provider for both client request and server response events.
      */
-    private EventDataProvider eventStringProvider;
+    private final EventDataProvider eventStringProvider;
 
     /**
      * Regulates whether the server is accepting new connections.

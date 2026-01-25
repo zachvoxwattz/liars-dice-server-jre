@@ -8,7 +8,7 @@ public class MainServer {
     /**
      * Major module for managing connected clients.
      */
-    private ClientManager clientManager;
+    private final ClientManager clientManager;
 
     /**
      * Constructor initializing the main game server.

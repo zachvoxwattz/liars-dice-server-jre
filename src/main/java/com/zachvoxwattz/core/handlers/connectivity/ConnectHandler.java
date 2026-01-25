@@ -12,7 +12,7 @@ public class ConnectHandler implements ConnectListener {
     /**
      * Main server instance.
      */
-    private ClientManager clientManager;
+    private final ClientManager clientManager;
 
     public ConnectHandler(ClientManager parent) {
         this.clientManager = parent;

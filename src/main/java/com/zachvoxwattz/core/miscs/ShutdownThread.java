@@ -10,7 +10,7 @@ public class ShutdownThread extends Thread {
     /**
      * Main game server instance.
      */
-    private MainServer mainGameServer;
+    private final MainServer mainGameServer;
 
     public ShutdownThread(MainServer mainGameServer) {
         this.mainGameServer = mainGameServer;

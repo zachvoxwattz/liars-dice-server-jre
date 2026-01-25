@@ -7,7 +7,7 @@ public class GameDirector {
     /**
      * The main server object of the application.
      */
-    private MainServer mainServer;
+    private final MainServer mainServer;
     
     /**
      * Constructor for {@code GameDirector}

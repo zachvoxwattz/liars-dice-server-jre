@@ -10,7 +10,7 @@ public class DisconnectHandler implements DisconnectListener {
     /**
      * Main server instance.
      */
-    private ClientManager clientManager;
+    private final ClientManager clientManager;
 
     public DisconnectHandler(ClientManager parent) {
         this.clientManager = parent;

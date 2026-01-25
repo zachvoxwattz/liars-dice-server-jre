@@ -14,7 +14,7 @@ import com.zachvoxwattz.core.logging.LogSentry;
  * Contains tests for {@code EventStringProvider} class.
  */
 public class EventDataProviderTest {
-    private EventDataProvider eventStringProvider;
+    private final EventDataProvider eventStringProvider;
 
     public EventDataProviderTest() {
         LogSentry.initialize();
