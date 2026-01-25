@@ -34,33 +34,36 @@
         </section>
 
         <section class="operation-actions">
-            <div class="operation-entry-div">
+            <div class="left-div">
                 <div class="first-row">
                     <div class="input-div">
                         <label>Net Code</label>
                         <input class="input-field" id="data-section-send-input-netcode">    
                     </div>
-                    <button onclick="sendToServer()">Send</button>
+                    <button class="execute-btn" onclick="sendToServer()">Send</button>
                 </div>
 
                 <div class="second-row">
-                    <label>Body</label>
-                    <textarea class="input-big" id="data-section-send-input-body" rows="10"></textarea>
+                    <div class="input-div">
+                        <label>Body</label>
+                        <textarea class="input-textarea" id="data-section-send-input-body" rows="10"></textarea>
+                    </div>
+                    <button class="clear-btn" onclick="clearBody()">Clear</button>
                 </div>
             </div>
 
-            <div class="operation-entry-div">
+            <div class="right-div">
                 <div class="first-row">
                     <div class="input-div">
                         <label>Event(s)</label>
                         <input class="input-field" id="data-section-recv-input-event">
                     </div>
-                    <button onclick="createNewEventEntry()">Listen</button>
+                    <button class="execute-btn" onclick="createNewEventEntry()">Listen</button>
                 </div>
 
                 <div class="second-row">
                     <label>Binded list</label>
-                    <div class="input-big" id="data-section-recv-event-list"></div>
+                    <div class="display-area" id="data-section-recv-event-list"></div>
                 </div>
             </div>
         </section>
