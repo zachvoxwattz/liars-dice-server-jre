@@ -21,7 +21,7 @@ body {
     margin: 0 auto 0 auto;
     width: 85vw;
 
-    .input-field, .input-textarea, .display-area {
+    .input-field, .input-textarea, .list-display-area {
         border-radius: 6px;
         border: 2px solid darkgray;
         background-color: var(--component-field-bg);
@@ -31,7 +31,7 @@ body {
     }
 }
 
-.connection-info-main, .connection-info-misc {
+.connection-info-main, .connection-info-misc, .send-recv-options-main {
     padding: 16px;
     width: 100%;
     border-radius: 8px;
@@ -130,7 +130,7 @@ body {
         gap: 16px;
 
         label {
-            width: 25%;
+            width: 20%;
             font-size: 1.15rem;
             font-family: 'SF Mono', monospace;
             letter-spacing: -1px;
@@ -144,14 +144,78 @@ body {
     }
 }
 
-.operation-actions {
+.send-recv-options-main {
     display: flex;
-    width: 100%;
-    padding: 16px;
-    border-radius: 8px;
-    border: 2px solid light-dark(var(--border-color-L), var(--border-color-D));
-    background-color: var(--component-main-bg);
     
+    .send-options, .recv-options {
+        width: 50%;
+        display: flex;
+        gap: 16px;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .first-row, .second-row {
+            display: flex;
+            gap: 16px;
+
+            label {
+                width: 20%;
+                font-size: 1.25rem;
+                font-family: "SF Mono", monospace;
+                letter-spacing: -1px;
+                color: white;
+            }
+
+            .input-field, .input-textarea, .list-display-area {
+                width: 50%;
+                font-weight: lighter;
+            }
+
+            .input-field {
+                font-size: 1.25rem;
+            }
+
+            .input-textarea {
+                /* font-size: 1rem; */
+                resize: none;
+                overflow: auto;
+                font-weight: lighter;
+            }
+
+            .execute-btn, .clear-btn {
+                width: fit-content;
+                height: fit-content;
+                font-family: 'SF Mono', monospace;
+                font-size: 1.15rem;
+                color: white;
+                border-width: 2px;
+                border-radius: 6px;
+                border-style: solid;
+                padding: 0 0.5vw 0 0.5vw;
+            }
+
+            .execute-btn {
+                background-color: #ff6600;
+                border-color: rgb(255, 146, 74);
+            }
+
+            .clear-btn {
+                background-color: #4806a3;
+                border-color: #5f0ad6;
+            }
+        }
+
+        .first-row {
+            align-items: center;
+        }
+    }
+
+    .recv-options .list-display-area {
+        width: 50%;
+        height: calc(10 * 1rem);
+        max-height: calc(10 * 1rem);
+    }
+
     /* .left-div, .right-div {
         width: 50%;
         display: flex;

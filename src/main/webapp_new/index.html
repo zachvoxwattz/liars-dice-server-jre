@@ -33,37 +33,31 @@
             </div>
         </section>
 
-        <section class="operation-actions">
-            <div class="left-div">
+        <section class="send-recv-options-main">
+            <div class="send-options">
                 <div class="first-row">
-                    <div class="input-div">
-                        <label>Net Code</label>
-                        <input class="input-field" id="data-section-send-input-netcode">    
-                    </div>
+                    <label>Net Code</label>
+                    <input class="input-field" id="data-section-send-input-netcode">
                     <button class="execute-btn" onclick="sendToServer()">Send</button>
                 </div>
 
                 <div class="second-row">
-                    <div class="input-div">
-                        <label>Body</label>
-                        <textarea class="input-textarea" id="data-section-send-input-body" rows="10"></textarea>
-                    </div>
+                    <label>Body</label>
+                    <textarea class="input-textarea" id="data-section-send-input-body" rows="10"></textarea>
                     <button class="clear-btn" onclick="clearBody()">Clear</button>
                 </div>
             </div>
 
-            <div class="right-div">
+            <div class="recv-options">
                 <div class="first-row">
-                    <div class="input-div">
-                        <label>Event(s)</label>
-                        <input class="input-field" id="data-section-recv-input-event">
-                    </div>
+                    <label>Event(s)</label>
+                    <input class="input-field" id="data-section-recv-input-event">
                     <button class="execute-btn" onclick="createNewEventEntry()">Listen</button>
                 </div>
 
                 <div class="second-row">
                     <label>Binded list</label>
-                    <div class="display-area" id="data-section-recv-event-list"></div>
+                    <div class="list-display-area" id="data-section-recv-event-list"></div>
                 </div>
             </div>
         </section>
