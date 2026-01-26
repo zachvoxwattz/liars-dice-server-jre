@@ -9,27 +9,27 @@
     <body>
         <section class="connection-info-main">
             <div class="input-field-group">
-                <input placeholder="Target IP" class="input-field ip">
-                <input placeholder="Port" class="input-field port">
+                <input placeholder="Target IP" class="input-field ip" id="input_ip">
+                <input placeholder="Port" class="input-field port" id="input_port">
             </div>
 
-            <p class="client-status-indicator">PLACEHOLDER</p>
+            <p class="client-status-indicator" id="comp_status_indicator">PLACEHOLDER</p>
 
             <div class="btn-group">
-                <button class="connect">Connect</button>
-                <button class="disconnect">Disconnect</button>
+                <button class="connect" id="btn_connect">Connect</button>
+                <button class="disconnect" id="btn_disconnect">Disconnect</button>
             </div>
         </section>
 
         <section class="connection-info-misc">
             <div class="auth-token-info">
                 <label>Auth Token</label>
-                <input class="input-field" placeholder="Fill in if applicable" disabled>
+                <input class="input-field" placeholder="Fill in if applicable" disabled id="input_authtoken">
             </div>
 
             <div class="namespace-info">
                 <label>Namespace</label>
-                <input class="input-field" placeholder="Fill in if applicable" disabled>
+                <input class="input-field" placeholder="Fill in if applicable" disabled id="input_namespace">
             </div>
         </section>
 
@@ -37,27 +37,27 @@
             <div class="send-options">
                 <div class="first-row">
                     <label>Net Code</label>
-                    <input class="input-field" id="data-section-send-input-netcode">
-                    <button class="execute-btn" onclick="sendToServer()">Send</button>
+                    <input class="input-field" id="input_netcode">
+                    <button class="execute-btn" onclick="sendToServer()" id="btn_sendnetcode">Send</button>
                 </div>
 
                 <div class="second-row">
                     <label>Body</label>
-                    <textarea class="input-textarea" id="data-section-send-input-body" rows="10"></textarea>
-                    <button class="clear-btn" onclick="clearBody()">Clear</button>
+                    <textarea class="input-textarea" rows="10" id="input_netbody"></textarea>
+                    <button class="clear-btn" onclick="clearBody()" id="btn_clearnetbody">Clear</button>
                 </div>
             </div>
 
             <div class="recv-options">
                 <div class="first-row">
                     <label>Event(s)</label>
-                    <input class="input-field" id="data-section-recv-input-event">
-                    <button class="execute-btn" onclick="createNewEventEntry()">Listen</button>
+                    <input class="input-field" id="input_recv_event">
+                    <button class="execute-btn" onclick="createNewEventEntry()" id="btn_addnewevent">Listen</button>
                 </div>
 
                 <div class="second-row">
                     <label>Binded list</label>
-                    <div class="list-display-area" id="data-section-recv-event-list"></div>
+                    <div class="list-display-area" id="display_eventlist"></div>
                 </div>
             </div>
         </section>
@@ -67,7 +67,12 @@
                 <button>🔥</button>
                 <button>🔥</button>
             </div>
-            <textarea class="console-display-area" rows="18" id="console-component" readonly placeholder="Nothing at the moment..."></textarea>
+            <textarea class="console-display-area" rows="18" id="display_console" readonly placeholder="Nothing at the moment..."></textarea>
         </section>
     </body>
+    
+    <!-- Run JS scripts -->
+    <script src="./scripts/ui_components.js"></script>
+    <script src="./scripts/utils.js"></script>
+    <script src="./scripts/socket.io.js"></script>
 </html>
