@@ -26,6 +26,8 @@ body {
     width: 85vw;
     height: fit-content;
 
+
+    /* Shared styles for common classes */
     .input-field, .input-textarea, .list-display-area, .console-display-area {
         border-radius: 6px;
         border: 2px solid darkgray;
@@ -33,6 +35,11 @@ body {
         color: white;
         font-family: "SF Mono", monospace;
         padding: 1px 2px;
+    }
+
+    button:disabled {
+        border-color: darkgray !important;
+        background-color: var(--component-field-bg) !important;
     }
 }
 
@@ -77,6 +84,7 @@ body {
         font-weight: bold;
         font-size: 1.5rem;
         letter-spacing: -0.5px;
+        color: #808080;
     }
 
     .btn-group {
@@ -202,11 +210,27 @@ body {
             .execute-btn {
                 background-color: #ff6600;
                 border-color: rgb(255, 146, 74);
+
+                &:hover {
+                    background-color: #ff7d27;
+                }
+
+                &:active {
+                    background-color: #c95000;
+                }
             }
 
             .clear-btn {
                 background-color: #4806a3;
                 border-color: #5f0ad6;
+
+                &:hover {
+                    background-color: #5608c4;
+                }
+
+                &:active {
+                    background-color: #340477;
+                }
             }
         }
 

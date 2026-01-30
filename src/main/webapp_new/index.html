@@ -13,11 +13,11 @@
                 <input placeholder="Port" class="input-field port" id="input_port">
             </div>
 
-            <p class="client-status-indicator" id="comp_status_indicator">PLACEHOLDER</p>
+            <p class="client-status-indicator" id="comp_status_indicator">IDLE</p>
 
             <div class="btn-group">
                 <button class="connect" id="btn_connect">Connect</button>
-                <button class="disconnect" id="btn_disconnect">Disconnect</button>
+                <button class="disconnect" id="btn_disconnect" disabled>Disconnect</button>
             </div>
         </section>
 
@@ -38,7 +38,7 @@
                 <div class="first-row">
                     <label>Net Code</label>
                     <input class="input-field" id="input_netcode">
-                    <button class="execute-btn" onclick="sendToServer()" id="btn_sendnetcode">Send</button>
+                    <button class="execute-btn" onclick="sendToServer()" id="btn_sendnetcode" disabled>Send</button>
                 </div>
 
                 <div class="second-row">
