@@ -86,12 +86,19 @@ const setButtonDisabledState = (element, value) => {
     element.disabled = value
 }
 
+const getConsoleTime = () => {
+    let cts = new Date()
+    let formattedString = `${cts.getDate()}/${cts.getMonth() + 1}/${cts.getFullYear()} ${cts.getHours()}:${cts.getMinutes()}:${cts.getSeconds()}:${cts.getMilliseconds()}`
+
+    return formattedString
+}
+
 /**
  * Appends text content to the output console.
  * @param {*} content String to be added.
  */
 const logConsoleInfo = (content) => {
-    var appendedContent = `INFO> ${content}`
+    var appendedContent = `[${getConsoleTime()}] INFO> ${content}`
 
     ElementConsole.textContent.length !== 0
         ? appendedContent = `\n${appendedContent}`
@@ -106,7 +113,7 @@ const logConsoleInfo = (content) => {
  * @param {*} content String to be added.
  */
 const logConsoleError = (content) => {
-    var appendedContent = `ERROR> ${content}`
+    var appendedContent = `[${getConsoleTime()}] ERROR> ${content}`
 
     ElementConsole.textContent.length !== 0
         ? appendedContent = `\n${appendedContent}`
