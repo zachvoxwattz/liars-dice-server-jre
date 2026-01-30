@@ -19,34 +19,71 @@ const setClientStatus = (targetState) => {
     let state = targetState.toUpperCase()
     switch (state) {
         case 'IDLE':
-            statusIndicator.style.color = ClientStatusColors.IDLE
+            ElementStatusIndicator.style.color = ClientStatusColors.IDLE
             break
             
         case 'PENDING':
-            statusIndicator.style.color = ClientStatusColors.PENDING
+            ElementStatusIndicator.style.color = ClientStatusColors.PENDING
             break
             
         case 'ACTIVE':
-            statusIndicator.style.color = ClientStatusColors.ACTIVE
+            ElementStatusIndicator.style.color = ClientStatusColors.ACTIVE
             break
             
         case 'ERROR':
-            statusIndicator.style.color = ClientStatusColors.ERROR
+            ElementStatusIndicator.style.color = ClientStatusColors.ERROR
             break
 
         case 'DISCONNECTED':
-            statusIndicator.style.color = ClientStatusColors.DISCONNECTED
+            ElementStatusIndicator.style.color = ClientStatusColors.DISCONNECTED
             break
 
         case 'KICKED':
-            statusIndicator.style.color = ClientStatusColors.KICKED
+            ElementStatusIndicator.style.color = ClientStatusColors.KICKED
             break
 
         default:
-            statusIndicator.style.color = 'white'
+            ElementStatusIndicator.style.color = 'white'
             break
     }
-    statusIndicator.textContent = state
+    ElementStatusIndicator.textContent = state
+}
+
+/**
+ * Checks for the validity of the inputs before proceeding
+ * @param {*} ip - The IP to connect.
+ * @param {*} port - The port to connect.
+ * @returns An array of error messages, empty if there is no error.
+ */
+const checkConnectionInput = (ip, port) => {
+    let errorMessages = []
+
+    if (!IPv4RegEx.test(ip)) {
+        errorMessages.push("Invalid IPv4 format")
+    }
+
+    if (!PortRegEx.test(port)) {
+        errorMessages.push("Invalid network port format")
+    }
+
+    let portInt = parseInt(port)
+    if (portInt < 0) {
+        errorMessages.push("Invalid port value. It cannot be less than 0")
+    }
+    else if (portInt > 65535) {
+        errorMessages.push("Invalid port value. It cannot be greater than 65535!")
+    }
+
+    return errorMessages
+}
+
+/**
+ * Toggles the status of the connect button
+ * @param {*} element - The HTMLElement of the button.
+ * @param {*} value - `true` or `false` only
+ */
+const setButtonDisabledState = (element, value) => {
+    element.disabled = value
 }
 
 /**
@@ -56,12 +93,12 @@ const setClientStatus = (targetState) => {
 const logConsoleInfo = (content) => {
     var appendedContent = `INFO> ${content}`
 
-    displayConsole.textContent.length !== 0
+    ElementConsole.textContent.length !== 0
         ? appendedContent = `\n${appendedContent}`
         : appendedContent = `${appendedContent}`
 
-    displayConsole.textContent += appendedContent
-    displayConsole.scrollTop = displayConsole.scrollHeight
+    ElementConsole.textContent += appendedContent
+    ElementConsole.scrollTop = ElementConsole.scrollHeight
 }
 
 /**
@@ -71,10 +108,17 @@ const logConsoleInfo = (content) => {
 const logConsoleError = (content) => {
     var appendedContent = `ERROR> ${content}`
 
-    displayConsole.textContent.length !== 0
+    ElementConsole.textContent.length !== 0
         ? appendedContent = `\n${appendedContent}`
         : appendedContent = `${appendedContent}`
 
-    displayConsole.textContent += appendedContent
-    displayConsole.scrollTop = displayConsole.scrollHeight
+    ElementConsole.textContent += appendedContent
+    ElementConsole.scrollTop = ElementConsole.scrollHeight
+}
+
+/**
+ * Clears the contents of the console.
+ */
+const clearConsole = () => {
+    ElementConsole.textContent = ''
 }

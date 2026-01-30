@@ -16,8 +16,8 @@
             <p class="client-status-indicator" id="comp_status_indicator">IDLE</p>
 
             <div class="btn-group">
-                <button class="connect" id="btn_connect">Connect</button>
-                <button class="disconnect" id="btn_disconnect" disabled>Disconnect</button>
+                <button class="connect" id="btn_connect" onclick="ClientConnect()">Connect</button>
+                <button class="disconnect" id="btn_disconnect" onclick="ClientDisconnect()" disabled>Disconnect</button>
             </div>
         </section>
 
@@ -64,15 +64,16 @@
 
         <section class="console-output-main">
             <div class="btn-group">
-                <button>🔥</button>
-                <button>🔥</button>
+                <button onclick="clearConsole()">🔥</button>
+                <button onclick="clearConsole()">🔥</button>
             </div>
             <textarea class="console-display-area" rows="18" id="display_console" readonly placeholder="Nothing at the moment..."></textarea>
         </section>
     </body>
     
     <!-- Run JS scripts -->
-    <script src="./scripts/ui_components.js"></script>
-    <script src="./scripts/utils.js"></script>
     <script src="./scripts/socket.io.js"></script>
+    <script src="./scripts/components.js"></script>
+    <script src="./scripts/utils.js"></script>
+    <script src="./scripts/client.js"></script>
 </html>
