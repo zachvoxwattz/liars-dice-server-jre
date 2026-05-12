@@ -2,9 +2,9 @@ package com.zachvoxwattz.core;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.corundumstudio.socketio.Configuration;
-import com.corundumstudio.socketio.SocketIOServer;
-import com.corundumstudio.socketio.Transport;
+import com.socketio4j.socketio.Configuration;
+import com.socketio4j.socketio.SocketIOServer;
+import com.socketio4j.socketio.Transport;
 
 import com.zachvoxwattz.core.event_data_provider.EventDataProvider;
 import com.zachvoxwattz.core.handlers.connectivity.ConnectHandler;

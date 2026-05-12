@@ -3,9 +3,9 @@ package com.zachvoxwattz.core.handlers.middleware;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.corundumstudio.socketio.AuthorizationListener;
-import com.corundumstudio.socketio.AuthorizationResult;
-import com.corundumstudio.socketio.HandshakeData;
+import com.socketio4j.socketio.AuthorizationListener;
+import com.socketio4j.socketio.AuthorizationResult;
+import com.socketio4j.socketio.HandshakeData;
 
 import com.zachvoxwattz.core.ClientManager;
 import com.zachvoxwattz.core.logging.LogSentry;

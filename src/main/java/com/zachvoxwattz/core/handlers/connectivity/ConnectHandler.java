@@ -1,7 +1,7 @@
 package com.zachvoxwattz.core.handlers.connectivity;
 
-import com.corundumstudio.socketio.SocketIOClient;
-import com.corundumstudio.socketio.listener.ConnectListener;
+import com.socketio4j.socketio.SocketIOClient;
+import com.socketio4j.socketio.listener.ConnectListener;
 
 import com.zachvoxwattz.core.ClientManager;
 import com.zachvoxwattz.core.logging.LogSentry;
