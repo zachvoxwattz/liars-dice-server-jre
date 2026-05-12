@@ -129,3 +129,7 @@ const logConsoleError = (content) => {
 const clearConsole = () => {
     ElementConsole.textContent = ''
 }
+
+const clearBody = () => {
+    ElementInputNetBody.value = ''
+}

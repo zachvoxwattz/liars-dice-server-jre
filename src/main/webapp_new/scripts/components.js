@@ -42,3 +42,8 @@ const IPv4RegEx = /^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\.(?!$)|$)){4}$/
 
 // RegEx for enforcing correct Port format.
 const PortRegEx = /^((6553[0-5])|(655[0-2][0-9])|(65[0-4][0-9]{2})|(6[0-4][0-9]{3})|([1-5][0-9]{4})|([0-5]{0,5})|([0-9]{1,4}))$/
+
+// Tracks the current value of the recv event input field.
+ElementInputRecvEvent.addEventListener('input', (event) => {
+    recvEventInputValue = event.target.value.trim()
+})

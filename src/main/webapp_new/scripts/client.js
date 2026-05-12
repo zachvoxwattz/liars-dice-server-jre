@@ -7,6 +7,8 @@ var SocketIOClient
  * Self-explanatory
  */
 var numberOfReconnectionAttempts = 5
+var recvEventInputValue = ''
+var registeredEvents = []
 
 /**
  * Initializes the Socket.IO client with the given IP and Port.
@@ -71,7 +73,7 @@ const initializeSocketIOClient = (ip, port) => {
         setButtonDisabledState(ElementBtnSendNetCode, true)
     })
 
-    console.log(SocketIOClient)
+    registeredEvents.forEach((event) => registerSocketEvent(event))
 }
 
 
@@ -111,5 +113,89 @@ const ClientConnect = () => {
  * Connects the client with the given connection info.
  */
 const ClientDisconnect = () => {
+    if (!SocketIOClient) {
+        logConsoleError('Client has not been initialized yet!')
+        return
+    }
     SocketIOClient.disconnect()
+}
+
+
+const registerSocketEvent = (event) => {
+    SocketIOClient.on(event, (recvData) => {
+        let toBePrinted = recvData === undefined ? '{}' : JSON.stringify(recvData)
+        logConsoleInfo(`Incoming event: '${event}' with datagram: ${toBePrinted}`)
+    })
+}
+
+const sendToServer = () => {
+    if (!SocketIOClient || !SocketIOClient.connected) {
+        logConsoleError('Client is not currently connected to any server!')
+        return
+    }
+
+    let netcode = ElementInputNetCode.value.trim()
+    if (netcode.length === 0) {
+        logConsoleError('Undefined netcode!')
+        return
+    }
+
+    let body = ElementInputNetBody.value.trim()
+    if (body.length !== 0 && !isJSON(body)) {
+        logConsoleError('Invalid JSON datagram! Recheck for typos!')
+        return
+    }
+
+    if (body.length !== 0) {
+        SocketIOClient.emit(netcode, JSON.parse(body))
+    } else {
+        SocketIOClient.emit(netcode)
+        body = '{}'
+    }
+
+    logConsoleInfo(`Sent '${netcode}' with: ${body}`)
+}
+
+const createNewEventEntry = () => {
+    if (recvEventInputValue.length === 0) {
+        logConsoleError('Event name cannot be empty!')
+        clearRecvEventInput()
+        return
+    }
+
+    if (registeredEvents.includes(recvEventInputValue)) {
+        logConsoleError(`Event '${recvEventInputValue}' is already registered!`)
+        clearRecvEventInput()
+        return
+    }
+
+    let eventName = recvEventInputValue
+    let domEntryId = `recv-event-entry-id_${eventName}`
+
+    registeredEvents.push(eventName)
+    if (SocketIOClient && SocketIOClient.connected) registerSocketEvent(eventName)
+
+    let newEntry = document.createElement('button')
+    newEntry.setAttribute('class', 'recv-event-entry')
+    newEntry.setAttribute('id', domEntryId)
+    newEntry.textContent = eventName
+    newEntry.addEventListener('click', () => removeFromEventList(eventName))
+
+    clearRecvEventInput()
+    ElementDisplayEventList.appendChild(newEntry)
+    logConsoleInfo(`Registered event listener for '${eventName}'`)
+}
+
+const removeFromEventList = (eventName) => {
+    registeredEvents.splice(registeredEvents.indexOf(eventName), 1)
+    if (SocketIOClient) SocketIOClient.off(eventName)
+
+    let toDelete = document.getElementById(`recv-event-entry-id_${eventName}`)
+    ElementDisplayEventList.removeChild(toDelete)
+    logConsoleInfo(`Removed event listener for '${eventName}'`)
+}
+
+const clearRecvEventInput = () => {
+    ElementInputRecvEvent.value = ''
+    recvEventInputValue = ''
 }
