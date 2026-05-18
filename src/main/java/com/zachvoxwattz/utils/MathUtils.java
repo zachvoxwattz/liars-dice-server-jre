@@ -1,6 +1,6 @@
 package com.zachvoxwattz.utils;
 
-import io.netty.util.internal.ThreadLocalRandom;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * All maths related operations.
