@@ -21,15 +21,15 @@ const setClientStatus = (targetState) => {
         case 'IDLE':
             ElementStatusIndicator.style.color = ClientStatusColors.IDLE
             break
-            
+
         case 'PENDING':
             ElementStatusIndicator.style.color = ClientStatusColors.PENDING
             break
-            
+
         case 'ACTIVE':
             ElementStatusIndicator.style.color = ClientStatusColors.ACTIVE
             break
-            
+
         case 'ERROR':
             ElementStatusIndicator.style.color = ClientStatusColors.ERROR
             break

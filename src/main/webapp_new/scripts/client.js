@@ -1,7 +1,7 @@
 /**
  * The main instance of Socket.IO
  */
-var SocketIOClient
+var socketIOClient
 
 /**
  * Self-explanatory
@@ -11,12 +11,19 @@ var recvEventInputValue = ''
 var registeredEvents = []
 
 /**
+ * Event names reserved by Socket.IO/engine.io internals - registering a
+ * custom listener under one of these would silently stack on top of the
+ * built-in handler instead of replacing it.
+ */
+const ReservedEventNames = ['connect', 'disconnect', 'connect_error', 'error', 'ping', 'reconnect', 'reconnect_attempt', 'reconnect_error', 'reconnect_failed']
+
+/**
  * Initializes the Socket.IO client with the given IP and Port.
- * @param {*} ip 
- * @param {*} port 
+ * @param {*} ip
+ * @param {*} port
  */
 const initializeSocketIOClient = (ip, port) => {
-    SocketIOClient = io(`ws://${ip}:${port}/`, {
+    socketIOClient = io(`ws://${ip}:${port}/`, {
         autoConnect: false,
         forceNew: false,
         reconnection: true,
@@ -28,7 +35,7 @@ const initializeSocketIOClient = (ip, port) => {
         transports: ["websocket", "polling"]
     })
 
-    SocketIOClient.on('connect', () => {
+    socketIOClient.on('connect', () => {
         setClientStatus('ACTIVE')
         logConsoleInfo('Connection established successfully.')
 
@@ -37,8 +44,8 @@ const initializeSocketIOClient = (ip, port) => {
         setButtonDisabledState(ElementBtnSendNetCode, false)
     })
 
-    SocketIOClient.on('connect_error', (error) => {
-        // if (SocketIOClient.active) {
+    socketIOClient.on('connect_error', (error) => {
+        // if (socketIOClient.active) {
         //     // temporary failure, the socket will automatically try to reconnect
         //     console.log(error)
         //     logConsoleError(error.message)
@@ -48,14 +55,14 @@ const initializeSocketIOClient = (ip, port) => {
         logConsoleError(error.message)
     })
 
-    SocketIOClient.io.on('reconnect_attempt', () => {
+    socketIOClient.io.on('reconnect_attempt', () => {
         logConsoleInfo('Failed to reconnect, retrying...')
     })
 
-    SocketIOClient.io.on('reconnect_failed', () => {
+    socketIOClient.io.on('reconnect_failed', () => {
         setClientStatus('ERROR')
         logConsoleError('Failed to reconnect after 5 tries. Closing socket...')
-        SocketIOClient.close()
+        socketIOClient.close()
 
         // UI processing
         setButtonDisabledState(ElementBtnConnect, false)
@@ -63,7 +70,7 @@ const initializeSocketIOClient = (ip, port) => {
         setButtonDisabledState(ElementBtnSendNetCode, true)
     })
 
-    SocketIOClient.on('disconnect', (reason, details) => {
+    socketIOClient.on('disconnect', (reason, details) => {
         setClientStatus('DISCONNECTED')
         logConsoleInfo('Connection terminated.')
 
@@ -80,7 +87,7 @@ const initializeSocketIOClient = (ip, port) => {
 /**
  * Connects the client with the given connection info.
  */
-const ClientConnect = () => {
+const clientConnect = () => {
     let targetIPValue = ElementInputIP.value !== '' ? ElementInputIP.value : DefaultTargetIP
     let targetPortValue = ElementInputPort.value !== '' ? ElementInputPort.value : DefaultTargetPort
 
@@ -98,38 +105,39 @@ const ClientConnect = () => {
 
     // Otherwise, proceeds to initialize client and prepares for connection.
     initializeSocketIOClient(targetIPValue, targetPortValue)
-    
+
     // UI display
     setButtonDisabledState(ElementBtnConnect, true)
     setClientStatus('PENDING')
     logConsoleInfo('Establishing connection...')
 
 
-    SocketIOClient.connect()
+    socketIOClient.connect()
 }
 
 
 /**
  * Connects the client with the given connection info.
  */
-const ClientDisconnect = () => {
-    if (!SocketIOClient) {
+const clientDisconnect = () => {
+    if (!socketIOClient) {
         logConsoleError('Client has not been initialized yet!')
         return
     }
-    SocketIOClient.disconnect()
+    socketIOClient.disconnect()
 }
 
 
 const registerSocketEvent = (event) => {
-    SocketIOClient.on(event, (recvData) => {
+    socketIOClient.off(event)
+    socketIOClient.on(event, (recvData) => {
         let toBePrinted = recvData === undefined ? '{}' : JSON.stringify(recvData)
         logConsoleInfo(`Incoming event: '${event}' with datagram: ${toBePrinted}`)
     })
 }
 
 const sendToServer = () => {
-    if (!SocketIOClient || !SocketIOClient.connected) {
+    if (!socketIOClient || !socketIOClient.connected) {
         logConsoleError('Client is not currently connected to any server!')
         return
     }
@@ -147,9 +155,9 @@ const sendToServer = () => {
     }
 
     if (body.length !== 0) {
-        SocketIOClient.emit(netcode, JSON.parse(body))
+        socketIOClient.emit(netcode, JSON.parse(body))
     } else {
-        SocketIOClient.emit(netcode)
+        socketIOClient.emit(netcode)
         body = '{}'
     }
 
@@ -169,11 +177,17 @@ const createNewEventEntry = () => {
         return
     }
 
+    if (ReservedEventNames.includes(recvEventInputValue)) {
+        logConsoleError(`Event '${recvEventInputValue}' is reserved by Socket.IO and cannot be listened to here!`)
+        clearRecvEventInput()
+        return
+    }
+
     let eventName = recvEventInputValue
     let domEntryId = `recv-event-entry-id_${eventName}`
 
     registeredEvents.push(eventName)
-    if (SocketIOClient && SocketIOClient.connected) registerSocketEvent(eventName)
+    if (socketIOClient && socketIOClient.connected) registerSocketEvent(eventName)
 
     let newEntry = document.createElement('button')
     newEntry.setAttribute('class', 'recv-event-entry')
@@ -188,7 +202,7 @@ const createNewEventEntry = () => {
 
 const removeFromEventList = (eventName) => {
     registeredEvents.splice(registeredEvents.indexOf(eventName), 1)
-    if (SocketIOClient) SocketIOClient.off(eventName)
+    if (socketIOClient) socketIOClient.off(eventName)
 
     let toDelete = document.getElementById(`recv-event-entry-id_${eventName}`)
     ElementDisplayEventList.removeChild(toDelete)
